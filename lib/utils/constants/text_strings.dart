@@ -12,13 +12,14 @@ class TTexts {
 
 
   // -- OnBoarding Texts
-  static const String onBoardingTitle1 = "Choose your product";
-  static const String onBoardingTitle2 = "Select Payment Method";
-  static const String onBoardingTitle3 = "Deliver at your door step";
+  static const String onBoardingTitle1 = "Discover Your Ideal Match";
+  static const String onBoardingTitle2 = "Connect Safely and Securely";
+  static const String onBoardingTitle3 = "Create Your Own Story";
 
-  static const String onBoardingSubTitle1 = "Welcome to a World of Limitless Choices - Your Perfect Product Awaits!";
-  static const String onBoardingSubTitle2 = "For Seamless Transactions, Choose Your Payment Path - Your Convenience, Our Priority!";
-  static const String onBoardingSubTitle3 = "From Our Doorstep to Yours - Swift, Secure, and Contactless Delivery!";
+// Subtitles for Onboarding Screens
+  static const String onBoardingSubTitle1 = "Open up to new possibilities - Start your journey to find the perfect match!";
+  static const String onBoardingSubTitle2 = "Experience secure connections with profile verification - Only the best for you!";
+  static const String onBoardingSubTitle3 = "Start your new relationship with unforgettable moments - Everything is possible!";
 
 
   // -- Authentication Forms
@@ -44,8 +45,8 @@ class TTexts {
 
 
   // -- Authentication Headings
-  static const String loginTitle = "Welcome back,";
-  static const String loginSubTitle = "Discover Limitless Choices and Unmatched Convenience.";
+  static const String loginTitle = "Welcome Back!";
+  static const String loginSubTitle = "Reconnect and explore meaningful connections with just a tap.";
   static const String signupTitle = "Let’s create your account";
   static const String forgetPasswordTitle = "Forget password";
   static const String forgetPasswordSubTitle = "Don’t worry sometimes people can forget too, enter your email and we will send you a password reset link.";

@@ -5,10 +5,13 @@ class OnBoardingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(OnBoardingController());
     return Scaffold(
       body: Stack(
         children: [
           PageView(
+            controller: controller.pageController,
+            onPageChanged: controller.updatePageIndicator,
             children: const [
               // OnBoardingPage1
               OnBoardingPage(
@@ -29,9 +32,17 @@ class OnBoardingScreen extends StatelessWidget {
                 image: TImages.onBoardingImage3,
                 title: TTexts.onBoardingTitle3,
                 subTitle: TTexts.onBoardingSubTitle3,
-              )
+              ),
             ],
-          )
+          ),
+          // Skip Button
+          const OnBoardingSkippButton(),
+
+          // Dot Navigation SmoothPageIndicator
+          const OnBoardingDotNavigation(),
+
+          // Circular Button
+          const OnBoardingNextButton(),
         ],
       ),
     );
