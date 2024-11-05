@@ -13,7 +13,12 @@ class OnBoardingSkippButton extends StatelessWidget {
         onPressed: () {
           controller.skipPage();
         },
-        child: Text('Skip', style: Theme.of(context).textTheme.bodyLarge),
+        child: Text(
+          'Skip',
+          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+            color: Theme.of(context).primaryColor,
+          ),
+        ),
       ),
     );
   }

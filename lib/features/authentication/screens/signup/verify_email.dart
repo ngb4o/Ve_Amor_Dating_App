@@ -13,7 +13,7 @@ class VerifyEmailScreen extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () => Get.offAll(() => const LoginScreen()),
-            icon: const Icon(CupertinoIcons.clear),
+            icon: const Icon(CupertinoIcons.clear, color: TColors.primary,),
           ),
         ],
       ),
@@ -69,7 +69,7 @@ class VerifyEmailScreen extends StatelessWidget {
                 width: double.infinity,
                 child: TextButton(
                   onPressed: () {},
-                  child: const Text(TTexts.resendEmail),
+                  child: const Text(TTexts.resendEmail, style: TextStyle(color: TColors.primary)),
                 ),
               ),
             ],
