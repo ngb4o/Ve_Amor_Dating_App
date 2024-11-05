@@ -5,7 +5,6 @@ class OnBoardingSkippButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final dark = THelperFunctions.isDarkMode(context);
     final controller = OnBoardingController.instance;
     return Positioned(
       top: TDeviceUtils.getAppBarHeight(),

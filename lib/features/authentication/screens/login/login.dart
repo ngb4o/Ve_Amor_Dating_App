@@ -7,7 +7,7 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-        padding: EdgeInsets.only(
+        padding: const EdgeInsets.only(
           top: TSizes.appBarHeight,
           left: TSizes.defaultSpace,
           right: TSizes.defaultSpace,

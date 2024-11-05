@@ -7,7 +7,7 @@ class TLoginForm extends StatelessWidget {
   Widget build(BuildContext context) {
     return Form(
       child: Padding(
-        padding: EdgeInsets.symmetric(vertical: TSizes.spaceBtwSections),
+        padding: const EdgeInsets.symmetric(vertical: TSizes.spaceBtwSections),
         child: Column(
           children: [
             // Email
@@ -40,8 +40,7 @@ class TLoginForm extends StatelessWidget {
                   children: [
                     Checkbox(
                       value: false,
-                      onChanged: (value) {
-                      },
+                      onChanged: (value) {},
                     ),
                     const Text(TTexts.rememberMe),
                   ],
@@ -75,7 +74,7 @@ class TLoginForm extends StatelessWidget {
               width: double.infinity,
               child: OutlinedButton(
                 onPressed: () {
-                  Get.to(() {});
+                  Get.to(() =>const SignUpScreen());
                 },
                 child: const Text(TTexts.createAccount),
               ),
