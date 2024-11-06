@@ -17,15 +17,14 @@ class TActionButton extends StatelessWidget {
     required this.size,
     required this.onTap,
     this.coloTransparent =true,
-    this.hasBorder = false,
-    this.hasElevation = false,
+    this.hasBorder = true,
+    this.hasElevation = false
   });
 
   @override
   Widget build(BuildContext context) {
     return Material(
       color: coloTransparent ? Colors.transparent : TColors.white,
-      elevation: hasElevation ? 5 : 0,
       child: InkWell(
         onTap: onTap,
         splashColor: color,
