@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:ve_amor_app/utils/helpers/helper_functions.dart';
-
-import '../../../../utils/constants/colors.dart';
 
 class TNotifiCounterIcon extends StatelessWidget {
   const TNotifiCounterIcon({
@@ -16,7 +13,6 @@ class TNotifiCounterIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final dark = THelperFunctions.isDarkMode(context);
     return IconButton(
       onPressed: onPressed,
       icon: Icon(

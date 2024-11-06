@@ -34,110 +34,26 @@ class _THomeDetailInformationState extends State<THomeDetailInformation> {
                         child: Stack(
                           children: [
                             // Image
-                            Container(
-                              width: THelperFunctions.screenWidth(),
-                              height: (THelperFunctions.screenHeight() * 0.6) - 25,
-                              decoration: const BoxDecoration(
-                                image: DecorationImage(
-                                  fit: BoxFit.cover,
-                                  image: AssetImage('assets/images/content/image-girl.png'),
-                                ),
-                              ),
-                            ),
-
-                            // Shadow
-                            // Container(
-                            //   width: THelperFunctions.screenWidth(),
-                            //   height: (THelperFunctions.screenHeight() * 0.6) - 25,
-                            //   decoration: const BoxDecoration(
-                            //     gradient: LinearGradient(
-                            //       begin: Alignment.bottomCenter,
-                            //       end: Alignment.center,
-                            //       colors: [
-                            //         TColors.black,
-                            //         Colors.transparent,
-                            //       ],
-                            //     ),
-                            //   ),
-                            // ),
-
-                            // Change Image
-                            Row(
-                              children: [
-                                // Click Left
-                                Expanded(
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      if (currentPhoto != 0) {
-                                        setState(() {
-                                          currentPhoto = currentPhoto - 1;
-                                        });
-                                        print('Left Click');
-                                      }
-                                    },
-                                    child: Container(
-                                      width: THelperFunctions.screenWidth(),
-                                      height: (THelperFunctions.screenHeight() * 0.6) - 25,
-                                      color: Colors.transparent,
-                                    ),
-                                  ),
-                                ),
-
-                                // Click Right
-                                Expanded(
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      if (currentPhoto < (numberPhotos - 1)) {
-                                        setState(() {
-                                          currentPhoto = currentPhoto + 1;
-                                        });
-                                        print('Right Click');
-                                      }
-                                    },
-                                    child: Container(
-                                      width: THelperFunctions.screenWidth(),
-                                      height: (THelperFunctions.screenHeight() * 0.6) - 25,
-                                      color: Colors.transparent,
-                                    ),
-                                  ),
-                                ),
-                              ],
+                            TSwipeCard(
+                              currentPhoto: currentPhoto,
+                              numberPhotos: numberPhotos,
+                              heightWidthHomeDetail: true,
+                              borderRadiusImage: false,
+                              shadowImage: false,
+                              onLeftTap: () {
+                                if (currentPhoto > 0) setState(() => currentPhoto -= 1);
+                              },
+                              onRightTap: () {
+                                if (currentPhoto < numberPhotos - 1) {
+                                  setState(() => currentPhoto += 1);
+                                }
+                              },
                             ),
 
                             // Dot Image Navigation
-                            Align(
-                              alignment: Alignment.topCenter,
-                              child: Padding(
-                                padding: const EdgeInsets.only(top: 6),
-                                child: SizedBox(
-                                  width: THelperFunctions.screenWidth() - 20,
-                                  height: 4,
-                                  child: ListView.builder(
-                                    physics: const NeverScrollableScrollPhysics(),
-                                    itemCount: numberPhotos,
-                                    scrollDirection: Axis.horizontal,
-                                    itemBuilder: (context, index) {
-                                      return Padding(
-                                        padding: const EdgeInsets.only(left: 8),
-                                        child: Container(
-                                          width: ((THelperFunctions.screenWidth() -
-                                                  (20 + ((numberPhotos + 1) * 8))) /
-                                              numberPhotos),
-                                          decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(20),
-                                              border: Border.all(
-                                                color: TColors.white,
-                                                width: 0.5,
-                                              ),
-                                              color: currentPhoto == index
-                                                  ? TColors.white
-                                                  : TColors.black.withOpacity(0.7)),
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                ),
-                              ),
+                            TImageNavigationDots(
+                              currentPhoto: currentPhoto,
+                              numberPhotos: numberPhotos,
                             ),
 
                             // Arrow Down
@@ -179,6 +95,7 @@ class _THomeDetailInformationState extends State<THomeDetailInformation> {
                       ),
                     ),
 
+                    // Detail Information
                     Column(
                       mainAxisAlignment: MainAxisAlignment.end,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -217,7 +134,9 @@ class _THomeDetailInformationState extends State<THomeDetailInformation> {
                               Text(
                                 'Đà Nẵng',
                                 style: TextStyle(
-                                    color: Colors.grey.shade600, fontWeight: FontWeight.w300, fontSize: 15),
+                                    color: Colors.grey.shade600,
+                                    fontWeight: FontWeight.w300,
+                                    fontSize: 15),
                               ),
                             ],
                           ),
@@ -232,13 +151,14 @@ class _THomeDetailInformationState extends State<THomeDetailInformation> {
                           padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
                           child: Text(
                             "About Me",
-                            style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600, fontSize: 16),
+                            style: TextStyle(
+                                color: Colors.black, fontWeight: FontWeight.w600, fontSize: 16),
                           ),
                         ),
                         Padding(
                           padding: const EdgeInsets.fromLTRB(16, 5, 16, 0),
                           child: Text(
-                            "blabalbalblal\nbalbafzegzegizrio\ngnzgzuegfefzefhiuzehfzuehfuzefizehfozehofze\nzegfzeoifgjziejifnze",
+                            "...",
                             style: TextStyle(
                               color: Colors.grey.shade600,
                             ),
@@ -257,7 +177,7 @@ class _THomeDetailInformationState extends State<THomeDetailInformation> {
               ),
             ),
 
-            // Icon
+            // Action Button
             Positioned(
               bottom: 10,
               child: Row(
@@ -284,7 +204,7 @@ class _THomeDetailInformationState extends State<THomeDetailInformation> {
                             padding: const EdgeInsets.all(12.0),
                             child: Image.asset(
                               'assets/icons/home/clear.png',
-                              color: Theme.of(context).colorScheme.primary,
+                              color: TColors.iconNavigation,
                               fit: BoxFit.cover,
                             ),
                           )),
@@ -314,7 +234,7 @@ class _THomeDetailInformationState extends State<THomeDetailInformation> {
                             padding: const EdgeInsets.all(8.0),
                             child: Image.asset(
                               'assets/icons/home/star.png',
-                              color: Colors.lightBlueAccent,
+                              color: Colors.blueAccent,
                               fit: BoxFit.cover,
                             ),
                           )),
@@ -344,7 +264,7 @@ class _THomeDetailInformationState extends State<THomeDetailInformation> {
                             padding: const EdgeInsets.all(10.0),
                             child: Image.asset(
                               'assets/icons/home/heart.png',
-                              color: Colors.greenAccent,
+                              color: Colors.green[500],
                               fit: BoxFit.cover,
                             ),
                           )),
