@@ -13,7 +13,7 @@ class NavigationMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = Get.put(NavigationController());
     final dark = THelperFunctions.isDarkMode(context);
-    const primaryColor = TColors.primary;
+    const primaryColor = TColors.iconNavigation;
 
     return Scaffold(
       bottomNavigationBar: Obx(
@@ -21,7 +21,8 @@ class NavigationMenu extends StatelessWidget {
           height: 80,
           elevation: 0,
           backgroundColor: dark ? TColors.black : TColors.white,
-          indicatorColor: dark ? TColors.primary.withOpacity(0.1) : TColors.primary.withOpacity(0.1),
+          indicatorColor: Colors.transparent,
+          labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
           selectedIndex: controller.selectedIndex.value,
           onDestinationSelected: (index) {
             controller.selectedIndex.value = index;
@@ -30,6 +31,7 @@ class NavigationMenu extends StatelessWidget {
             NavigationDestination(
               icon: Icon(
                 Iconsax.layer5,
+                size: 28,
                 color: controller.selectedIndex.value == 0 ? primaryColor : Colors.grey,
               ),
               label: 'Home',
@@ -37,6 +39,7 @@ class NavigationMenu extends StatelessWidget {
             NavigationDestination(
               icon: Icon(
                 Iconsax.heart5,
+                size: 28,
                 color: controller.selectedIndex.value == 1 ? primaryColor : Colors.grey,
               ),
               label: 'Wishlist',
@@ -44,6 +47,7 @@ class NavigationMenu extends StatelessWidget {
             NavigationDestination(
               icon: Icon(
                 Iconsax.message5,
+                size: 28,
                 color: controller.selectedIndex.value == 2 ? primaryColor : Colors.grey,
               ),
               label: 'Message',
@@ -51,7 +55,7 @@ class NavigationMenu extends StatelessWidget {
             NavigationDestination(
               icon: Icon(
                 Icons.person,
-                size: 28,
+                size: 30,
                 color: controller.selectedIndex.value == 3 ? primaryColor : Colors.grey,
               ),
               label: 'Profile',

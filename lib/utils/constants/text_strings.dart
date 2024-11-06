@@ -7,7 +7,7 @@ class TTexts {
   static const String skip = "Skip";
   static const String done = "Done";
   static const String submit = "Submit";
-  static const String appName = "Ve_Amor";
+  static const String appName = "VeAmor";
   static const String tContinue = "Continue";
 
 
@@ -63,7 +63,7 @@ class TTexts {
   static const String popularProducts = "Popular Products";
 
   // -- Home
-  static const String homeAppbarTitle = "Good day for shopping";
+  static const String homeAppbarTitle = "Good day for dating";
   static const String homeAppbarSubTitle = "Taimoor Sikander";
 
 

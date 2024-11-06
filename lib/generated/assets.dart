@@ -24,6 +24,7 @@ class Assets {
   static const String animationsSammyLineSuccess = 'assets/images/animations/sammy-line-success.png';
   static const String animationsSammyLineTravelBackpackWithPassportAndAirTicket = 'assets/images/animations/sammy-line-travel-backpack-with-passport-and-air-ticket.gif';
   static const String animationsSammyLineWorkout = 'assets/images/animations/sammy-line-workout.gif';
+  static const String contentImageGirl = 'assets/images/content/image-girl.png';
   static const String contentUser = 'assets/images/content/user.png';
   static const String fontsCoolveticaRegular = 'assets/fonts/coolvetica_regular.otf';
   static const String fontsCoolveticaRegularItalic = 'assets/fonts/coolvetica_regular_italic.otf';
@@ -37,12 +38,19 @@ class Assets {
   static const String fontsPoppinsRegular = 'assets/fonts/Poppins-Regular.ttf';
   static const String fontsPoppinsSemiBold = 'assets/fonts/Poppins-SemiBold.ttf';
   static const String fontsPoppinsSemiBoldItalic = 'assets/fonts/Poppins-SemiBoldItalic.ttf';
+  static const String homeArrowDown = 'assets/icons/home/arrow_down.png';
+  static const String homeBack = 'assets/icons/home/back.png';
+  static const String homeClear = 'assets/icons/home/clear.png';
+  static const String homeHeart = 'assets/icons/home/heart.png';
+  static const String homeLight = 'assets/icons/home/light.png';
+  static const String homeStar = 'assets/icons/home/star.png';
   static const String logosDatingAppLogo = 'assets/logos/dating_app_logo.gif';
   static const String logosFacebookIcon = 'assets/logos/facebook-icon.png';
   static const String logosGoogleIcon = 'assets/logos/google-icon.png';
   static const String logosSplashLogo = 'assets/logos/splash-logo.png';
   static const String logosTStoreSplashLogoBlack = 'assets/logos/t-store-splash-logo-black.png';
   static const String logosTStoreSplashLogoWhite = 'assets/logos/t-store-splash-logo-white.png';
+  static const String logosTStoreSplashLogoWhite1 = 'assets/logos/t-store-splash-logo-white-1.png';
   static const String onBoardingImagesSammyLineDelivery = 'assets/images/on_boarding_images/sammy-line-delivery.gif';
   static const String onBoardingImagesSammyLineNoConnection = 'assets/images/on_boarding_images/sammy-line-no-connection.gif';
   static const String onBoardingImagesSammyLineSearching = 'assets/images/on_boarding_images/sammy-line-searching.gif';
