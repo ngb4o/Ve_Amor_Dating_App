@@ -47,7 +47,7 @@ class TSwipeCard extends StatelessWidget {
               gradient: LinearGradient(
                 begin: Alignment.bottomCenter,
                 end: Alignment.center,
-                colors: dark ? [TColors.black.withOpacity(0.7), Colors.transparent] : [TColors.black, Colors.transparent],
+                colors: dark ? [TColors.primary.withOpacity(0.7), Colors.transparent] : [TColors.primary.withOpacity(0.9), Colors.transparent],
               ),
             ),
           ),
