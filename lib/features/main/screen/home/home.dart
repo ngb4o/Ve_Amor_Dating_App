@@ -90,7 +90,7 @@ class _HomeScreenState extends State<HomeScreen> {
               onStackFinished: () {},
               itemBuilder: (context, index) {
                 return Padding(
-                  padding: const EdgeInsets.only(left: 10, top: 0, right: 10, bottom: 20),
+                  padding: const EdgeInsets.only(left: 10, top: 5, right: 10, bottom: 20),
                   child: SizedBox(
                     width: THelperFunctions.screenWidth(),
                     height: THelperFunctions.screenHeight(),

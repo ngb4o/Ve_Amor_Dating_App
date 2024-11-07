@@ -15,6 +15,7 @@ class _THomeDetailInformationState extends State<THomeDetailInformation> {
 
   @override
   Widget build(BuildContext context) {
+    final dark = THelperFunctions.isDarkMode(context);
     return Scaffold(
       body: SafeArea(
         child: Stack(
@@ -107,15 +108,16 @@ class _THomeDetailInformationState extends State<THomeDetailInformation> {
                               // Name
                               Text(
                                 'Yogurt',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .headlineMedium!
-                                    .copyWith(color: TColors.black),
+                                style: Theme.of(context).textTheme.headlineMedium,
                               ),
                               const SizedBox(width: 10),
 
                               // Age
-                              const Text('20', style: TextStyle(fontSize: 25, color: TColors.black))
+                              Text('20',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium!
+                                      .copyWith(fontSize: 25))
                             ],
                           ),
                         ),
@@ -125,18 +127,13 @@ class _THomeDetailInformationState extends State<THomeDetailInformation> {
                             children: [
                               Icon(
                                 CupertinoIcons.placemark,
-                                color: Colors.grey.shade600,
-                                size: 15,
+                                color: dark ? TColors.white : TColors.black,
+                                size: TSizes.iconSm,
                               ),
-                              const SizedBox(
-                                width: 5,
-                              ),
+                              const SizedBox(width: 5),
                               Text(
                                 'Đà Nẵng',
-                                style: TextStyle(
-                                    color: Colors.grey.shade600,
-                                    fontWeight: FontWeight.w300,
-                                    fontSize: 15),
+                                style: Theme.of(context).textTheme.bodyMedium
                               ),
                             ],
                           ),
@@ -147,12 +144,11 @@ class _THomeDetailInformationState extends State<THomeDetailInformation> {
                             color: Colors.grey.shade600,
                           ),
                         ),
-                        const Padding(
-                          padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
+                         Padding(
+                          padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
                           child: Text(
                             "About Me",
-                            style: TextStyle(
-                                color: Colors.black, fontWeight: FontWeight.w600, fontSize: 16),
+                            style: Theme.of(context).textTheme.headlineSmall,
                           ),
                         ),
                         Padding(

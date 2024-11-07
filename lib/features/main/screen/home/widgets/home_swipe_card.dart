@@ -22,6 +22,7 @@ class TSwipeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final dark = THelperFunctions.isDarkMode(context);
     return Stack(
       children: [
         // Image
@@ -43,10 +44,10 @@ class TSwipeCard extends StatelessWidget {
             height: heightWidthHomeDetail ? (THelperFunctions.screenHeight() * 0.6) - 25 : null,
             decoration: BoxDecoration(
               borderRadius: borderRadiusImage ? BorderRadius.circular(10) : null,
-              gradient: const LinearGradient(
+              gradient: LinearGradient(
                 begin: Alignment.bottomCenter,
                 end: Alignment.center,
-                colors: [TColors.black, Colors.transparent],
+                colors: dark ? [TColors.black.withOpacity(0.7), Colors.transparent] : [TColors.black, Colors.transparent],
               ),
             ),
           ),
