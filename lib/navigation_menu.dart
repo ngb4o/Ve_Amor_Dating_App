@@ -13,7 +13,6 @@ class NavigationMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = Get.put(NavigationController());
     final dark = THelperFunctions.isDarkMode(context);
-    const primaryColor = TColors.iconNavigation;
 
     return Scaffold(
       bottomNavigationBar: Obx(
@@ -32,7 +31,7 @@ class NavigationMenu extends StatelessWidget {
               icon: Icon(
                 Iconsax.layer5,
                 size: 28,
-                color: controller.selectedIndex.value == 0 ? primaryColor : Colors.grey,
+                color: controller.selectedIndex.value == 0 ? TColors.primary : Colors.grey,
               ),
               label: 'Home',
             ),
@@ -40,7 +39,7 @@ class NavigationMenu extends StatelessWidget {
               icon: Icon(
                 Iconsax.heart5,
                 size: 28,
-                color: controller.selectedIndex.value == 1 ? primaryColor : Colors.grey,
+                color: controller.selectedIndex.value == 1 ? TColors.primary : Colors.grey,
               ),
               label: 'Wishlist',
             ),
@@ -48,7 +47,7 @@ class NavigationMenu extends StatelessWidget {
               icon: Icon(
                 Iconsax.message5,
                 size: 28,
-                color: controller.selectedIndex.value == 2 ? primaryColor : Colors.grey,
+                color: controller.selectedIndex.value == 2 ? TColors.primary : Colors.grey,
               ),
               label: 'Message',
             ),
@@ -56,7 +55,7 @@ class NavigationMenu extends StatelessWidget {
               icon: Icon(
                 Icons.person,
                 size: 30,
-                color: controller.selectedIndex.value == 3 ? primaryColor : Colors.grey,
+                color: controller.selectedIndex.value == 3 ? TColors.primary : Colors.grey,
               ),
               label: 'Profile',
             ),

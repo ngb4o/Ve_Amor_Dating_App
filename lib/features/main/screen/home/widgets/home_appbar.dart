@@ -23,11 +23,11 @@ class THomeAppBar extends StatelessWidget {
             children: [
               Text(
                 TTexts.homeAppbarTitle,
-                style: Theme.of(context).textTheme.labelMedium!.apply(color: TColors.iconNavigation),
+                style: Theme.of(context).textTheme.labelMedium!.apply(color: TColors.primary),
               ),
               Text(
                 TTexts.appName,
-                style: Theme.of(context).textTheme.headlineSmall!.apply(color: TColors.iconNavigation),
+                style: Theme.of(context).textTheme.headlineSmall!.apply(color: TColors.primary),
               )
             ],
           ),

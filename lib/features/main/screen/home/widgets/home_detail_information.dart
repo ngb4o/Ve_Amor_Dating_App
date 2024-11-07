@@ -22,7 +22,7 @@ class _THomeDetailInformationState extends State<THomeDetailInformation> {
           children: [
             SingleChildScrollView(
               child: Padding(
-                padding: const EdgeInsets.only(bottom: 50),
+                padding: const EdgeInsets.only(bottom: 70),
                 child: Column(
                   children: [
                     // Image
@@ -179,96 +179,52 @@ class _THomeDetailInformationState extends State<THomeDetailInformation> {
 
             // Action Button
             Positioned(
-              bottom: 10,
+              bottom: 0,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Material(
-                    color: Colors.white,
-                    elevation: 5,
-                    borderRadius: BorderRadius.circular(100),
-                    child: InkWell(
-                        splashColor: Colors.red,
-                        borderRadius: BorderRadius.circular(100),
-                        onTap: () {
-                          // _matchEngine.currentItem!.nope();
-                        },
-                        child: Container(
-                          height: 60,
-                          width: 60,
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                          ),
-                          child: Center(
-                              child: Padding(
-                            padding: const EdgeInsets.all(12.0),
-                            child: Image.asset(
-                              'assets/icons/home/clear.png',
-                              color: TColors.iconNavigation,
-                              fit: BoxFit.cover,
-                            ),
-                          )),
-                        )),
+                  // Nope Action Button
+                  TActionButton(
+                    assetPath: 'assets/icons/home/clear.png',
+                    color: Colors.red,
+                    size: 60,
+                    onTap: () {
+                      // _matchEngine.currentItem!.nope();
+                    },
+                    hasBorder: false,
+                    hasElevation: true,
+                    hasBorderRadius: true,
+                    coloTransparent: false,
                   ),
-                  const SizedBox(
-                    width: 20,
+                  const SizedBox(width: 20),
+
+                  // Star Action Button
+                  TActionButton(
+                    assetPath: 'assets/icons/home/star.png',
+                    color: Colors.blueAccent,
+                    size: 50,
+                    onTap: () {
+                      // _matchEngine.currentItem!.superLike();
+                    },
+                    hasBorder: false,
+                    hasElevation: true,
+                    hasBorderRadius: true,
+                    coloTransparent: false,
                   ),
-                  Material(
-                    color: Colors.white,
-                    elevation: 5,
-                    borderRadius: BorderRadius.circular(100),
-                    child: InkWell(
-                        splashColor: Colors.lightBlue,
-                        borderRadius: BorderRadius.circular(100),
-                        onTap: () {
-                          // _matchEngine.currentItem!.superLike();
-                        },
-                        child: Container(
-                          height: 50,
-                          width: 50,
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                          ),
-                          child: Center(
-                              child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Image.asset(
-                              'assets/icons/home/star.png',
-                              color: Colors.blueAccent,
-                              fit: BoxFit.cover,
-                            ),
-                          )),
-                        )),
-                  ),
-                  const SizedBox(
-                    width: 20,
-                  ),
-                  Material(
-                    color: Colors.white,
-                    elevation: 5,
-                    borderRadius: BorderRadius.circular(100),
-                    child: InkWell(
-                        onTap: () {
-                          // _matchEngine.currentItem!.like();
-                        },
-                        splashColor: Colors.greenAccent,
-                        borderRadius: BorderRadius.circular(100),
-                        child: Container(
-                          height: 60,
-                          width: 60,
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                          ),
-                          child: Center(
-                              child: Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Image.asset(
-                              'assets/icons/home/heart.png',
-                              color: Colors.green[500],
-                              fit: BoxFit.cover,
-                            ),
-                          )),
-                        )),
+                  const SizedBox(width: 20),
+
+                  // Heart Action Button
+                  TActionButton(
+                    assetPath: 'assets/icons/home/heart.png',
+                    color: Colors.green,
+                    size: 60,
+                    onTap: () {
+                      // _matchEngine.currentItem!.like();
+                    },
+                    hasBorder: false,
+                    hasElevation: true,
+                    hasBorderRadius: true,
+                    coloTransparent: false,
                   ),
                 ],
               ),

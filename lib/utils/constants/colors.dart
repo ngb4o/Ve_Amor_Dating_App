@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 
 class TColors {
   // App theme colors
-  static const Color primary = Color(0xFFFF6584);
+  // static const Color primary = Color(0xFFFF6584);
+  static const Color primary = Color(0xFFFD3F5B);
   static const Color secondary = Color(0xFFFFE24B);
   static const Color accent = Color(0xFFb0c7ff);
 
@@ -21,7 +22,7 @@ class TColors {
   static Color darkContainer = TColors.white.withOpacity(0.1);
 
   // Button colors
-  static const Color buttonPrimary = Color(0xFFFF6584);
+  static const Color buttonPrimary = Color(0xFFFD3F5B);
   static const Color buttonSecondary = Color(0xFF6C757D);
   static const Color buttonDisabled = Color(0xFFC4C4C4);
 
@@ -37,7 +38,7 @@ class TColors {
   static const Color error = Color(0xFFD32F2F);
   static const Color success = Color(0xFF388E3C);
   static const Color warning = Color(0xFFF57C00);
-  static const Color info = Color(0xFFFF6593);
+  static const Color info = Color(0xFFFD3F5B);
 
   // Neutral Shades
   static const Color black = Color(0xFF232323);

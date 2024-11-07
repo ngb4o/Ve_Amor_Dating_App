@@ -9,6 +9,7 @@ class TActionButton extends StatelessWidget {
   final bool coloTransparent;
   final bool hasBorder;
   final bool hasElevation;
+  final bool hasBorderRadius;
 
   const TActionButton({
     super.key,
@@ -18,13 +19,16 @@ class TActionButton extends StatelessWidget {
     required this.onTap,
     this.coloTransparent =true,
     this.hasBorder = true,
-    this.hasElevation = false
+    this.hasElevation = false,
+    this.hasBorderRadius = false,
   });
 
   @override
   Widget build(BuildContext context) {
     return Material(
       color: coloTransparent ? Colors.transparent : TColors.white,
+      elevation: hasElevation ? 5 : 0,
+      borderRadius: hasBorderRadius ? BorderRadius.circular(100) : null,
       child: InkWell(
         onTap: onTap,
         splashColor: color,
