@@ -16,7 +16,7 @@ class NavigationMenu extends StatelessWidget {
 
     return Scaffold(
       bottomNavigationBar: Obx(
-            () => NavigationBar(
+        () => NavigationBar(
           height: 85,
           elevation: 0,
           backgroundColor: dark ? TColors.black : TColors.white,
@@ -76,7 +76,7 @@ class NavigationMenu extends StatelessWidget {
           const SizedBox(height: 10),
           Icon(
             icon,
-            size: 28,
+            size: 30,
             color: controller.selectedIndex.value == index ? TColors.primary : Colors.grey,
           ),
         ],
@@ -96,7 +96,6 @@ class NavigationController extends GetxController {
     Container(color: Colors.blue),
   ];
 }
-
 
 // import 'package:flutter/material.dart';
 // import 'package:get/get.dart';

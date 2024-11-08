@@ -16,7 +16,7 @@ class TActionButtonRow extends StatelessWidget {
         TActionButton(
           assetPath: 'assets/icons/home/back.png',
           color: Colors.orangeAccent,
-          size: 40,
+          size: 50,
           onTap: () {},
           hasBorder: false,
           hasElevation: true,
@@ -26,7 +26,7 @@ class TActionButtonRow extends StatelessWidget {
         TActionButton(
           assetPath: 'assets/icons/home/clear.png',
           color: Colors.red,
-          size: 50,
+          size: 60,
           onTap: () => matchEngine.currentItem!.nope(),
           hasBorder: false,
           hasElevation: true,
@@ -36,7 +36,7 @@ class TActionButtonRow extends StatelessWidget {
         TActionButton(
           assetPath: 'assets/icons/home/star.png',
           color: Colors.blue,
-          size: 40,
+          size: 50,
           onTap: () => matchEngine.currentItem!.superLike(),
           hasBorder: false,
           hasElevation: true,
@@ -46,7 +46,7 @@ class TActionButtonRow extends StatelessWidget {
         TActionButton(
           assetPath: 'assets/icons/home/heart.png',
           color: Colors.green,
-          size: 50,
+          size: 60,
           onTap: () => matchEngine.currentItem!.like(),
           hasBorder: false,
           hasElevation: true,
@@ -56,7 +56,7 @@ class TActionButtonRow extends StatelessWidget {
         TActionButton(
           assetPath: 'assets/icons/home/light.png',
           color: Colors.purple,
-          size: 40,
+          size: 50,
           onTap: () {},
           hasBorder: false,
           hasElevation: true,

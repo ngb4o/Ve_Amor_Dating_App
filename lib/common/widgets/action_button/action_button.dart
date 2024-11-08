@@ -17,7 +17,7 @@ class TActionButton extends StatelessWidget {
     required this.color,
     required this.size,
     required this.onTap,
-    this.coloTransparent =true,
+    this.coloTransparent = true,
     this.hasBorder = true,
     this.hasElevation = false,
     this.hasBorderRadius = false,
@@ -25,28 +25,42 @@ class TActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: coloTransparent ? Colors.transparent : TColors.white,
-      elevation: hasElevation ? 5 : 0,
-      borderRadius: hasBorderRadius ? BorderRadius.circular(100) : null,
-      child: InkWell(
-        onTap: onTap,
-        splashColor: color,
-        borderRadius: BorderRadius.circular(100),
-        child: Container(
-          width: size,
-          height: size,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            border: hasBorder ? Border.all(color: color) : null,
+    return Container(
+      width: size ,
+      height: size ,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.2),
+            blurRadius: 10,
+            offset: const Offset(0, 0),
           ),
-          child: Center(
-            child: Padding(
-              padding: const EdgeInsets.all(8),
-              child: Image.asset(
-                assetPath,
-                color: color,
-                fit: BoxFit.cover,
+        ],
+      ),
+      child: Material(
+        color: coloTransparent ? Colors.transparent : TColors.white,
+        elevation: hasElevation ? 4 : 0,
+        borderRadius: hasBorderRadius ? BorderRadius.circular(100) : null,
+        child: InkWell(
+          onTap: onTap,
+          splashColor: color,
+          borderRadius: BorderRadius.circular(100),
+          child: Container(
+            width: size,
+            height: size,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              border: hasBorder ? Border.all(color: color) : null,
+            ),
+            child: Center(
+              child: Padding(
+                padding: const EdgeInsets.all(8),
+                child: Image.asset(
+                  assetPath,
+                  color: color,
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
           ),

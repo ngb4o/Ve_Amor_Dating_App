@@ -36,7 +36,7 @@ class TInfoSection extends StatelessWidget {
               onPressed: () {
                 pushScreen(
                   context,
-                  pageTransitionAnimation: PageTransitionAnimation.fade,
+                  pageTransitionAnimation: PageTransitionAnimation.slideUp,
                   withNavBar: false,
                   screen: THomeDetailInformation(index),
                 );
