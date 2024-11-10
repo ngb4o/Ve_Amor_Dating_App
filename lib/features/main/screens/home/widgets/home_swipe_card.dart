@@ -37,6 +37,7 @@ class TSwipeCard extends StatelessWidget {
             ),
           ),
         ),
+
         // Shadow
         if (shadowImage)
           Container(
@@ -47,10 +48,13 @@ class TSwipeCard extends StatelessWidget {
               gradient: LinearGradient(
                 begin: Alignment.bottomCenter,
                 end: Alignment.center,
-                colors: dark ? [TColors.primary.withOpacity(0.7), Colors.transparent] : [TColors.primary.withOpacity(0.85), Colors.transparent],
+                colors: dark
+                    ? [TColors.primary.withOpacity(0.7), Colors.transparent]
+                    : [TColors.primary.withOpacity(0.85), Colors.transparent],
               ),
             ),
           ),
+
         // Navigation
         Row(
           children: [

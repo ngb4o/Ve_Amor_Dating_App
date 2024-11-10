@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:ve_amor_app/features/main/screens/settings/settings_imports.dart';
 import 'package:ve_amor_app/utils/constants/colors.dart';
 import 'package:ve_amor_app/utils/helpers/helper_functions.dart';
 
-import 'features/main/screen/home/home_imports.dart';
+import 'features/main/screens/home/home_imports.dart';
 
 class NavigationMenu extends StatelessWidget {
   const NavigationMenu({super.key});
@@ -93,7 +94,7 @@ class NavigationController extends GetxController {
     const HomeScreen(),
     Container(color: Colors.red),
     Container(color: Colors.yellow),
-    Container(color: Colors.blue),
+    const SettingsScreen(),
   ];
 }
 

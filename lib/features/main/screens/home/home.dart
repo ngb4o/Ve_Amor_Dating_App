@@ -79,6 +79,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       body: Column(
         children: [
+
           // Appbar
           const THomeAppBar(),
 
@@ -98,6 +99,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       tag: 'imageTage$index',
                       child: Stack(
                         children: [
+
                           // Card
                           TSwipeCard(
                             currentPhoto: currentPhoto,
