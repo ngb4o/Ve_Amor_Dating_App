@@ -66,6 +66,15 @@ class TTexts {
   static const String homeAppbarTitle = "Good day for dating";
   static const String homeAppbarSubTitle = "Taimoor Sikander";
 
+  // -- Add Image
+  static const String createNew = "Create New";
+  static const String selectImage = "Select a content type";
+  static const String captureFrom = "Capture From";
+  static const String camera = "Camera";
+  static const String upload = "UpLoad";
+  static const String photo = "Photo";
+
+
 
 }
 

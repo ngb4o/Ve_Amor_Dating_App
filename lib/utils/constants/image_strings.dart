@@ -151,6 +151,8 @@ class TImages {
 
   //Profile
   static const String user = "assets/images/content/user.png";
+  static const String camera = "assets/images/add_photo/camera.png";
+  static const String picture = "assets/images/add_photo/pic.png";
 
   // -- Payment Methods
   static const String applePay = "assets/icons/payment_methods/apple-pay.png";

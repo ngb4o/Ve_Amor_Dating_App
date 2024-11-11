@@ -2,6 +2,8 @@
 class Assets {
   Assets._();
 
+  static const String addPhotoCamera = 'assets/images/add_photo/camera.png';
+  static const String addPhotoPic = 'assets/images/add_photo/pic.png';
   static const String animations104368ThankYou = 'assets/images/animations/104368-thank-you.json';
   static const String animations110052PaperPlane = 'assets/images/animations/110052-paper-plane.json';
   static const String animations120978PaymentSuccessful = 'assets/images/animations/120978-payment-successful.json';
@@ -38,6 +40,7 @@ class Assets {
   static const String fontsPoppinsRegular = 'assets/fonts/Poppins-Regular.ttf';
   static const String fontsPoppinsSemiBold = 'assets/fonts/Poppins-SemiBold.ttf';
   static const String fontsPoppinsSemiBoldItalic = 'assets/fonts/Poppins-SemiBoldItalic.ttf';
+  static const String homeAdd = 'assets/icons/home/add.png';
   static const String homeArrowDown = 'assets/icons/home/arrow_down.png';
   static const String homeBack = 'assets/icons/home/back.png';
   static const String homeClear = 'assets/icons/home/clear.png';
