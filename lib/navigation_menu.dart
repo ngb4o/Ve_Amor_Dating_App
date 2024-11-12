@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:ve_amor_app/features/main/screens/message/message_imports.dart';
 import 'package:ve_amor_app/features/main/screens/settings/settings_imports.dart';
 import 'package:ve_amor_app/utils/constants/colors.dart';
 import 'package:ve_amor_app/utils/helpers/helper_functions.dart';
@@ -93,7 +94,7 @@ class NavigationController extends GetxController {
   final screens = [
     const HomeScreen(),
     Container(color: Colors.red),
-    Container(color: Colors.yellow),
+    const MessageScreen(),
     const SettingsScreen(),
   ];
 }

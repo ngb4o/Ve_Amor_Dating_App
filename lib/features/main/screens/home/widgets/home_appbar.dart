@@ -3,7 +3,10 @@ part of 'widget_imports.dart';
 class THomeAppBar extends StatelessWidget {
   const THomeAppBar({
     super.key,
+    this.iconSecurityActionAppbar = false,
   });
+
+  final bool iconSecurityActionAppbar;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +37,8 @@ class THomeAppBar extends StatelessWidget {
         ],
       ),
       actions: [
-        TNotifiCounterIcon(
+        TActionAppbarIcon(
+          icon: iconSecurityActionAppbar ? Icons.security : Iconsax.notification5,
           iconColor: dark ? TColors.grey : TColors.black.withOpacity(0.7),
           onPressed: () {},
         )

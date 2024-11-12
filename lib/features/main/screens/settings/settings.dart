@@ -67,14 +67,14 @@ class SettingsScreen extends StatelessWidget {
                     icon: Iconsax.location,
                   ),
                   TSettingsMenuTile(
-                    title: 'Safe Mode',
-                    subtitle: 'Search result is safe for all ages',
+                    title: 'Dark Mode',
+                    subtitle: 'Enable dark theme for comfortable night',
                     trailing: Switch(
                       activeColor: TColors.primary,
                       value: false,
                       onChanged: (value) {},
                     ),
-                    icon: Iconsax.security_user,
+                    icon: Icons.dark_mode_outlined,
                   ),
                   TSettingsMenuTile(
                     title: 'HD Image Quality',

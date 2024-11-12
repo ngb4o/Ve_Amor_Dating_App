@@ -33,7 +33,7 @@ class TSwipeCard extends StatelessWidget {
             borderRadius: borderRadiusImage ? BorderRadius.circular(10) : null,
             image: const DecorationImage(
               fit: BoxFit.cover,
-              image: AssetImage('assets/images/content/image-girl.png'),
+              image: AssetImage(TImages.girl),
             ),
           ),
         ),

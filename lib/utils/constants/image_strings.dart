@@ -153,6 +153,7 @@ class TImages {
   static const String user = "assets/images/content/user.png";
   static const String camera = "assets/images/add_photo/camera.png";
   static const String picture = "assets/images/add_photo/pic.png";
+  static const String girl = "assets/images/content/image-girl.png";
 
   // -- Payment Methods
   static const String applePay = "assets/icons/payment_methods/apple-pay.png";

@@ -67,27 +67,28 @@ class _THomeDetailInformationState extends State<THomeDetailInformation> {
                                   elevation: 3,
                                   borderRadius: BorderRadius.circular(100),
                                   child: InkWell(
-                                      borderRadius: BorderRadius.circular(100),
-                                      onTap: () {
-                                        Navigator.pop(context);
-                                      },
-                                      child: Container(
-                                        height: 50,
-                                        width: 50,
-                                        decoration: const BoxDecoration(
-                                          shape: BoxShape.circle,
+                                    borderRadius: BorderRadius.circular(100),
+                                    onTap: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: Container(
+                                      height: 50,
+                                      width: 50,
+                                      decoration: const BoxDecoration(
+                                        shape: BoxShape.circle,
+                                      ),
+                                      child: Center(
+                                          child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Image.asset(
+                                          'assets/icons/home/arrow_down.png',
+                                          scale: 20,
+                                          color: Colors.white,
+                                          fit: BoxFit.cover,
                                         ),
-                                        child: Center(
-                                            child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Image.asset(
-                                            'assets/icons/home/arrow_down.png',
-                                            scale: 20,
-                                            color: Colors.white,
-                                            fit: BoxFit.cover,
-                                          ),
-                                        )),
                                       )),
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),
@@ -98,72 +99,97 @@ class _THomeDetailInformationState extends State<THomeDetailInformation> {
 
                     // Detail Information
                     Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
-                          padding: const EdgeInsets.fromLTRB(16, 0, 16, 5),
-                          child: Row(
+                          padding: const EdgeInsets.only(
+                            left: TSizes.defaultSpace,
+                            right: TSizes.defaultSpace,
+                            bottom: TSizes.defaultSpace,
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              // Name
-                              Text(
-                                'Yogurt',
-                                style: Theme.of(context).textTheme.headlineMedium,
-                              ),
-                              const SizedBox(width: 10),
+                              Row(
+                                children: [
+                                  // Name
+                                  Text('Yogurt', style: Theme.of(context).textTheme.headlineMedium),
+                                  const SizedBox(width: TSizes.sm),
 
-                              // Age
-                              Text('20',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyMedium!
-                                      .copyWith(fontSize: 25))
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16),
-                          child: Row(
-                            children: [
-                              Icon(
-                                CupertinoIcons.placemark,
-                                color: dark ? TColors.white : TColors.black,
-                                size: TSizes.iconSm,
+                                  // Age
+                                  Text(
+                                    '20',
+                                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontSize: 25),
+                                  )
+                                ],
                               ),
-                              const SizedBox(width: 5),
-                              Text(
-                                'Đà Nẵng',
-                                style: Theme.of(context).textTheme.bodyMedium
+                              const SizedBox(height: TSizes.xs),
+
+                              // Location
+                              Row(
+                                children: [
+                                  // Icon
+                                  const Icon(Iconsax.location, size: TSizes.iconXs),
+                                  const SizedBox(width: TSizes.sm),
+
+                                  // Location
+                                  Text('Da Nang', style: Theme.of(context).textTheme.labelLarge)
+                                ],
+                              ),
+                              const SizedBox(height: TSizes.sm),
+                              const Divider(),
+                              const SizedBox(height: TSizes.sm),
+
+                              // Looking
+                              Row(
+                                children: [
+                                  // Icon
+                                  Icon(Iconsax.search_favorite,
+                                      size: TSizes.iconMd - 5, color: Colors.black.withOpacity(0.6)),
+                                  const SizedBox(width: TSizes.sm),
+
+                                  // Location
+                                  Text('Looking',
+                                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                          fontWeight: FontWeight.bold, color: Colors.black.withOpacity(0.6))),
+                                ],
+                              ),
+                              const SizedBox(height: TSizes.md),
+
+                              Padding(
+                                padding: const EdgeInsets.only(left: TSizes.sm),
+                                child: Text('💘 Lover', style: Theme.of(context).textTheme.headlineSmall),
+                              ),
+
+                              const SizedBox(height: TSizes.sm),
+                              const Divider(),
+                              const SizedBox(height: TSizes.sm),
+
+                              // Hobbies
+                              Row(
+                                children: [
+                                  // Icon
+                                  Icon(Iconsax.like,
+                                      size: TSizes.iconMd - 5, color: Colors.black.withOpacity(0.6)),
+                                  const SizedBox(width: TSizes.sm),
+
+                                  // Title
+                                  Text('Hobby',
+                                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                          fontWeight: FontWeight.bold, color: Colors.black.withOpacity(0.6))),
+                                ],
+                              ),
+                              const SizedBox(height: TSizes.md),
+
+                              Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(30),
+                                  color: TColors.grey,
+                                ),
+                                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
+                                child: const Text('Take care of yourself'),
                               ),
                             ],
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 16),
-                          child: Divider(
-                            color: Colors.grey.shade600,
-                          ),
-                        ),
-                         Padding(
-                          padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
-                          child: Text(
-                            "About Me",
-                            style: Theme.of(context).textTheme.headlineSmall,
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(16, 5, 16, 0),
-                          child: Text(
-                            "...",
-                            style: TextStyle(
-                              color: Colors.grey.shade600,
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 16),
-                          child: Divider(
-                            color: Colors.grey.shade600,
                           ),
                         ),
                       ],
@@ -175,7 +201,7 @@ class _THomeDetailInformationState extends State<THomeDetailInformation> {
 
             // Action Button
             Positioned(
-              bottom: 0,
+              bottom: 25,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

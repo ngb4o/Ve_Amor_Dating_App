@@ -105,4 +105,8 @@ class TTexts {
   // Lifestyle
   static const String titleLifestyle= "Let’s exchange lifestyle habits!";
   static const String subTitleLifestyle = "Do their habits resemble yours? Let’s share first.";
+
+  // Message
+  static const String newMatches= "New Matches";
+  static const String message= "Message";
 }
