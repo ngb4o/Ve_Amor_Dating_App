@@ -87,7 +87,7 @@ class InitialLifestylePage extends StatelessWidget {
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30))),
-                onPressed: () => Get.to(() => const NavigationMenu()),
+                onPressed: () => Get.to(() => const InitialIdentityVerification()),
                 child: const Text(TTexts.next, style: TextStyle(fontWeight: FontWeight.bold)),
               ),
             ),

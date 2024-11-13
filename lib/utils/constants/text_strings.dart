@@ -113,4 +113,7 @@ class TTexts {
   // Explore
   static const String titleExplore = "Welcome to the Explore tab";
   // static const String
+
+  static const String titleIdentityVerification = "Account Verification via National ID/Passport";
+  static const String subTitleIdentityVerification ="Please scan the QR code on your National ID or Passport. Each document can only be used for a single account.";
 }

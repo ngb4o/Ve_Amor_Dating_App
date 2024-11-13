@@ -7,6 +7,7 @@ import 'package:iconsax/iconsax.dart';
 import 'package:ve_amor_app/common/widgets/add_photo/profile_photo.dart';
 import 'package:ve_amor_app/common/widgets/appbar/appbar.dart';
 import 'package:ve_amor_app/common/widgets/bottom_button/bottom_button.dart';
+import 'package:ve_amor_app/features/authentication/screens/identity_vefication/identity_verification_qr.dart';
 import 'package:ve_amor_app/navigation_menu.dart';
 import 'package:ve_amor_app/utils/constants/colors.dart';
 import 'package:ve_amor_app/utils/constants/sizes.dart';
