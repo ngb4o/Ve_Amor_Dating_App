@@ -7,11 +7,13 @@ class TProfileMenu extends StatelessWidget {
     required this.title,
     required this.value,
     required this.onTap,
+    this.isEdit = false,
   });
 
   final IconData icon;
   final String title, value;
   final VoidCallback onTap;
+  final bool isEdit;
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +39,7 @@ class TProfileMenu extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
               ),
             ),
-            Expanded(child: Icon(icon, size: 18)),
+            isEdit ? Expanded(child: Icon(icon, size: 18)) : Expanded(child: Container()),
           ],
         ),
       ),

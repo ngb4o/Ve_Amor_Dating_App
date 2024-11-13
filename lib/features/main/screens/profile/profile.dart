@@ -75,17 +75,18 @@ class _ProfileState extends State<ProfileScreen> {
               const TSectionHeading(title: 'Profile Information', showActionButton: false),
               const SizedBox(height: TSizes.spaceBtwItems),
 
-              // Email
-              TProfileMenu(title: 'E-mail', value: 'ngbao08052003@gmail.com', onTap: () {}),
-
-              // Phone number
-              TProfileMenu(title: 'Phone Number', value: '0962492787', onTap: () {}),
-
               // Gender
               TProfileMenu(title: 'Gender', value: 'Male', onTap: () {}),
 
               // Date Of Birth
               TProfileMenu(title: 'Date of Birth', value: '8 May, 2003', onTap: () {}),
+
+              // Email
+              TProfileMenu(title: 'E-mail', value: 'ngbao08052003@gmail.com', isEdit: true,onTap: () {}),
+
+              // Phone number
+              TProfileMenu(title: 'Phone Number', value: '0962492787',isEdit: true, onTap: () {}),
+
               const Divider(),
               const SizedBox(height: TSizes.spaceBtwItems),
 

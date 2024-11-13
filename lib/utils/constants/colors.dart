@@ -25,6 +25,7 @@ class TColors {
   static const Color buttonPrimary = Color(0xFFFD3F5B);
   static const Color buttonSecondary = Color(0xFF6C757D);
   static const Color buttonDisabled = Color(0xFFC4C4C4);
+  static const Color backgroundActionButtonDarkColor = Color(0xFF1C1C1C);
 
   // Navigation Icon colors
   static const Color iconNavigation = Color(0xFFFD3F5B);

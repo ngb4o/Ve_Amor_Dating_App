@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ve_amor_app/utils/constants/colors.dart';
+import 'package:ve_amor_app/utils/helpers/helper_functions.dart';
 
 class TActionButton extends StatelessWidget {
   final String assetPath;
@@ -25,6 +26,7 @@ class TActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final dark = THelperFunctions.isDarkMode(context);
     return Container(
       width: size ,
       height: size ,
@@ -39,7 +41,7 @@ class TActionButton extends StatelessWidget {
         ],
       ),
       child: Material(
-        color: coloTransparent ? Colors.transparent : TColors.white,
+        color: coloTransparent ? Colors.transparent :(dark ? TColors.backgroundActionButtonDarkColor: TColors.white),
         elevation: hasElevation ? 4 : 0,
         borderRadius: hasBorderRadius ? BorderRadius.circular(100) : null,
         child: InkWell(

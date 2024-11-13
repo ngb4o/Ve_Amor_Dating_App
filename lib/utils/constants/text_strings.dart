@@ -109,4 +109,8 @@ class TTexts {
   // Message
   static const String newMatches= "New Matches";
   static const String message= "Message";
+
+  // Explore
+  static const String titleExplore = "Welcome to the Explore tab";
+  // static const String
 }

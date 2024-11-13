@@ -145,13 +145,15 @@ class _THomeDetailInformationState extends State<THomeDetailInformation> {
                                 children: [
                                   // Icon
                                   Icon(Iconsax.search_favorite,
-                                      size: TSizes.iconMd - 5, color: Colors.black.withOpacity(0.6)),
+                                      size: TSizes.iconMd - 5,
+                                      color: dark ? TColors.white : Colors.black.withOpacity(0.6)),
                                   const SizedBox(width: TSizes.sm),
 
                                   // Location
                                   Text('Looking',
                                       style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                                          fontWeight: FontWeight.bold, color: Colors.black.withOpacity(0.6))),
+                                          fontWeight: FontWeight.bold,
+                                          color: dark ? TColors.white : Colors.black.withOpacity(0.6))),
                                 ],
                               ),
                               const SizedBox(height: TSizes.md),
@@ -170,13 +172,15 @@ class _THomeDetailInformationState extends State<THomeDetailInformation> {
                                 children: [
                                   // Icon
                                   Icon(Iconsax.like,
-                                      size: TSizes.iconMd - 5, color: Colors.black.withOpacity(0.6)),
+                                      size: TSizes.iconMd - 5,
+                                      color: dark ? TColors.white : Colors.black.withOpacity(0.6)),
                                   const SizedBox(width: TSizes.sm),
 
                                   // Title
                                   Text('Hobby',
                                       style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                                          fontWeight: FontWeight.bold, color: Colors.black.withOpacity(0.6))),
+                                          fontWeight: FontWeight.bold,
+                                          color: dark ? TColors.white : Colors.black.withOpacity(0.6))),
                                 ],
                               ),
                               const SizedBox(height: TSizes.md),
@@ -184,10 +188,10 @@ class _THomeDetailInformationState extends State<THomeDetailInformation> {
                               Container(
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(30),
-                                  color: TColors.grey,
+                                  color: dark ?Colors.black.withOpacity(0.4) :TColors.grey,
                                 ),
                                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
-                                child: const Text('Take care of yourself'),
+                                child: Text('Take care of yourself', style: Theme.of(context).textTheme.bodyMedium),
                               ),
                             ],
                           ),
