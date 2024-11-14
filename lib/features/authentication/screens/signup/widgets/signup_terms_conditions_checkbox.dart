@@ -8,15 +8,19 @@ class TTermsAndConditionCheckbox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final dark = THelperFunctions.isDarkMode(context);
+    final controller = SignupController.instance;
     return Row(
       children: [
-        SizedBox(
-          width: 24,
-          height: 24,
-          child: Checkbox(
-            value: true,
-            onChanged: (value) {
-            },
+        Obx(
+          () => SizedBox(
+            width: 24,
+            height: 24,
+            child: Checkbox(
+              value: controller.privacyPolicy.value,
+              onChanged: (value) {
+                controller.privacyPolicy.value = !controller.privacyPolicy.value;
+              },
+            ),
           ),
         ),
         const SizedBox(

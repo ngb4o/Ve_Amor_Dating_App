@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import '../../../utils/constants/sizes.dart';
 import '../../../utils/constants/text_strings.dart';
 import '../../../utils/helpers/helper_functions.dart';
@@ -6,14 +7,15 @@ import '../../../utils/helpers/helper_functions.dart';
 class SuccessScreen extends StatelessWidget {
   const SuccessScreen({
     super.key,
-    required this.image,
     required this.title,
     required this.subTitle,
     required this.onPressed,
+    required this.animation,
   });
 
-  final String image, title, subTitle;
+  final String title, subTitle;
   final VoidCallback onPressed;
+  final String animation;
 
   @override
   Widget build(BuildContext context) {
@@ -29,10 +31,7 @@ class SuccessScreen extends StatelessWidget {
           child: Column(
             children: [
               // Image
-              Image(
-                image: AssetImage(image),
-                width: THelperFunctions.screenWidth() * 0.6,
-              ),
+              Lottie.asset(animation, width: MediaQuery.of(context).size.width * 0.7),
               const SizedBox(height: TSizes.spaceBtwSections),
 
               // Title & Subtitle

@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "266111988879",
+    "project_id": "veamordatingapp",
+    "storage_bucket": "veamordatingapp.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:266111988879:android:136a9e87861a6e0a19acfa",
+        "android_client_info": {
+          "package_name": "com.example.ve_amor_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "266111988879-ai2o925ems1kj8fr4nsm3agajadkstl3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.ve_amor_app",
+            "certificate_hash": "1a043a1f98d3afed4b85fd5b9dabc43ac22d1816"
+          }
+        },
+        {
+          "client_id": "266111988879-vaav49c94qpi5ack165m6312d2e8h5ou.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA01c4d1uYsPGyspLYNJCcLR6C4eqOR2Cg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "266111988879-vaav49c94qpi5ack165m6312d2e8h5ou.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "266111988879-d402sjkik8dolcpqv031f6elmji07nm8.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.veAmorApp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

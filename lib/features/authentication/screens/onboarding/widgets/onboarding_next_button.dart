@@ -18,7 +18,7 @@ class OnBoardingNextButton extends StatelessWidget {
         onPressed: () {
           controller.nextPage();
         },
-        child: const Icon(Iconsax.arrow_right_3),
+        child: const Icon(Iconsax.arrow_right_3, color: TColors.white,),
       ),
     );
   }

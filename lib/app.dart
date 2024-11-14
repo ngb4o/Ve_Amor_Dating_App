@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ve_amor_app/bindings/general_bindings.dart';
 import 'package:ve_amor_app/utils/theme/theme.dart';
 
 import 'features/authentication/screens/onboarding/onboarding_imports.dart';
@@ -14,6 +15,7 @@ class App extends StatelessWidget {
       themeMode: ThemeMode.system,
       theme: TAppTheme.lightTheme,
       darkTheme: TAppTheme.darkTheme,
+      initialBinding: GeneralBindings(),
       home: const OnBoardingScreen(),
     );
   }

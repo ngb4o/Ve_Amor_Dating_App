@@ -7,13 +7,17 @@ class VerifyEmailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(VerifyEmailController());
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
         actions: [
           IconButton(
-            onPressed: () => Get.offAll(() => const LoginScreen()),
-            icon: const Icon(CupertinoIcons.clear, color: TColors.primary,),
+            onPressed: () => AuthenticationRepository.instance.logout(),
+            icon: const Icon(
+              CupertinoIcons.clear,
+              color: TColors.primary,
+            ),
           ),
         ],
       ),
@@ -35,12 +39,12 @@ class VerifyEmailScreen extends StatelessWidget {
                 style: Theme.of(context).textTheme.headlineMedium,
                 textAlign: TextAlign.center,
               ),
-              // const SizedBox(height: TSizes.spaceBtwItems),
-              // Text(
-              //   email ?? '',
-              //   style: Theme.of(context).textTheme.labelLarge,
-              //   textAlign: TextAlign.center,
-              // ),
+              const SizedBox(height: TSizes.spaceBtwItems),
+              Text(
+                email ?? '',
+                style: Theme.of(context).textTheme.labelLarge,
+                textAlign: TextAlign.center,
+              ),
               const SizedBox(height: TSizes.spaceBtwItems),
               Text(
                 TTexts.confirmEmailSubTitle,
@@ -53,14 +57,7 @@ class VerifyEmailScreen extends StatelessWidget {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () =>Get.to(
-                        () => SuccessScreen(
-                      image: TImages.staticSuccessIllustration,
-                      title: TTexts.yourAccountCreatedTitle,
-                      subTitle: TTexts.yourAccountCreatedSubTitle,
-                      onPressed: () => Get.to(const InitialNamePage()),
-                    ),
-                  ),
+                  onPressed: () => controller.checkEmailVerificationStatus(),
                   child: const Text(TTexts.tContinue),
                 ),
               ),
@@ -68,7 +65,9 @@ class VerifyEmailScreen extends StatelessWidget {
               SizedBox(
                 width: double.infinity,
                 child: TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    controller.sendEmailVerification();
+                  },
                   child: const Text(TTexts.resendEmail, style: TextStyle(color: TColors.primary)),
                 ),
               ),

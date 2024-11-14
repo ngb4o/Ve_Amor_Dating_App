@@ -6,5 +6,4 @@ class GeneralBindings extends Bindings {
   void dependencies() {
     Get.put(NetworkManager());
   }
-
 }

@@ -112,8 +112,8 @@ class TTexts {
 
   // Explore
   static const String titleExplore = "Welcome to the Explore tab";
-  // static const String
 
-  static const String titleIdentityVerification = "Account Verification via National ID/Passport";
-  static const String subTitleIdentityVerification ="Please scan the QR code on your National ID or Passport. Each document can only be used for a single account.";
+  // Identity Verification
+  static const String titleIdentityVerification = "One Account, One Identity";
+  static const String subTitleIdentityVerification ="To ensure each individual can only register one account, please scan the QR code on your Citizen ID (CCCD) or Passport to complete your registration. This helps us provide a secure and personalized experience for every user.";
 }
