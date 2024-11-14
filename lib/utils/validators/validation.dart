@@ -65,5 +65,37 @@ class TValidator {
     return null;
   }
 
-// Add more custom validators as needed for your specific requirements.
+  // Birthday Validator
+  static String? validateBirthday(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Birthday is required.';
+    }
+
+    // Regular expression for date format DD/MM/YYYY
+    final dateRegExp = RegExp(r'^\d{2}/\d{2}/\d{4}$');
+
+    if (!dateRegExp.hasMatch(value)) {
+      return 'Invalid date format (DD/MM/YYYY required).';
+    }
+
+    // Parse the date and check if it's a valid date and the user is at least 18 years old
+    try {
+      final parts = value.split('/');
+      final day = int.parse(parts[0]);
+      final month = int.parse(parts[1]);
+      final year = int.parse(parts[2]);
+
+      final birthDate = DateTime(year, month, day);
+      final today = DateTime.now();
+      final age = today.year - birthDate.year - (today.isBefore(birthDate.add(Duration(days: 365 * (today.year - birthDate.year)))) ? 1 : 0);
+
+      if (age < 18) {
+        return 'You must be at least 18 years old.';
+      }
+    } catch (_) {
+      return 'Invalid birthday.';
+    }
+
+    return null;
+  }
 }

@@ -76,7 +76,7 @@ class _InitialGenderPageState extends State<InitialGenderPage> {
   Container optionContainer(BuildContext context, String gender, bool isSelected) {
     return Container(
       width: THelperFunctions.screenWidth(),
-      padding: const EdgeInsets.symmetric(vertical: 7),
+      padding: const EdgeInsets.symmetric(vertical: 10),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(30),
         border: Border.all(color: isSelected ? TColors.primary : TColors.grey, width: 2),

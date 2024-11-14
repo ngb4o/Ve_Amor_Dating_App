@@ -23,7 +23,7 @@ class InitialNamePage extends StatelessWidget {
             // TextField
 
             Form(
-              key: controller.updateUserNameFormKey,
+              key: controller.updateUserInformationFormKey,
               child: TextFormField(
                 controller: controller.userName,
                 validator: (value) => TValidator.validateEmptyText('Name', value),

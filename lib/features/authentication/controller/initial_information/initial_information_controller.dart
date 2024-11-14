@@ -10,7 +10,32 @@ class InitialInformationController extends GetxController {
 
   final userRepository = Get.put(UserRepository());
   final userName = TextEditingController();
-  GlobalKey<FormState> updateUserNameFormKey = GlobalKey<FormState>();
+  final dateOfBirth = TextEditingController();
+  GlobalKey<FormState> updateUserInformationFormKey = GlobalKey<FormState>();
+
+  // Temporary Model To Save information
+  Map<String, dynamic> userTempData = {};
+
+  // The Function Stores A Temporary Name
+  void saveName() {
+    if (updateUserInformationFormKey.currentState!.validate()) {
+      userTempData['Username'] = userName.text.trim();
+    }
+  }
+
+  // The Function Stores A Temporary Birthday
+  void saveBirthday() {
+    if (updateUserInformationFormKey.currentState!.validate()) {
+      userTempData['Username'] = userName.text.trim();
+    }
+  }
+
+  // The Function Stores A Temporary Gender
+  void saveGender() {
+    if (updateUserInformationFormKey.currentState!.validate()) {
+      userTempData['Gender'] = userName.text.trim();
+    }
+  }
 
   // Update Name
   Future<void> updateName() async {
@@ -22,7 +47,7 @@ class InitialInformationController extends GetxController {
       }
 
       // Form Validator
-      if (!updateUserNameFormKey.currentState!.validate()) {
+      if (!updateUserInformationFormKey.currentState!.validate()) {
         return;
       }
 
