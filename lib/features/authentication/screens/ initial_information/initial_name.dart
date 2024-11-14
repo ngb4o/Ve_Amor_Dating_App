@@ -5,6 +5,7 @@ class InitialNamePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(InitialInformationController());
     final dark = THelperFunctions.isDarkMode(context);
     return Scaffold(
       appBar: const TAppbar(showBackArrow: true),
@@ -20,12 +21,18 @@ class InitialNamePage extends StatelessWidget {
             ),
             const SizedBox(height: TSizes.spaceBtwSections),
             // TextField
-            TextField(
-              decoration: InputDecoration(
-                prefixIcon: const Icon(Iconsax.user),
-                hintText: 'Enter name',
-                hintStyle:
-                    TextStyle(color: dark ? TColors.grey.withOpacity(0.5) : TColors.black.withOpacity(0.5)),
+
+            Form(
+              key: controller.updateUserNameFormKey,
+              child: TextFormField(
+                controller: controller.userName,
+                validator: (value) => TValidator.validateEmptyText('Name', value),
+                decoration: InputDecoration(
+                  prefixIcon: const Icon(Iconsax.user),
+                  hintText: 'Enter name',
+                  hintStyle:
+                      TextStyle(color: dark ? TColors.grey.withOpacity(0.5) : TColors.black.withOpacity(0.5)),
+                ),
               ),
             ),
             const SizedBox(height: TSizes.spaceBtwInputFields),
@@ -42,7 +49,7 @@ class InitialNamePage extends StatelessWidget {
 
             // Button Next
             TBottomButton(
-              onPressed: () => Get.to(() => const InitialBirthdayPage()),
+              onPressed: () => {controller.updateName()},
               textButton: 'Next',
             )
           ],
