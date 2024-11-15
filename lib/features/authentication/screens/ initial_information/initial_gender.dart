@@ -8,12 +8,11 @@ class InitialGenderPage extends StatefulWidget {
 }
 
 class _InitialGenderPageState extends State<InitialGenderPage> {
-  // Gender options
-  String selectedGender = '';
-
   @override
   Widget build(BuildContext context) {
+    final controller = InitialInformationController.instance;
     final dark = THelperFunctions.isDarkMode(context);
+
     return Scaffold(
       appBar: const TAppbar(showBackArrow: true),
       body: Padding(
@@ -31,42 +30,51 @@ class _InitialGenderPageState extends State<InitialGenderPage> {
             // Options 1
             GestureDetector(
               onTap: () {
-                setState(() {
-                  selectedGender = TTexts.women;
-                });
+                controller.updateGender(TTexts.women);
               },
-              child: optionContainer(context, TTexts.women, selectedGender == TTexts.women),
+              child: Obx(() => optionContainer(
+                    context,
+                    TTexts.women,
+                    controller.selectedGender.value == TTexts.women,
+                  )),
             ),
             const SizedBox(height: TSizes.spaceBtwItems),
 
             // Options 2
             GestureDetector(
               onTap: () {
-                setState(() {
-                  selectedGender = TTexts.men;
-                });
+                controller.updateGender(TTexts.men);
               },
-              child: optionContainer(context, TTexts.men, selectedGender == TTexts.men),
+              child: Obx(() => optionContainer(
+                    context,
+                    TTexts.men,
+                    controller.selectedGender.value == TTexts.men,
+                  )),
             ),
             const SizedBox(height: TSizes.spaceBtwItems),
 
             // Options 3
             GestureDetector(
               onTap: () {
-                setState(() {
-                  selectedGender = TTexts.other;
-                });
+                controller.updateGender(TTexts.other);
               },
-              child: optionContainer(context, TTexts.other, selectedGender == TTexts.other),
+              child: Obx(() => optionContainer(
+                    context,
+                    TTexts.other,
+                    controller.selectedGender.value == TTexts.other,
+                  )),
             ),
 
             const Spacer(),
 
             // Button Next
             TBottomButton(
-              onPressed: () => Get.to(() => const InitialInterestedPage()),
+              onPressed: () {
+                controller.saveGender();
+                Get.to(() => const InitialInterestedPage());
+              },
               textButton: 'Next',
-            )
+            ),
           ],
         ),
       ),

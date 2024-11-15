@@ -16,11 +16,11 @@ class TProFilePhoto extends StatefulWidget {
 }
 
 class _TProFilePhotoState extends State<TProFilePhoto> {
+  List<String> newPhotos = [];
+
   @override
   Widget build(BuildContext context) {
     final dark = THelperFunctions.isDarkMode(context);
-
-    List<String> newPhotos = [];
 
     return SizedBox(
       width: THelperFunctions.screenWidth(),
@@ -60,7 +60,6 @@ class _TProFilePhotoState extends State<TProFilePhoto> {
                   child: newPhotos.isNotEmpty && (index < newPhotos.length)
                       ? Container(
                           decoration: BoxDecoration(
-                            color: Colors.grey.shade300,
                             borderRadius: BorderRadius.circular(8),
                             image: DecorationImage(
                               image: FileImage(File(newPhotos[index])),

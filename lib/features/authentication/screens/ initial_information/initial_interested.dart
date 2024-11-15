@@ -1,18 +1,11 @@
 part of 'initial_information_imports.dart';
 
-class InitialInterestedPage extends StatefulWidget {
+class InitialInterestedPage extends StatelessWidget {
   const InitialInterestedPage({super.key});
 
   @override
-  State<InitialInterestedPage> createState() => _InitialInterestedPageState();
-}
-
-class _InitialInterestedPageState extends State<InitialInterestedPage> {
-  // Gender options
-  String selectedGender = '';
-
-  @override
   Widget build(BuildContext context) {
+    final controller = InitialInformationController.instance;
     final dark = THelperFunctions.isDarkMode(context);
     return Scaffold(
       appBar: const TAppbar(showBackArrow: true),
@@ -30,34 +23,25 @@ class _InitialInterestedPageState extends State<InitialInterestedPage> {
 
             // Options 1
             GestureDetector(
-              onTap: () {
-                setState(() {
-                  selectedGender = TTexts.women;
-                });
-              },
-              child: optionContainer(context, TTexts.women, selectedGender == TTexts.women),
+              onTap: () => controller.updateWantSeeing(TTexts.women),
+              child: Obx(() =>
+                  optionContainer(context, TTexts.women, controller.selectWantSeeing.value == TTexts.women)),
             ),
             const SizedBox(height: TSizes.spaceBtwItems),
 
             // Options 2
             GestureDetector(
-              onTap: () {
-                setState(() {
-                  selectedGender = TTexts.men;
-                });
-              },
-              child: optionContainer(context, TTexts.men, selectedGender == TTexts.men),
+              onTap: () => controller.updateWantSeeing(TTexts.men),
+              child: Obx(() =>
+                  optionContainer(context, TTexts.men, controller.selectWantSeeing.value == TTexts.men)),
             ),
             const SizedBox(height: TSizes.spaceBtwItems),
 
             // Options 3
             GestureDetector(
-              onTap: () {
-                setState(() {
-                  selectedGender = TTexts.everyone;
-                });
-              },
-              child: optionContainer(context, TTexts.everyone, selectedGender == TTexts.everyone),
+              onTap: () => controller.updateWantSeeing(TTexts.everyone),
+              child: Obx(() => optionContainer(
+                  context, TTexts.everyone, controller.selectWantSeeing.value == TTexts.everyone)),
             ),
 
             const Spacer(),

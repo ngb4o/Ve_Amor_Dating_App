@@ -11,6 +11,19 @@ class InitialInformationController extends GetxController {
   final userRepository = Get.put(UserRepository());
   final userName = TextEditingController();
   final dateOfBirth = TextEditingController();
+  var selectedGender = ''.obs;
+  var selectWantSeeing = ''.obs;
+
+  // Update Gender
+  void updateGender(String gender) {
+    selectedGender.value = gender;
+  }
+
+  // Update WantSeeing
+  void updateWantSeeing(String wantSeeing) {
+    selectWantSeeing.value = wantSeeing;
+  }
+
   GlobalKey<FormState> updateUserInformationFormKey = GlobalKey<FormState>();
 
   // Temporary Model To Save information
@@ -63,29 +76,29 @@ class InitialInformationController extends GetxController {
     }
   }
 
-  // Update DateOfBirth
-  // Future<void> updateName() async {
-  //   try {
-  //     // Check Internet Connectivity
-  //     final isConnect = await NetworkManager.instance.isConnected();
-  //     if (!isConnect) {
-  //       return;
-  //     }
-  //
-  //     // Form Validator
-  //     if (!updateUserNameFormKey.currentState!.validate()) {
-  //       return;
-  //     }
-  //
-  //     // Update user's first name & last name in the Firebase Firestore
-  //     Map<String, dynamic> name = {
-  //       'Username': userName.text.trim(),
-  //     };
-  //     await userRepository.updateSingleField(name);
-  //
-  //     Get.to(() => const InitialBirthdayPage());
-  //   } catch (e) {
-  //     TLoaders.errorSnackBar(title: 'Oh Snap!', message: e.toString());
-  //   }
-  // }
+// Update DateOfBirth
+// Future<void> updateName() async {
+//   try {
+//     // Check Internet Connectivity
+//     final isConnect = await NetworkManager.instance.isConnected();
+//     if (!isConnect) {
+//       return;
+//     }
+//
+//     // Form Validator
+//     if (!updateUserNameFormKey.currentState!.validate()) {
+//       return;
+//     }
+//
+//     // Update user's first name & last name in the Firebase Firestore
+//     Map<String, dynamic> name = {
+//       'Username': userName.text.trim(),
+//     };
+//     await userRepository.updateSingleField(name);
+//
+//     Get.to(() => const InitialBirthdayPage());
+//   } catch (e) {
+//     TLoaders.errorSnackBar(title: 'Oh Snap!', message: e.toString());
+//   }
+// }
 }

@@ -3,11 +3,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:ve_amor_app/features/authentication/screens/%20initial_information/initial_information_imports.dart';
 import 'package:ve_amor_app/features/authentication/screens/login/login_imports.dart';
 import 'package:ve_amor_app/features/authentication/screens/onboarding/onboarding_imports.dart';
 import 'package:ve_amor_app/features/authentication/screens/signup/signup_imports.dart';
+import 'package:ve_amor_app/features/main/screens/profile/profile_imports.dart';
 import 'package:ve_amor_app/utils/exceptions/firebase_auth_exceptions.dart';
 import 'package:ve_amor_app/utils/exceptions/firebase_exceptions.dart';
 import 'package:ve_amor_app/utils/exceptions/format_exceptions.dart';
@@ -43,7 +43,7 @@ class AuthenticationRepository extends GetxController {
     deviceStorage.writeIfNull('isFirstTime', true);
     // Check if it's the first time launching the app
     deviceStorage.read('isFirstTime') != true
-        ? Get.offAll(() => const LoginScreen())
+        ? Get.offAll(() => const InitialRecentPicturePage())
         : Get.offAll(() => const OnBoardingScreen());
   }
 
