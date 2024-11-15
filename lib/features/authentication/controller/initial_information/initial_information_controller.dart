@@ -11,8 +11,13 @@ class InitialInformationController extends GetxController {
   final userRepository = Get.put(UserRepository());
   final userName = TextEditingController();
   final dateOfBirth = TextEditingController();
-  var selectedGender = ''.obs;
-  var selectWantSeeing = ''.obs;
+  final selectedGender = ''.obs;
+  final selectWantSeeing = ''.obs;
+  final newPhotos = <String>[].obs;
+  GlobalKey<FormState> updateUserInformationFormKey = GlobalKey<FormState>();
+
+  // Temporary Model To Save information
+  Map<String, dynamic> userTempData = {};
 
   // Update Gender
   void updateGender(String gender) {
@@ -24,10 +29,16 @@ class InitialInformationController extends GetxController {
     selectWantSeeing.value = wantSeeing;
   }
 
-  GlobalKey<FormState> updateUserInformationFormKey = GlobalKey<FormState>();
+  // Pictures
+  // -- Add Picture
+  void addPhotos(List<String> photos) {
+    newPhotos.addAll(photos);
+  }
 
-  // Temporary Model To Save information
-  Map<String, dynamic> userTempData = {};
+  // -- Remove Picture
+  void removePhoto(int index) {
+    newPhotos.removeAt(index);
+  }
 
   // The Function Stores A Temporary Name
   void saveName() {
@@ -39,19 +50,26 @@ class InitialInformationController extends GetxController {
   // The Function Stores A Temporary Birthday
   void saveBirthday() {
     if (updateUserInformationFormKey.currentState!.validate()) {
-      userTempData['Username'] = userName.text.trim();
+      userTempData['DateOfBirth'] = userName.text.trim();
     }
   }
 
   // The Function Stores A Temporary Gender
   void saveGender() {
     if (updateUserInformationFormKey.currentState!.validate()) {
-      userTempData['Gender'] = userName.text.trim();
+      userTempData['Gender'] = selectedGender;
+    }
+  }
+
+  // The Function Stores A Temporary Gender
+  void saveWantSeeing() {
+    if (updateUserInformationFormKey.currentState!.validate()) {
+      userTempData['WantSeeing'] = selectWantSeeing;
     }
   }
 
   // Update Name
-  Future<void> updateName() async {
+  Future<void> updateInitialInformation() async {
     try {
       // Check Internet Connectivity
       final isConnect = await NetworkManager.instance.isConnected();

@@ -43,7 +43,10 @@ class InitialBirthdayPage extends StatelessWidget {
 
             // Button Next
             TBottomButton(
-              onPressed: () => Get.to(() => const InitialGenderPage()),
+              onPressed: () {
+                controller.saveBirthday();
+                Get.to(()=>const InitialGenderPage());
+              },
               textButton: 'Next',
             )
           ],

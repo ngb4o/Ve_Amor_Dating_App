@@ -30,8 +30,8 @@ class InitialNamePage extends StatelessWidget {
                 decoration: InputDecoration(
                   prefixIcon: const Icon(Iconsax.user),
                   hintText: 'Enter name',
-                  hintStyle:
-                      TextStyle(color: dark ? TColors.grey.withOpacity(0.5) : TColors.black.withOpacity(0.5)),
+                  hintStyle: TextStyle(
+                      color: dark ? TColors.grey.withOpacity(0.5) : TColors.black.withOpacity(0.5)),
                 ),
               ),
             ),
@@ -49,7 +49,10 @@ class InitialNamePage extends StatelessWidget {
 
             // Button Next
             TBottomButton(
-              onPressed: () => {controller.updateName()},
+              onPressed: () {
+                controller.saveName();
+                Get.to(() => const InitialBirthdayPage());
+              },
               textButton: 'Next',
             )
           ],

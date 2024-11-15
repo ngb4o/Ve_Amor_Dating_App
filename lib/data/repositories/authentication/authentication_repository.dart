@@ -7,7 +7,6 @@ import 'package:ve_amor_app/features/authentication/screens/%20initial_informati
 import 'package:ve_amor_app/features/authentication/screens/login/login_imports.dart';
 import 'package:ve_amor_app/features/authentication/screens/onboarding/onboarding_imports.dart';
 import 'package:ve_amor_app/features/authentication/screens/signup/signup_imports.dart';
-import 'package:ve_amor_app/features/main/screens/profile/profile_imports.dart';
 import 'package:ve_amor_app/utils/exceptions/firebase_auth_exceptions.dart';
 import 'package:ve_amor_app/utils/exceptions/firebase_exceptions.dart';
 import 'package:ve_amor_app/utils/exceptions/format_exceptions.dart';
@@ -43,7 +42,7 @@ class AuthenticationRepository extends GetxController {
     deviceStorage.writeIfNull('isFirstTime', true);
     // Check if it's the first time launching the app
     deviceStorage.read('isFirstTime') != true
-        ? Get.offAll(() => const InitialRecentPicturePage())
+        ? Get.offAll(() => const LoginScreen())
         : Get.offAll(() => const OnBoardingScreen());
   }
 
