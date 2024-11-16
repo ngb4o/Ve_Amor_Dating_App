@@ -31,7 +31,7 @@ class SuccessScreen extends StatelessWidget {
           child: Column(
             children: [
               // Image
-              Lottie.asset(animation, width: MediaQuery.of(context).size.width * 0.7),
+              Lottie.asset(animation, width: MediaQuery.of(context).size.width * 0.8),
               const SizedBox(height: TSizes.spaceBtwSections),
 
               // Title & Subtitle

@@ -68,13 +68,13 @@ class _InitialGenderPageState extends State<InitialGenderPage> {
             const Spacer(),
 
             // Button Next
-            TBottomButton(
-              onPressed: () {
-                controller.saveGender();
-                Get.to(() => const InitialInterestedPage());
-              },
-              textButton: 'Next',
-            ),
+            Obx(() {
+              final isEnabled = controller.selectedGender.value.isNotEmpty;
+              return TBottomButton(
+                onPressed: isEnabled ? () => controller.saveGender() : null,
+                textButton: 'Next',
+              );
+            }),
           ],
         ),
       ),

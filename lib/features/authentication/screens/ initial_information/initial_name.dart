@@ -22,17 +22,13 @@ class InitialNamePage extends StatelessWidget {
             const SizedBox(height: TSizes.spaceBtwSections),
             // TextField
 
-            Form(
-              key: controller.updateUserInformationFormKey,
-              child: TextFormField(
-                controller: controller.userName,
-                validator: (value) => TValidator.validateEmptyText('Name', value),
-                decoration: InputDecoration(
-                  prefixIcon: const Icon(Iconsax.user),
-                  hintText: 'Enter name',
-                  hintStyle: TextStyle(
-                      color: dark ? TColors.grey.withOpacity(0.5) : TColors.black.withOpacity(0.5)),
-                ),
+            TextField(
+              controller: controller.userName,
+              decoration: InputDecoration(
+                prefixIcon: const Icon(Iconsax.user),
+                hintText: 'Enter name',
+                hintStyle:
+                    TextStyle(color: dark ? TColors.grey.withOpacity(0.5) : TColors.black.withOpacity(0.5)),
               ),
             ),
             const SizedBox(height: TSizes.spaceBtwInputFields),
@@ -49,10 +45,7 @@ class InitialNamePage extends StatelessWidget {
 
             // Button Next
             TBottomButton(
-              onPressed: () {
-                controller.saveName();
-                Get.to(() => const InitialBirthdayPage());
-              },
+              onPressed: () => controller.saveName(),
               textButton: 'Next',
             )
           ],

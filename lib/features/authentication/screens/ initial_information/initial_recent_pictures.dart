@@ -5,6 +5,7 @@ class InitialRecentPicturePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = InitialInformationController.instance;
     return Scaffold(
       appBar: const TAppbar(showBackArrow: true),
       body: Padding(
@@ -29,7 +30,7 @@ class InitialRecentPicturePage extends StatelessWidget {
 
             // Button Next
             TBottomButton(
-              onPressed: () => Get.to(() => const InitialLifestylePage()),
+              onPressed: controller.updateInitialInformation,
               textButton: 'Next',
             )
           ],

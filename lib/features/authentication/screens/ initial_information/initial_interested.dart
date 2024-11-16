@@ -24,16 +24,16 @@ class InitialInterestedPage extends StatelessWidget {
             // Options 1
             GestureDetector(
               onTap: () => controller.updateWantSeeing(TTexts.women),
-              child: Obx(() => optionContainer(
-                  context, TTexts.women, controller.selectWantSeeing.value == TTexts.women)),
+              child: Obx(() =>
+                  optionContainer(context, TTexts.women, controller.selectWantSeeing.value == TTexts.women)),
             ),
             const SizedBox(height: TSizes.spaceBtwItems),
 
             // Options 2
             GestureDetector(
               onTap: () => controller.updateWantSeeing(TTexts.men),
-              child: Obx(() => optionContainer(
-                  context, TTexts.men, controller.selectWantSeeing.value == TTexts.men)),
+              child: Obx(() =>
+                  optionContainer(context, TTexts.men, controller.selectWantSeeing.value == TTexts.men)),
             ),
             const SizedBox(height: TSizes.spaceBtwItems),
 
@@ -47,13 +47,15 @@ class InitialInterestedPage extends StatelessWidget {
             const Spacer(),
 
             // Button Next
-            TBottomButton(
-              onPressed: () {
-                controller.saveWantSeeing();
-                Get.to(() => const InitialRecentPicturePage());
-              },
-              textButton: 'Next',
-            )
+            Obx(() {
+              final isEnabled = controller.selectWantSeeing.value.isNotEmpty;
+              return TBottomButton(
+                onPressed: isEnabled ? () {
+                  controller.saveWantSeeing();
+                } : null,
+                textButton: 'Next',
+              );
+            })
           ],
         ),
       ),

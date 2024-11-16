@@ -78,16 +78,28 @@ class TValidator {
       return 'Invalid date format (DD/MM/YYYY required).';
     }
 
-    // Parse the date and check if it's a valid date and the user is at least 18 years old
     try {
       final parts = value.split('/');
       final day = int.parse(parts[0]);
       final month = int.parse(parts[1]);
       final year = int.parse(parts[2]);
 
+      // Check if the month is valid (1-12)
+      if (month < 1 || month > 12) {
+        return 'Invalid month.';
+      }
+
+      // Check if the day is valid for the month
+      final maxDaysInMonth = DateTime(year, month + 1, 0).day;
+      if (day < 1 || day > maxDaysInMonth) {
+        return 'Invalid day for the selected month.';
+      }
+
       final birthDate = DateTime(year, month, day);
       final today = DateTime.now();
-      final age = today.year - birthDate.year - (today.isBefore(birthDate.add(Duration(days: 365 * (today.year - birthDate.year)))) ? 1 : 0);
+      final age = today.year -
+          birthDate.year -
+          (today.isBefore(birthDate.add(Duration(days: 365 * (today.year - birthDate.year)))) ? 1 : 0);
 
       if (age < 18) {
         return 'You must be at least 18 years old.';

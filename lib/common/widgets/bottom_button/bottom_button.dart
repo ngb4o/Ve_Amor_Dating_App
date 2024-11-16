@@ -7,7 +7,7 @@ class TBottomButton extends StatelessWidget {
     required this.textButton,
   });
 
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
   final String textButton;
 
   @override

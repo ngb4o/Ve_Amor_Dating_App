@@ -21,11 +21,9 @@ class InitialBirthdayPage extends StatelessWidget {
             ),
             const SizedBox(height: TSizes.spaceBtwSections),
             // TextField
-            Form(
-              key: controller.updateUserInformationFormKey,
-              child: TextFormField(
+
+              TextField(
                 controller: controller.dateOfBirth,
-                validator: (value) => TValidator.validateBirthday(value),
                 decoration: InputDecoration(
                   prefixIcon: const Icon(Iconsax.cake),
                   hintText: 'D D / M M / Y Y Y Y',
@@ -34,7 +32,6 @@ class InitialBirthdayPage extends StatelessWidget {
                       fontWeight: FontWeight.w600),
                 ),
               ),
-            ),
             const SizedBox(height: TSizes.spaceBtwInputFields),
 
             // Sub Title
@@ -43,10 +40,7 @@ class InitialBirthdayPage extends StatelessWidget {
 
             // Button Next
             TBottomButton(
-              onPressed: () {
-                controller.saveBirthday();
-                Get.to(()=>const InitialGenderPage());
-              },
+              onPressed: () => controller.saveBirthday(),
               textButton: 'Next',
             )
           ],

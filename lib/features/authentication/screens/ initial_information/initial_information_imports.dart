@@ -23,4 +23,4 @@ part 'initial_birthday_page.dart';
 part 'initial_gender.dart';
 part 'initial_interested.dart';
 part 'initial_recent_pictures.dart';
-part 'initial_lifestyle.dart';
+// part 'initial_lifestyle.dart';
