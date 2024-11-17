@@ -7,6 +7,7 @@ import '../../../../generated/assets.dart';
 import '../../../../utils/helpers/network_manager.dart';
 import '../../../../utils/popups/full_screen_loader.dart';
 import '../../../../utils/popups/loaders.dart';
+import '../user/user_controller.dart';
 
 class LoginController extends GetxController {
   static LoginController get instance => Get.find();
@@ -19,7 +20,7 @@ class LoginController extends GetxController {
   final passwordController = TextEditingController();
   GlobalKey<FormState> loginFormKey = GlobalKey<FormState>();
 
-  // final userController = Get.put(UserController());
+  final userController = Get.put(UserController());
 
   @override
   void onInit() {
@@ -28,7 +29,7 @@ class LoginController extends GetxController {
   }
 
   // Email & Password Sign In
-  Future<void> emailAndPasswordSignIn() async {
+  Future<void> signInWithEmailAndPassword() async {
     try {
       // Start Loading
       TFullScreenLoader.openLoadingDialog('Logging you in VeAmor', Assets.animations141594AnimationOfDocer);
@@ -71,34 +72,34 @@ class LoginController extends GetxController {
     }
   }
 
-// // Google Sign In Authentication
-// Future<void> signInWithGoogle() async {
-//   try {
-//     // Start Loading
-//     TFullScreenLoader.openLoadingDialog('Loading you in...', Assets.animations141594AnimationOfDocer);
-//
-//     // Check Internet Connectivity
-//     final isConnect = await NetworkManager.instance.isConnected();
-//     if (!isConnect) {
-//       TFullScreenLoader.stopLoading();
-//       return;
-//     }
-//
-//     // Google Authentication
-//     final userCredentials = await AuthenticationRepository.instance.signInWithGoogle();
-//
-//     // Save user record
-//     await userController.saveUserRecord(userCredentials);
-//
-//     // Remove loader
-//     TFullScreenLoader.stopLoading();
-//
-//     // Redirect
-//     AuthenticationRepository.instance.screenRedirect();
-//   } catch (e) {
-//     // Remove loader
-//     TFullScreenLoader.stopLoading();
-//     TLoaders.errorSnackBar(title: 'Oh Snap!', message: e.toString());
-//   }
-// }
+  // Google Sign In Authentication
+  Future<void> signInWithGoogle() async {
+    try {
+      // Start Loading
+      TFullScreenLoader.openLoadingDialog('Logging you in VeAmor', Assets.animations141594AnimationOfDocer);
+
+      // Check Internet Connectivity
+      final isConnect = await NetworkManager.instance.isConnected();
+      if (!isConnect) {
+        TFullScreenLoader.stopLoading();
+        return;
+      }
+
+      // Google Authentication
+      final userCredentials = await AuthenticationRepository.instance.signInWithGoogle();
+
+      // Save user record
+      await userController.saveUserRecord(userCredentials);
+
+      // Remove loader
+      TFullScreenLoader.stopLoading();
+
+      // Redirect
+      AuthenticationRepository.instance.screenRedirect();
+    } catch (e) {
+      // Remove loader
+      TFullScreenLoader.stopLoading();
+      TLoaders.errorSnackBar(title: 'Oh Snap!', message: e.toString());
+    }
+  }
 }

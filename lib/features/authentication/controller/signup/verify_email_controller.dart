@@ -42,8 +42,7 @@ class VerifyEmailController extends GetxController {
             animation: Assets.animations72462CheckRegister,
             title: TTexts.yourAccountCreatedTitle,
             subTitle: TTexts.yourAccountCreatedSubTitle,
-            onPressed: ()async {
-              await Get.offAll(const InitialNamePage());
+            onPressed: () async {
               AuthenticationRepository.instance.screenRedirect();
             },
           ),
@@ -62,7 +61,6 @@ class VerifyEmailController extends GetxController {
           title: TTexts.yourAccountCreatedTitle,
           subTitle: TTexts.yourAccountCreatedSubTitle,
           onPressed: () async {
-            await Get.offAll(const InitialNamePage());
             AuthenticationRepository.instance.screenRedirect();
           },
         ),

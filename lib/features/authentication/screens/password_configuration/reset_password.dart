@@ -1,7 +1,12 @@
 part of 'password_configuration_imports.dart';
 
 class ResetPasswordScreen extends StatelessWidget {
-  const ResetPasswordScreen({super.key});
+  const ResetPasswordScreen({
+    super.key,
+    required this.email,
+  });
+
+  final String email;
 
   @override
   Widget build(BuildContext context) {
@@ -29,9 +34,9 @@ class ResetPasswordScreen extends StatelessWidget {
               ),
               const SizedBox(height: TSizes.spaceBtwSections),
 
-              // // Email & Title & Subtitle
-              // Text(email, style: Theme.of(context).textTheme.bodyMedium, textAlign: TextAlign.center),
-              // const SizedBox(height: TSizes.spaceBtwItems),
+              // Email & Title & Subtitle
+              Text(email, style: Theme.of(context).textTheme.bodyMedium, textAlign: TextAlign.center),
+              const SizedBox(height: TSizes.spaceBtwItems),
 
               Text(
                 TTexts.changeYourPasswordTitle,
@@ -60,7 +65,9 @@ class ResetPasswordScreen extends StatelessWidget {
               SizedBox(
                 width: double.infinity,
                 child: TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    ForgetPasswordController.instance.resendPasswordResetEmail(email);
+                  },
                   child: const Text(
                     TTexts.resendEmail,
                     style: TextStyle(color: TColors.primary),

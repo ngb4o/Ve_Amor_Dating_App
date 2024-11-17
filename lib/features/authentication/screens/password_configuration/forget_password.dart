@@ -5,6 +5,7 @@ class ForgetPasswordScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(ForgetPasswordController());
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: true,
@@ -29,7 +30,10 @@ class ForgetPasswordScreen extends StatelessWidget {
 
             // Textfiled
             Form(
+              key: controller.forgetPasswordFormKey,
               child: TextFormField(
+                controller: controller.emailController,
+                validator: (value) => TValidator.validateEmail(value),
                 decoration: const InputDecoration(
                   labelText: TTexts.email,
                   prefixIcon: Icon(Iconsax.direct_right),
@@ -42,7 +46,9 @@ class ForgetPasswordScreen extends StatelessWidget {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () => Get.to(()=> const ResetPasswordScreen()),
+                onPressed: () {
+                  controller.sendPasswordResetEmail();
+                },
                 child: const Text(TTexts.submit),
               ),
             ),
