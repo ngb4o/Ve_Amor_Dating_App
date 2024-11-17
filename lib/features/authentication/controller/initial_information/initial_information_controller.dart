@@ -16,7 +16,7 @@ class InitialInformationController extends GetxController {
   final userName = TextEditingController();
   final dateOfBirth = TextEditingController();
   final selectedGender = ''.obs;
-  final selectWantSeeing = ''.obs;
+  final selectedWantSeeing = ''.obs;
   final newPhotos = <String>[].obs;
 
   // Temporary Model To Save information
@@ -29,7 +29,7 @@ class InitialInformationController extends GetxController {
 
   // Update WantSeeing
   void updateWantSeeing(String wantSeeing) {
-    selectWantSeeing.value = wantSeeing;
+    selectedWantSeeing.value = wantSeeing;
   }
 
   // Pictures
@@ -94,14 +94,14 @@ class InitialInformationController extends GetxController {
 
   // The Function Stores A Temporary Gender
   void saveWantSeeing() {
-    if (selectWantSeeing.value.isEmpty) {
+    if (selectedWantSeeing.value.isEmpty) {
       TLoaders.errorSnackBar(
         title: 'Who are you interested in seeing is not selected',
         message: 'Please select interested in seeing before proceeding!',
       );
       return;
     }
-    userTempData['WantSeeing'] = selectWantSeeing.value;
+    userTempData['WantSeeing'] = selectedWantSeeing.value;
     Get.to(() => const InitialRecentPicturePage());
   }
 
@@ -109,6 +109,10 @@ class InitialInformationController extends GetxController {
   Future<void> saveImages() async {
     try {
       if (newPhotos.isNotEmpty) {
+        // Start Loading
+        TFullScreenLoader.openLoadingDialog(
+            'We are processing your information...', Assets.animations141594AnimationOfDocer);
+
         // Upload all images to Firebase Storage
         List<String> uploadedUrls = await userRepository.uploadImages(newPhotos);
 
@@ -124,11 +128,6 @@ class InitialInformationController extends GetxController {
   // Update Initial Information
   Future<void> updateInitialInformation() async {
     try {
-
-      // Start Loading
-      TFullScreenLoader.openLoadingDialog(
-          'We are processing your information...', Assets.animations141594AnimationOfDocer);
-
       // Check Internet Connectivity
       final isConnect = await NetworkManager.instance.isConnected();
       if (!isConnect) {
@@ -136,21 +135,6 @@ class InitialInformationController extends GetxController {
         TFullScreenLoader.stopLoading();
         return;
       }
-
-      // Save user name
-      saveName();
-
-      // Save birthday
-      saveBirthday();
-
-      // Save gender
-      saveGender();
-
-      // Save wantSeeing
-      saveWantSeeing();
-
-      // Save images
-      await saveImages();
 
       // Update user data in Firebase Firestore
       await userRepository.updateSingleField(userTempData);

@@ -17,10 +17,13 @@ class TBottomButton extends StatelessWidget {
       decoration: BoxDecoration(borderRadius: BorderRadius.circular(30)),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30))
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(30),
+          ),
+
         ),
         onPressed: onPressed,
-        child:  Text(textButton, style: const TextStyle(fontWeight: FontWeight.bold)),
+        child: Text(textButton, style: const TextStyle(fontWeight: FontWeight.bold)),
       ),
     );
   }

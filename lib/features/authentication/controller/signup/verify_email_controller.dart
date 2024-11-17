@@ -26,7 +26,7 @@ class VerifyEmailController extends GetxController {
       TLoaders.successSnackBar(
           title: 'Email Sent', message: 'Please Check your inbox and verify your email.');
     } catch (e) {
-      TLoaders.errorSnackBar(title: 'Oh Snap!', message: e.toString());
+      // TLoaders.errorSnackBar(title: 'Oh Snap!', message: e.toString());
     }
   }
 
@@ -42,7 +42,10 @@ class VerifyEmailController extends GetxController {
             animation: Assets.animations72462CheckRegister,
             title: TTexts.yourAccountCreatedTitle,
             subTitle: TTexts.yourAccountCreatedSubTitle,
-            onPressed: () => Get.to(const InitialNamePage()),
+            onPressed: ()async {
+              await Get.offAll(const InitialNamePage());
+              AuthenticationRepository.instance.screenRedirect();
+            },
           ),
         );
       }
@@ -58,7 +61,10 @@ class VerifyEmailController extends GetxController {
           animation: Assets.animations72462CheckRegister,
           title: TTexts.yourAccountCreatedTitle,
           subTitle: TTexts.yourAccountCreatedSubTitle,
-          onPressed: () => Get.to(const InitialNamePage()),
+          onPressed: () async {
+            await Get.offAll(const InitialNamePage());
+            AuthenticationRepository.instance.screenRedirect();
+          },
         ),
       );
     }

@@ -17,8 +17,7 @@ class SettingsScreen extends StatelessWidget {
                   TAppbar(
                     title: Text(
                       'Account',
-                      style:
-                          Theme.of(context).textTheme.headlineMedium!.apply(color: TColors.white),
+                      style: Theme.of(context).textTheme.headlineMedium!.apply(color: TColors.white),
                     ),
                   ),
 
@@ -113,6 +112,17 @@ class SettingsScreen extends StatelessWidget {
 
                     return SubscriptionCard(subscriptionType: subscriptionType);
                   },
+                ),
+              ),
+            ),
+
+            Padding(
+              padding: const EdgeInsets.all(TSizes.defaultSpace),
+              child: SizedBox(
+                width: double.infinity,
+                child: OutlinedButton(
+                  onPressed: () => AuthenticationRepository.instance.logout(),
+                  child: const Text('Logout'),
                 ),
               ),
             ),

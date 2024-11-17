@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:ve_amor_app/data/repositories/authentication/authentication_repository.dart';
 import 'package:ve_amor_app/features/authentication/models/user_model.dart';
 import '../../../utils/exceptions/firebase_auth_exceptions.dart';

@@ -25,7 +25,7 @@ class InitialInterestedPage extends StatelessWidget {
             GestureDetector(
               onTap: () => controller.updateWantSeeing(TTexts.women),
               child: Obx(() =>
-                  optionContainer(context, TTexts.women, controller.selectWantSeeing.value == TTexts.women)),
+                  optionContainer(context, TTexts.women, controller.selectedWantSeeing.value == TTexts.women)),
             ),
             const SizedBox(height: TSizes.spaceBtwItems),
 
@@ -33,7 +33,7 @@ class InitialInterestedPage extends StatelessWidget {
             GestureDetector(
               onTap: () => controller.updateWantSeeing(TTexts.men),
               child: Obx(() =>
-                  optionContainer(context, TTexts.men, controller.selectWantSeeing.value == TTexts.men)),
+                  optionContainer(context, TTexts.men, controller.selectedWantSeeing.value == TTexts.men)),
             ),
             const SizedBox(height: TSizes.spaceBtwItems),
 
@@ -41,14 +41,14 @@ class InitialInterestedPage extends StatelessWidget {
             GestureDetector(
               onTap: () => controller.updateWantSeeing(TTexts.everyone),
               child: Obx(() => optionContainer(
-                  context, TTexts.everyone, controller.selectWantSeeing.value == TTexts.everyone)),
+                  context, TTexts.everyone, controller.selectedWantSeeing.value == TTexts.everyone)),
             ),
 
             const Spacer(),
 
             // Button Next
             Obx(() {
-              final isEnabled = controller.selectWantSeeing.value.isNotEmpty;
+              final isEnabled = controller.selectedWantSeeing.value.isNotEmpty;
               return TBottomButton(
                 onPressed: isEnabled ? () {
                   controller.saveWantSeeing();

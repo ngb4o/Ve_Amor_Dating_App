@@ -30,7 +30,10 @@ class InitialRecentPicturePage extends StatelessWidget {
 
             // Button Next
             TBottomButton(
-              onPressed: controller.updateInitialInformation,
+              onPressed: () async {
+                await controller.saveImages();
+                controller.updateInitialInformation();
+              },
               textButton: 'Next',
             )
           ],

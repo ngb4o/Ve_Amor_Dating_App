@@ -87,7 +87,7 @@ class _InitialGenderPageState extends State<InitialGenderPage> {
       padding: const EdgeInsets.symmetric(vertical: 10),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(30),
-        border: Border.all(color: isSelected ? TColors.primary : TColors.grey, width: 2),
+        border: Border.all(color: isSelected ? TColors.primary : TColors.grey, width: 2)
       ),
       child: Center(child: Text(gender, style: Theme.of(context).textTheme.headlineSmall)),
     );
