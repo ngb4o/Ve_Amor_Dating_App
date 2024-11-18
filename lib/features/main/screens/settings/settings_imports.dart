@@ -4,6 +4,7 @@ import 'package:iconsax/iconsax.dart';
 import 'package:ve_amor_app/common/widgets/appbar/appbar.dart';
 import 'package:ve_amor_app/common/widgets/custom_shapes/containers/primary_header_container.dart';
 import 'package:ve_amor_app/common/widgets/texts/section_heading.dart';
+import 'package:ve_amor_app/features/authentication/controller/user/user_controller.dart';
 import 'package:ve_amor_app/features/main/screens/settings/widgets/widget_imports.dart';
 import 'package:ve_amor_app/utils/constants/colors.dart';
 import 'package:ve_amor_app/utils/constants/sizes.dart';

@@ -1,14 +1,14 @@
-import 'dart:io';
-
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
-import 'package:ve_amor_app/features/authentication/controller/initial_information/initial_information_controller.dart';
-import 'package:ve_amor_app/features/main/screens/profile/widgets/widget_imports.dart';
-import 'package:ve_amor_app/utils/constants/colors.dart';
-import 'package:ve_amor_app/utils/constants/sizes.dart';
-import 'package:ve_amor_app/utils/helpers/helper_functions.dart';
+import 'package:ve_amor_app/features/authentication/controller/user/user_controller.dart';
+import 'package:ve_amor_app/features/main/screens/profile/widgets/profile_photo/profile_add_photo.dart';
+
+import '../../../../../../common/widgets/loaders/shimmer.dart';
+import '../../../../../../utils/constants/colors.dart';
+import '../../../../../../utils/constants/sizes.dart';
+import '../../../../../../utils/helpers/helper_functions.dart';
 
 class TProFilePhoto extends StatelessWidget {
   const TProFilePhoto({super.key});
@@ -16,14 +16,14 @@ class TProFilePhoto extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final dark = THelperFunctions.isDarkMode(context);
-    final controller = InitialInformationController.instance;
+    final controller = UserController.instance;
 
     return SizedBox(
       width: THelperFunctions.screenWidth(),
       child: GridView.builder(
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
-        itemCount: 6, // Giới hạn 6 ảnh tối đa
+        itemCount: 6,
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 3,
           mainAxisSpacing: 10,
@@ -40,10 +40,6 @@ class TProFilePhoto extends StatelessWidget {
                   pageTransitionAnimation: PageTransitionAnimation.slideUp,
                   withNavBar: false,
                 );
-
-                if (photos != null && photos is Iterable<String>) {
-                  controller.addPhotos(photos.toList());
-                }
               }
             },
             child: Stack(
@@ -51,13 +47,29 @@ class TProFilePhoto extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.all(TSizes.xs),
                   child: Obx(() {
-                    // Kiểm tra xem có ảnh trong danh sách hay không
+                    // Hiển thị hiệu ứng loading khi thêm ảnh
+                    if (controller.imageUploading.value && index == controller.newPhotos.length) {
+                      return const TShimmerEffect(
+                        width: double.infinity,
+                        height: double.infinity,
+                        radius: 8,
+                      );
+                    }
+                    // Hiển thị hiệu ứng loading khi xóa ảnh
+                    if (controller.deletingIndex.value == index) {
+                      return const TShimmerEffect(
+                        width: double.infinity,
+                        height: double.infinity,
+                        radius: 8,
+                      );
+                    }
+                    // Hiển thị ảnh hoặc vùng thêm ảnh
                     return controller.newPhotos.isNotEmpty && index < controller.newPhotos.length
                         ? Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
                         image: DecorationImage(
-                          image: FileImage(File(controller.newPhotos[index])), // Hiển thị ảnh từ local
+                          image: NetworkImage(controller.newPhotos[index]),
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -71,8 +83,9 @@ class TProFilePhoto extends StatelessWidget {
                       strokeWidth: 2,
                       child: Container(
                         decoration: BoxDecoration(
-                            color: Colors.grey.shade300,
-                            borderRadius: BorderRadius.circular(8)),
+                          color: Colors.grey.shade300,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
                       ),
                     );
                   }),
@@ -88,11 +101,10 @@ class TProFilePhoto extends StatelessWidget {
                       decoration: const BoxDecoration(shape: BoxShape.circle),
                       child: Center(
                         child: Obx(() {
-                          return controller.newPhotos.isNotEmpty &&
-                              index < controller.newPhotos.length
+                          return controller.newPhotos.isNotEmpty && index < controller.newPhotos.length
                               ? GestureDetector(
                             onTap: () {
-                              controller.removePhoto(index);
+                              controller.deleteImage(controller.newPhotos[index], index);
                             },
                             child: Container(
                               width: 30,
@@ -129,7 +141,7 @@ class TProFilePhoto extends StatelessWidget {
                       ),
                     ),
                   ),
-                )
+                ),
               ],
             ),
           );
@@ -138,4 +150,3 @@ class TProFilePhoto extends StatelessWidget {
     );
   }
 }
-

@@ -1,7 +1,20 @@
-part of '../../../features/main/screens/profile/widgets/widget_imports.dart';
 
-class TProfileAddPhoto extends StatelessWidget {
-  const TProfileAddPhoto({super.key});
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:image_cropper/image_cropper.dart';
+import 'package:image_picker/image_picker.dart';
+
+import '../../../../../utils/constants/colors.dart';
+import '../../../../../utils/constants/image_strings.dart';
+import '../../../../../utils/constants/sizes.dart';
+import '../../../../../utils/constants/text_strings.dart';
+import '../../../../../utils/helpers/helper_functions.dart';
+import '../../../controller/initial_information/initial_information_controller.dart';
+
+class TInitialProfileAddPhoto extends StatelessWidget {
+  const TInitialProfileAddPhoto({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -52,8 +65,8 @@ class TProfileAddPhoto extends StatelessWidget {
                             aspectRatio: const CropAspectRatio(ratioX: 9, ratioY: 16),
                           );
                           if (croppedFile != null) {
-                            controller.addPhotos([croppedFile.path]);
                             Navigator.pop(context);
+                            controller.addPhotos([croppedFile.path]);
                           }
                         }
                       },
@@ -117,8 +130,8 @@ class TProfileAddPhoto extends StatelessWidget {
                             aspectRatio: const CropAspectRatio(ratioX: 9, ratioY: 16),
                           );
                           if (croppedFile != null) {
-                            controller.addPhotos([croppedFile.path]); // Thêm ảnh vào danh sách
                             Navigator.pop(context);
+                            controller.addPhotos([croppedFile.path]); // Thêm ảnh vào danh sách
                           }
                         }
                       },

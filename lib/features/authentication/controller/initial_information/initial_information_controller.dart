@@ -108,20 +108,19 @@ class InitialInformationController extends GetxController {
   // The Function Stores A Temporary List of Photos
   Future<void> saveImages() async {
     try {
-      if (newPhotos.isNotEmpty) {
-        // Start Loading
-        TFullScreenLoader.openLoadingDialog(
-            'We are processing your information...', Assets.animations141594AnimationOfDocer);
+      // Start Loading
+      TFullScreenLoader.openLoadingDialog(
+        'We are processing your information...',
+        Assets.animations141594AnimationOfDocer,
+      );
 
-        // Upload all images to Firebase Storage
-        List<String> uploadedUrls = await userRepository.uploadImages(newPhotos);
+      List<String> uploadedUrls = await userRepository.uploadImages(newPhotos);
 
-        // Save the URLs in the temporary user data map
-        userTempData['ProfilePictures'] = uploadedUrls;
-      }
+      userTempData['ProfilePictures'] = uploadedUrls;
     } catch (e) {
-      // Handle the exception
       TLoaders.errorSnackBar(title: 'Upload Failed', message: e.toString());
+    } finally {
+      TFullScreenLoader.stopLoading();
     }
   }
 

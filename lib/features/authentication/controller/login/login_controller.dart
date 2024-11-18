@@ -59,7 +59,7 @@ class LoginController extends GetxController {
       );
 
       // Fetch user data after login
-      // await userController.fetchUserRecord();
+      await userController.fetchUserRecord();
 
       // Remove Loader
       TFullScreenLoader.stopLoading();

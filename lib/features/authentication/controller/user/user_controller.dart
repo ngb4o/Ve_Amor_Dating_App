@@ -1,5 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ve_amor_app/data/repositories/user/user_repository.dart';
@@ -9,44 +8,72 @@ import 'package:ve_amor_app/utils/popups/loaders.dart';
 class UserController extends GetxController {
   static UserController get instance => Get.find();
 
+  // Reactive user object
   Rx<UserModel> user = UserModel.empty().obs;
 
+  // Form key for re-authentication
   GlobalKey<FormState> reAuthFormKey = GlobalKey<FormState>();
 
+  // Reactive variables
   final hidePassword = true.obs;
+
+  // Indicates whether an image is being uploaded
   final imageUploading = false.obs;
+
+  // Index of the image currently being deleted
+  final deletingIndex = RxnInt();
+
   final verifyEmail = TextEditingController();
   final verifyPassword = TextEditingController();
+
+  // Indicates whether the profile is being loaded
   final profileLoading = false.obs;
+
+  // User repository instance
   final userRepository = Get.put(UserRepository());
+
+  // List of user's profile pictures
+  RxList<String> newPhotos = <String>[].obs;
 
   @override
   void onInit() {
     super.onInit();
+    // Fetch user record when the controller is initialized
     fetchUserRecord();
   }
 
+  /// Add multiple photos to the user's profile pictures list
+  void addPhotos(List<String> photos) {
+    newPhotos.addAll(photos);
+  }
+
+  /// Fetch the user's profile details from the repository
   Future<void> fetchUserRecord() async {
     try {
+      // Start loading
       profileLoading.value = true;
       final user = await userRepository.fetchUserDetails();
+      // Populate profile pictures
+      newPhotos.addAll(user.profilePictures);
+      // Update user object
       this.user(user);
-      profileLoading.value = false;
     } catch (e) {
+      // Reset user object on error
       user(UserModel.empty());
     } finally {
+      // Stop loading
       profileLoading.value = false;
     }
   }
 
-  // Save user record from any Registration provider
+  /// Save user details to the database after registration
   Future<void> saveUserRecord(UserCredential? userCredentials) async {
     try {
-      // Refresh user record
+      // Refresh the user record
       await fetchUserRecord();
 
       if (userCredentials != null) {
-        // Map data
+        // Map user data from credentials
         final user = UserModel(
           id: userCredentials.user!.uid,
           username: '',
@@ -60,124 +87,68 @@ class UserController extends GetxController {
           identityVerificationQR: '',
         );
 
-        // Save user data
+        // Save the mapped user data
         await userRepository.saveUserRecord(user);
       }
     } catch (e) {
       TLoaders.warningSnackBar(
         title: 'Data not saved',
-        message:
-            'Something went wrong while saving your information. You can re-save your data in your Profile',
+        message: 'Something went wrong while saving your information. Please try again.',
       );
     }
   }
 
-// Delete user account
-// void deleteUserAccount() async {
-//   try {
-//     TFullScreenLoader.openLoadingDialog('Processing', Assets.animations141594AnimationOfDocer);
-//     // First re-authenticate user
-//     final auth = AuthenticationRepository.instance;
-//     final provider = auth.authUser!.providerData.map((e) => e.providerId).first;
-//     if (provider.isNotEmpty) {
-//       // Re verify auth email
-//       if (provider == 'google.com') {
-//         await auth.signInWithGoogle();
-//         await auth.deleteAccount();
-//
-//         // Stop loading
-//         TFullScreenLoader.stopLoading();
-//
-//         // Show message success
-//         TLoaders.successSnackBar(
-//           title: 'Account Deleted',
-//           message: 'Your account has been successfully deleted. '
-//               'We\'re sad to see you go, but we wish you all the best in your future endeavors.',
-//           duration: 5,
-//         );
-//
-//         // Redirect
-//         Get.offAll(() => const LoginScreen());
-//       } else if (provider == 'password') {
-//         TFullScreenLoader.stopLoading();
-//         Get.to(() => const RemoveAccountScreen());
-//       }
-//     }
-//   } catch (e) {
-//     TFullScreenLoader.stopLoading();
-//     TLoaders.errorSnackBar(title: 'Oh Snap!', message: e.toString());
-//   }
-// }
+  /// Delete a specific profile image from the user's account
+  Future<void> deleteImage(String imageUrl, int index) async {
+    try {
+      deletingIndex.value = index; // Set the index of the image being deleted
 
-// Re-Authenticate before deleting
-// Future<void> reAuthenticateEmailAndPasswordUser() async {
-//   try {
-//     TFullScreenLoader.openLoadingDialog('Processing', Assets.animations141594AnimationOfDocer);
-//
-//     // Check Internet Connectivity
-//     final isConnect = await NetworkManager.instance.isConnected();
-//     if (!isConnect) {
-//       TFullScreenLoader.stopLoading();
-//       return;
-//     }
-//
-//     // Form Validator
-//     if (!reAuthFormKey.currentState!.validate()) {
-//       TFullScreenLoader.stopLoading();
-//       return;
-//     }
-//
-//     await AuthenticationRepository.instance
-//         .reAuthenticateWithEmailAndPassword(verifyEmail.text.trim(), verifyPassword.text.trim());
-//     await AuthenticationRepository.instance.deleteAccount();
-//
-//     // Stop loading
-//     TFullScreenLoader.stopLoading();
-//
-//     // Show message success
-//     TLoaders.successSnackBar(
-//       title: 'Account Deleted',
-//       message: 'Your account has been successfully deleted. '
-//           'We\'re sad to see you go, but we wish you all the best in your future endeavors.',
-//       duration: 5,
-//     );
-//
-//     // Redirect
-//     Get.offAll(() => const LoginScreen());
-//   } catch (e) {
-//     TFullScreenLoader.stopLoading();
-//     TLoaders.errorSnackBar(title: 'Oh Snap!', message: e.toString());
-//   }
-// }
+      // Call repository to delete the image
+      await userRepository.deleteProfileImage(imageUrl);
 
-// Upload Profile Image
-// uploadUserProfilePicture() async {
-//   try {
-//     final image = await ImagePicker().pickImage(
-//       source: ImageSource.gallery,
-//       imageQuality: 70,
-//       maxHeight: 512,
-//       maxWidth: 512,
-//     );
-//     if (image != null) {
-//       imageUploading.value = true;
-//
-//       // Upload image
-//       final imageUrl = await userRepository.uploadImage('Users/Images/Profile/', image);
-//
-//       // Update user image record
-//       Map<String, dynamic> json = {'ProfilePicture': imageUrl};
-//       await userRepository.updateSingleField(json);
-//
-//       user.value.profilePicture = imageUrl;
-//       user.refresh();
-//
-//       TLoaders.successSnackBar(title: 'Congratulations', message: 'Your profile image has been update!');
-//     }
-//   } catch (e) {
-//     TLoaders.errorSnackBar(title: 'Oh Snap!', message: 'Something went wrong: ${e.toString()}');
-//   } finally {
-//     imageUploading.value = false;
-//   }
-// }
+      // Update the photos list after deletion
+      newPhotos.remove(imageUrl);
+      user.value.profilePictures = newPhotos; // Update user data
+      user.refresh(); // Refresh UI bindings
+
+      TLoaders.successSnackBar(
+        title: 'Image Deleted',
+        message: 'The image has been successfully removed from your profile.',
+      );
+    } catch (e) {
+      TLoaders.errorSnackBar(
+        title: 'Error',
+        message: 'Failed to delete image: $e',
+      );
+    } finally {
+      deletingIndex.value = null; // Clear the deleting index
+    }
+  }
+
+  /// Upload a new image to Firebase and update the user's profile
+  Future<void> pushImageFirebase(String filePath) async {
+    try {
+      imageUploading.value = true; // Start uploading state
+
+      // Upload the image and get the download URL
+      String downloadUrl = await userRepository.uploadProfileImage(filePath);
+
+      // Add the new image to the photos list
+      newPhotos.add(downloadUrl);
+      user.value.profilePictures = newPhotos; // Update user data
+      user.refresh(); // Refresh UI bindings
+
+      TLoaders.successSnackBar(
+        title: 'Upload Successful',
+        message: 'Your image has been uploaded and added to your profile.',
+      );
+    } catch (e) {
+      TLoaders.errorSnackBar(
+        title: 'Upload Failed',
+        message: 'Failed to upload image: $e',
+      );
+    } finally {
+      imageUploading.value = false;
+    }
+  }
 }

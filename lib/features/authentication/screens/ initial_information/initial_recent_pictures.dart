@@ -24,13 +24,21 @@ class InitialRecentPicturePage extends StatelessWidget {
             Text(TTexts.subTitleRecentPicture, style: Theme.of(context).textTheme.bodySmall),
             const SizedBox(height: TSizes.spaceBtwSections),
 
-            const TProFilePhoto(),
+            const TInitialProFilePhoto(),
 
             const Spacer(),
 
             // Button Next
             TBottomButton(
               onPressed: () async {
+                if (controller.newPhotos.isEmpty || controller.newPhotos.length < 2) {
+                  TLoaders.errorSnackBar(
+                    title: 'Oh Snap!',
+                    message: 'Please upload at least two photo!',
+                  );
+                  return;
+                }
+
                 await controller.saveImages();
                 controller.updateInitialInformation();
               },

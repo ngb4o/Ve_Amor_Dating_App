@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get/get.dart';
@@ -9,13 +8,17 @@ import '../../../utils/exceptions/firebase_auth_exceptions.dart';
 import '../../../utils/exceptions/format_exceptions.dart';
 import '../../../utils/exceptions/platform_exceptions.dart';
 
-// Repository class for user-related operations
 class UserRepository extends GetxController {
   static UserRepository get instance => Get.find();
 
+  // Firestore instance
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
-  // Function to save user data to Firestore
+  // Firebase Storage instance
+  final FirebaseStorage _storage = FirebaseStorage.instance;
+
+
+  // Save user data to Firestore
   Future<void> saveUserRecord(UserModel user) async {
     try {
       await _db.collection('Users').doc(user.id).set(user.toJson());
@@ -30,14 +33,17 @@ class UserRepository extends GetxController {
     }
   }
 
-  // Function to fetch user details based on userID
+  // Fetch user details by user ID
   Future<UserModel> fetchUserDetails() async {
     try {
       final documentSnapshot =
           await _db.collection('Users').doc(AuthenticationRepository.instance.authUser?.uid).get();
+
       if (documentSnapshot.exists) {
+        // Return user data if exists
         return UserModel.fromSnapshot(documentSnapshot);
       } else {
+        // Return empty if user not found
         return UserModel.empty();
       }
     } on FirebaseException catch (e) {
@@ -51,7 +57,7 @@ class UserRepository extends GetxController {
     }
   }
 
-  // Function to update user data in firestore
+  // Update user details in Firestore
   Future<void> updateUserDetails(UserModel updateUser) async {
     try {
       await _db.collection('Users').doc(updateUser.id).update(updateUser.toJson());
@@ -66,7 +72,7 @@ class UserRepository extends GetxController {
     }
   }
 
-  // Update any field in specific Users Collection
+  // Update specific fields in Firestore
   Future<void> updateSingleField(Map<String, dynamic> json) async {
     try {
       await _db.collection('Users').doc(AuthenticationRepository.instance.authUser?.uid).update(json);
@@ -81,7 +87,7 @@ class UserRepository extends GetxController {
     }
   }
 
-  // Function to remove user data from Firestore
+  // Delete user record from Firestore
   Future<void> removeUserRecord(String userId) async {
     try {
       await _db.collection('Users').doc(userId).delete();
@@ -96,22 +102,68 @@ class UserRepository extends GetxController {
     }
   }
 
-  // Upload image
+  // Upload multiple images to Firebase Storage
   Future<List<String>> uploadImages(List<String> filePaths) async {
     List<String> uploadedUrls = [];
     for (String path in filePaths) {
       try {
         String fileName = path.split('/').last;
-        Reference ref = FirebaseStorage.instance.ref().child('profile_photos/$fileName');
+        Reference ref = _storage.ref().child('profile_photos/$fileName');
         UploadTask uploadTask = ref.putFile(File(path));
 
         TaskSnapshot snapshot = await uploadTask;
         String downloadUrl = await snapshot.ref.getDownloadURL();
-        uploadedUrls.add(downloadUrl);
+        uploadedUrls.add(downloadUrl); // Collect uploaded URLs
       } catch (e) {
         throw Exception('Failed to upload $path: $e');
       }
     }
     return uploadedUrls;
+  }
+
+  // Upload a single profile image to Firebase
+  Future<String> uploadProfileImage(String filePath) async {
+    try {
+      String fileName = filePath.split('/').last;
+      Reference ref = _storage.ref('profile_photos/$fileName');
+      TaskSnapshot snapshot = await ref.putFile(File(filePath));
+      String downloadUrl = await snapshot.ref.getDownloadURL();
+
+      // Update user data with the new image
+      final user = await fetchUserDetails();
+      user.profilePictures.add(downloadUrl);
+      await updateUserDetails(user);
+
+      return downloadUrl; // Return download URL
+    } on FirebaseException catch (e) {
+      throw TFirebaseAuthException(e.code).message;
+    } on FormatException catch (_) {
+      throw const TFormatException();
+    } on TPlatformException catch (e) {
+      throw TPlatformException(e.code).message;
+    } catch (e) {
+      throw 'Failed to upload the image. Please try again!';
+    }
+  }
+
+  // Delete an image from Firebase Storage and Firestore
+  Future<void> deleteProfileImage(String imageUrl) async {
+    try {
+      // Delete from storage
+      await FirebaseStorage.instance.refFromURL(imageUrl).delete();
+
+      // Remove the image from user data
+      final user = await fetchUserDetails();
+      user.profilePictures.remove(imageUrl);
+      await updateUserDetails(user);
+    } on FirebaseException catch (e) {
+      throw TFirebaseAuthException(e.code).message;
+    } on FormatException catch (_) {
+      throw const TFormatException();
+    } on TPlatformException catch (e) {
+      throw TPlatformException(e.code).message;
+    } catch (e) {
+      throw 'Failed to delete the image. Please try again!';
+    }
   }
 }

@@ -1,16 +1,11 @@
 part of 'profile_imports.dart';
 
-class ProfileScreen extends StatefulWidget {
+class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
   @override
-  State<ProfileScreen> createState() => _ProfileState();
-}
-
-class _ProfileState extends State<ProfileScreen> {
-  @override
   Widget build(BuildContext context) {
-
+    final controller = UserController.instance;
 
     // Delete account warning
     void deleteAccountWarningPopup() {
@@ -25,8 +20,7 @@ class _ProfileState extends State<ProfileScreen> {
             backgroundColor: Colors.red,
             side: const BorderSide(color: Colors.red),
           ),
-          child: const Padding(
-              padding: EdgeInsets.symmetric(horizontal: TSizes.lg), child: Text('Delete')),
+          child: const Padding(padding: EdgeInsets.symmetric(horizontal: TSizes.lg), child: Text('Delete')),
         ),
         cancel: OutlinedButton(
           onPressed: () => Navigator.of(Get.overlayContext!).pop(),
@@ -51,41 +45,79 @@ class _ProfileState extends State<ProfileScreen> {
               const TSectionHeading(title: 'Photos', showActionButton: false),
               const SizedBox(height: TSizes.spaceBtwItems),
 
+              // List Photo
               const TProFilePhoto(),
               const SizedBox(height: TSizes.spaceBtwItems),
-
 
               // Details
               const SizedBox(height: TSizes.spaceBtwItems / 2),
               const Divider(),
               const SizedBox(height: TSizes.spaceBtwItems),
 
-              // Heading Profile Infor
+              // Heading Profile Information
               const TSectionHeading(title: 'Profile Information', showActionButton: false),
               const SizedBox(height: TSizes.spaceBtwItems),
 
-              TProfileMenu(title: 'Name', value: 'Nguyen Gia Bao', onTap: () {}),
-              TProfileMenu(title: 'Age', value: '21', onTap: () {}),
+              Obx(
+                () => TProfileMenu(
+                  title: 'Name',
+                  value: controller.user.value.username,
+                  onTap: () {},
+                ),
+              ),
+              Obx(
+                () => TProfileMenu(
+                  title: 'Age',
+                  value: controller.user.value.dateOfBirth,
+                  onTap: () {},
+                ),
+              ),
 
               const SizedBox(height: TSizes.spaceBtwItems),
               const Divider(),
               const SizedBox(height: TSizes.spaceBtwItems),
 
-              // Heading Personal Infor
-              const TSectionHeading(title: 'Profile Information', showActionButton: false),
+              // Heading Personal Information
+              const TSectionHeading(title: 'Personal Information', showActionButton: false),
               const SizedBox(height: TSizes.spaceBtwItems),
 
               // Gender
-              TProfileMenu(title: 'Gender', value: 'Male', onTap: () {}),
+              Obx(
+                () => TProfileMenu(
+                  title: 'Gender',
+                  value: controller.user.value.gender,
+                  onTap: () {},
+                ),
+              ),
 
               // Date Of Birth
-              TProfileMenu(title: 'Date of Birth', value: '8 May, 2003', onTap: () {}),
+              Obx(
+                () => TProfileMenu(
+                  title: 'Date of Birth',
+                  value: controller.user.value.dateOfBirth,
+                  onTap: () {},
+                ),
+              ),
 
               // Email
-              TProfileMenu(title: 'E-mail', value: 'ngbao08052003@gmail.com', isEdit: true,onTap: () {}),
+              Obx(
+                () => TProfileMenu(
+                  title: 'E-mail',
+                  value: controller.user.value.email,
+                  isEdit: true,
+                  onTap: () {},
+                ),
+              ),
 
               // Phone number
-              TProfileMenu(title: 'Phone Number', value: '0962492787',isEdit: true, onTap: () {}),
+              Obx(
+                () => TProfileMenu(
+                  title: 'Phone Number',
+                  value: controller.user.value.phoneNumber,
+                  isEdit: true,
+                  onTap: () {},
+                ),
+              ),
 
               const Divider(),
               const SizedBox(height: TSizes.spaceBtwItems),
