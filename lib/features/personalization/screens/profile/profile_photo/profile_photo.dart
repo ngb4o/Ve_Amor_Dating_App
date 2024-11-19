@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
@@ -46,49 +47,55 @@ class TProFilePhoto extends StatelessWidget {
               children: [
                 Padding(
                   padding: const EdgeInsets.all(TSizes.xs),
-                  child: Obx(() {
-                    // Hiển thị hiệu ứng loading khi thêm ảnh
-                    if (controller.imageUploading.value && index == controller.newPhotos.length) {
-                      return const TShimmerEffect(
-                        width: double.infinity,
-                        height: double.infinity,
-                        radius: 8,
-                      );
-                    }
-                    // Hiển thị hiệu ứng loading khi xóa ảnh
-                    if (controller.deletingIndex.value == index) {
-                      return const TShimmerEffect(
-                        width: double.infinity,
-                        height: double.infinity,
-                        radius: 8,
-                      );
-                    }
-                    // Hiển thị ảnh hoặc vùng thêm ảnh
-                    return controller.newPhotos.isNotEmpty && index < controller.newPhotos.length
-                        ? Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                        image: DecorationImage(
-                          image: NetworkImage(controller.newPhotos[index]),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    )
-                        : DottedBorder(
-                      color: dark ? Colors.white : Colors.grey.shade700,
-                      borderType: BorderType.RRect,
-                      radius: const Radius.circular(8),
-                      dashPattern: const [6, 6, 6, 6],
-                      padding: EdgeInsets.zero,
-                      strokeWidth: 2,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.grey.shade300,
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                      ),
-                    );
-                  }),
+                  child: Obx(
+                    () {
+                      // Hiển thị hiệu ứng loading khi thêm ảnh
+                      if (controller.imageUploading.value && index == controller.newPhotos.length) {
+                        return const TShimmerEffect(
+                          width: double.infinity,
+                          height: double.infinity,
+                          radius: 8,
+                        );
+                      }
+                      // Hiển thị hiệu ứng loading khi xóa ảnh
+                      if (controller.deletingIndex.value == index) {
+                        return const TShimmerEffect(
+                          width: double.infinity,
+                          height: double.infinity,
+                          radius: 8,
+                        );
+                      }
+                      // Hiển thị ảnh hoặc vùng thêm ảnh
+                      return controller.newPhotos.isNotEmpty && index < controller.newPhotos.length
+                          ? Container(
+                              decoration: BoxDecoration(borderRadius: BorderRadius.circular(8)),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(8),
+                                child: CachedNetworkImage(
+                                  fit: BoxFit.cover,
+                                  imageUrl: controller.newPhotos[index],
+                                  progressIndicatorBuilder: (context, url, progress) =>
+                                      const TShimmerEffect(width: double.infinity, height: double.infinity),
+                                  errorWidget: (context, url, error) => const Icon(Icons.error),
+                                ),
+                              ),
+                            )
+                          : DottedBorder(
+                              color: dark ? Colors.white : Colors.grey.shade700,
+                              borderType: BorderType.RRect,
+                              radius: const Radius.circular(8),
+                              dashPattern: const [6, 6, 6, 6],
+                              padding: EdgeInsets.zero,
+                              strokeWidth: 2,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.grey.shade300,
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                              ),
+                            );
+                    },
+                  ),
                 ),
                 Align(
                   alignment: Alignment.bottomRight,
@@ -103,45 +110,45 @@ class TProFilePhoto extends StatelessWidget {
                         child: Obx(() {
                           return controller.newPhotos.isNotEmpty && index < controller.newPhotos.length
                               ? GestureDetector(
-                            onTap: () {
-                              if (controller.newPhotos.length > 2) {
-                                controller.deleteImage(controller.newPhotos[index], index);
-                              }
-                            },
-                            child: controller.newPhotos.length > 2
-                                ? Container(
-                              width: 30,
-                              height: 30,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                border: Border.all(color: Colors.grey),
-                                color: TColors.white,
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(TSizes.xs),
-                                child: Image.asset(
-                                  'assets/icons/home/clear.png',
-                                  color: Colors.grey,
-                                ),
-                              ),
-                            )
-                                : const SizedBox.shrink(), // Không hiển thị gì nếu số ảnh <= 2
-                          )
+                                  onTap: () {
+                                    if (controller.newPhotos.length > 2) {
+                                      controller.deleteImage(controller.newPhotos[index], index);
+                                    }
+                                  },
+                                  child: controller.newPhotos.length > 2
+                                      ? Container(
+                                          width: 30,
+                                          height: 30,
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            border: Border.all(color: Colors.grey),
+                                            color: TColors.white,
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(TSizes.xs),
+                                            child: Image.asset(
+                                              'assets/icons/home/clear.png',
+                                              color: Colors.grey,
+                                            ),
+                                          ),
+                                        )
+                                      : const SizedBox.shrink(), // Không hiển thị gì nếu số ảnh <= 2
+                                )
                               : Container(
-                            width: 30,
-                            height: 30,
-                            decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: TColors.primary,
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(TSizes.xs),
-                              child: Image.asset(
-                                'assets/icons/home/add.png',
-                                color: Colors.white,
-                              ),
-                            ),
-                          );
+                                  width: 30,
+                                  height: 30,
+                                  decoration: const BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: TColors.primary,
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(TSizes.xs),
+                                    child: Image.asset(
+                                      'assets/icons/home/add.png',
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                );
                         }),
                       ),
                     ),
