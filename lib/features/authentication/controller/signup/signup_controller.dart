@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ve_amor_app/data/repositories/user/user_repository.dart';
-import 'package:ve_amor_app/features/authentication/models/user_model.dart';
+import 'package:ve_amor_app/features/personalization/models/user_model.dart';
 import 'package:ve_amor_app/features/authentication/screens/signup/signup_imports.dart';
 import 'package:ve_amor_app/generated/assets.dart';
 import 'package:ve_amor_app/utils/helpers/network_manager.dart';

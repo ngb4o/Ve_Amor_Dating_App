@@ -2,13 +2,13 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
-import 'package:ve_amor_app/features/personalization/screens/profile/widgets/profile_photo/profile_add_photo.dart';
+import 'package:ve_amor_app/features/personalization/screens/profile/profile_photo/profile_add_photo.dart';
 
 import '../../../../../../common/widgets/loaders/shimmer.dart';
 import '../../../../../../utils/constants/colors.dart';
 import '../../../../../../utils/constants/sizes.dart';
 import '../../../../../../utils/helpers/helper_functions.dart';
-import '../../../../controller/user_controller.dart';
+import '../../../controller/user_controller.dart';
 
 class TProFilePhoto extends StatelessWidget {
   const TProFilePhoto({super.key});
@@ -104,15 +104,19 @@ class TProFilePhoto extends StatelessWidget {
                           return controller.newPhotos.isNotEmpty && index < controller.newPhotos.length
                               ? GestureDetector(
                             onTap: () {
-                              controller.deleteImage(controller.newPhotos[index], index);
+                              if (controller.newPhotos.length > 2) {
+                                controller.deleteImage(controller.newPhotos[index], index);
+                              }
                             },
-                            child: Container(
+                            child: controller.newPhotos.length > 2
+                                ? Container(
                               width: 30,
                               height: 30,
                               decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  border: Border.all(color: Colors.grey),
-                                  color: TColors.white),
+                                shape: BoxShape.circle,
+                                border: Border.all(color: Colors.grey),
+                                color: TColors.white,
+                              ),
                               child: Padding(
                                 padding: const EdgeInsets.all(TSizes.xs),
                                 child: Image.asset(
@@ -120,7 +124,8 @@ class TProFilePhoto extends StatelessWidget {
                                   color: Colors.grey,
                                 ),
                               ),
-                            ),
+                            )
+                                : const SizedBox.shrink(), // Không hiển thị gì nếu số ảnh <= 2
                           )
                               : Container(
                             width: 30,

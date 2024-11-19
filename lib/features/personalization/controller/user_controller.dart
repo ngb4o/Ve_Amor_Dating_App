@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ve_amor_app/data/repositories/user/user_repository.dart';
-import 'package:ve_amor_app/features/authentication/models/user_model.dart';
+import 'package:ve_amor_app/features/personalization/models/user_model.dart';
 import 'package:ve_amor_app/utils/popups/loaders.dart';
 
 class UserController extends GetxController {
@@ -62,33 +62,26 @@ class UserController extends GetxController {
       await fetchUserRecord();
 
       if (userCredentials != null) {
-        // Gắn dữ liệu đã fetch vào các trường của user model mới
-        final fetchedUser = user.value;
-
         final newUser = UserModel(
           id: userCredentials.user!.uid,
-          // ID từ Firebase Authentication
-          username: fetchedUser.username,
-          // Ưu tiên dữ liệu đã có
-          email: fetchedUser.email.isNotEmpty ? fetchedUser.email : userCredentials.user!.email ?? '',
-          phoneNumber: fetchedUser.phoneNumber,
-          profilePictures: fetchedUser.profilePictures.isNotEmpty ? fetchedUser.profilePictures : [],
-          dateOfBirth: fetchedUser.dateOfBirth,
-          gender: fetchedUser.gender,
-          wantSeeing: fetchedUser.wantSeeing,
-          lifeStyle: fetchedUser.lifeStyle,
-          identityVerificationQR: fetchedUser.identityVerificationQR,
+          username: user.value.username,
+          email: user.value.email.isNotEmpty ? user.value.email : userCredentials.user!.email ?? '',
+          phoneNumber: user.value.phoneNumber,
+          profilePictures: user.value.profilePictures,
+          dateOfBirth: user.value.dateOfBirth,
+          gender: user.value.gender,
+          wantSeeing: user.value.wantSeeing,
+          lifeStyle: user.value.lifeStyle,
+          identityVerificationQR: user.value.identityVerificationQR,
         );
 
-        // Lưu dữ liệu mới vào Firestore thông qua UserRepository
+        // Save new data to Firestore
         await userRepository.saveUserRecord(newUser);
 
-        if (fetchedUser.username.isEmpty) {
-          TLoaders.successSnackBar(
-            title: 'Data Saved',
-            message: 'Your information has been successfully saved.',
-          );
-        }
+        TLoaders.successSnackBar(
+          title: 'Data Saved',
+          message: 'Your information has been successfully saved.',
+        );
       }
     } catch (e) {
       TLoaders.warningSnackBar(
@@ -128,15 +121,16 @@ class UserController extends GetxController {
   /// Upload a new image to Firebase and update the user's profile
   Future<void> pushImageFirebase(String filePath) async {
     try {
-      imageUploading.value = true; // Start uploading state
+      // Start uploading state
+      imageUploading.value = true;
 
       // Upload the image and get the download URL
       String downloadUrl = await userRepository.uploadProfileImage(filePath);
 
       // Add the new image to the photos list
       newPhotos.add(downloadUrl);
-      user.value.profilePictures = newPhotos; // Update user data
-      user.refresh(); // Refresh UI bindings
+      user.value.profilePictures = newPhotos;
+      user.refresh();
 
       TLoaders.successSnackBar(
         title: 'Upload Successful',

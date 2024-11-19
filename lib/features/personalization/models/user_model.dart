@@ -1,5 +1,6 @@
 // Model class representing user data
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
 import 'package:ve_amor_app/utils/formatters/formatter.dart';
 
 class UserModel {
@@ -29,28 +30,38 @@ class UserModel {
     required this.identityVerificationQR,
   });
 
-  // Helper function to format phone number
-  String get formattedPhoneNo => TFormatter.formatPhoneNumber(phoneNumber);
-
-  // Helper function to get the full name
-  String get fullName => username;
+  // Change data dateOfBirth to age
+  int get age {
+    if (dateOfBirth.isEmpty) return 0;
+    try {
+      final dob = DateFormat('dd/MM/yyyy').parse(dateOfBirth);
+      final today = DateTime.now();
+      int age = today.year - dob.year;
+      if (today.month < dob.month || (today.month == dob.month && today.day < dob.day)) {
+        age--;
+      }
+      return age;
+    } catch (e) {
+      return 0;
+    }
+  }
 
   // Static function to split full name into first and last name
   static List<String> nameParts(fullname) => fullname.split("");
 
   // Static function to create an empty user model
   static UserModel empty() => UserModel(
-    id: '',
-    username: '',
-    email: '',
-    phoneNumber: '',
-    profilePictures: [],
-    dateOfBirth: '',
-    gender: '',
-    wantSeeing: '',
-    lifeStyle: [],
-    identityVerificationQR: '',
-  );
+        id: '',
+        username: '',
+        email: '',
+        phoneNumber: '',
+        profilePictures: [],
+        dateOfBirth: '',
+        gender: '',
+        wantSeeing: '',
+        lifeStyle: [],
+        identityVerificationQR: '',
+      );
 
   // Convert model to JSON structure for storing data in Firebase
   Map<String, dynamic> toJson() {
