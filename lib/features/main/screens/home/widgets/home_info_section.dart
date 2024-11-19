@@ -1,12 +1,19 @@
 part of 'widget_imports.dart';
 
 class TInfoSection extends StatelessWidget {
-  final String content;
+  final String name;
   final int index;
+  final String age;
+  final String image;
+  final int numberOfPhotos;
 
-  const TInfoSection({super.key,
-    required this.content,
+  const TInfoSection({
+    super.key,
+    required this.name,
     required this.index,
+    required this.age,
+    required this.image,
+    required this.numberOfPhotos,
   });
 
   @override
@@ -20,14 +27,11 @@ class TInfoSection extends StatelessWidget {
             Row(
               children: [
                 // Name
-                Text(
-                    content,
-                    style:
-                        Theme.of(context).textTheme.headlineMedium!.copyWith(color: TColors.white)),
+                Text(name, style: Theme.of(context).textTheme.headlineMedium!.copyWith(color: TColors.white)),
                 const SizedBox(width: 10),
 
                 // Age
-                const Text('20', style: TextStyle(fontSize: 25, color: TColors.white)),
+                Text(age, style: const TextStyle(fontSize: 25, color: TColors.white)),
               ],
             ),
 
@@ -38,7 +42,13 @@ class TInfoSection extends StatelessWidget {
                   context,
                   pageTransitionAnimation: PageTransitionAnimation.slideUp,
                   withNavBar: false,
-                  screen: THomeDetailInformation(index),
+                  screen: THomeDetailInformation(
+                    index,
+                    image: image,
+                    age: age,
+                    name: name,
+                    numberOfPhoto: numberOfPhotos,
+                  ),
                 );
               },
               icon: const Icon(CupertinoIcons.info_circle_fill, color: TColors.white, size: 25),

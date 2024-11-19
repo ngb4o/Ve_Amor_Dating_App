@@ -1,21 +1,26 @@
 part of 'widget_imports.dart';
 
-class THomeDetailInformation extends StatefulWidget {
-  const THomeDetailInformation(this.index, {super.key});
+class THomeDetailInformation extends StatelessWidget {
+  const THomeDetailInformation(
+    this.index, {
+    super.key,
+    required this.image,
+    required this.numberOfPhoto,
+    required this.name,
+    required this.age,
+  });
 
   final int index;
-
-  @override
-  State<THomeDetailInformation> createState() => _THomeDetailInformationState();
-}
-
-class _THomeDetailInformationState extends State<THomeDetailInformation> {
-  int numberPhotos = 4;
-  int currentPhoto = 0;
+  final String image;
+  final int numberOfPhoto;
+  final String name;
+  final String age;
 
   @override
   Widget build(BuildContext context) {
     final dark = THelperFunctions.isDarkMode(context);
+    final controller = HomeController.instance;
+
     return Scaffold(
       body: SafeArea(
         child: Stack(
@@ -31,37 +36,36 @@ class _THomeDetailInformationState extends State<THomeDetailInformation> {
                       width: THelperFunctions.screenWidth(),
                       height: THelperFunctions.screenHeight() * 0.6,
                       child: Hero(
-                        tag: 'imageTage${widget.index}',
+                        tag: 'imageTage$index',
                         child: Stack(
                           children: [
-                            // Image
-                            TSwipeCard(
-                              currentPhoto: currentPhoto,
-                              numberPhotos: numberPhotos,
-                              heightWidthHomeDetail: true,
-                              borderRadiusImage: false,
-                              shadowImage: false,
-                              onLeftTap: () {
-                                if (currentPhoto > 0) setState(() => currentPhoto -= 1);
-                              },
-                              onRightTap: () {
-                                if (currentPhoto < numberPhotos - 1) {
-                                  setState(() => currentPhoto += 1);
-                                }
-                              },
+                            Obx(
+                              () => TSwipeCard(
+                                image: controller
+                                    .allUsers[index].profilePictures[controller.currentPhotoIndex.value],
+                                currentPhoto: controller.currentPhotoIndex.value,
+                                numberPhotos: numberOfPhoto,
+                                heightWidthHomeDetail: true,
+                                borderRadiusImage: false,
+                                shadowImage: false,
+                                onLeftTap: () => controller.previousPhoto(numberOfPhoto),
+                                onRightTap: () => controller.nextPhoto(numberOfPhoto),
+                              ),
                             ),
 
                             // Dot Image Navigation
-                            TImageNavigationDots(
-                              currentPhoto: currentPhoto,
-                              numberPhotos: numberPhotos,
+                            Obx(
+                              () => TImageNavigationDots(
+                                currentPhoto: controller.currentPhotoIndex.value,
+                                numberPhotos: numberOfPhoto,
+                              ),
                             ),
 
                             // Arrow Down
                             Align(
                               alignment: Alignment.bottomRight,
                               child: Padding(
-                                padding: const EdgeInsets.only(right: 16),
+                                padding: const EdgeInsets.only(right: 16, bottom: 10),
                                 child: Material(
                                   color: TColors.primary,
                                   elevation: 3,
@@ -72,8 +76,8 @@ class _THomeDetailInformationState extends State<THomeDetailInformation> {
                                       Navigator.pop(context);
                                     },
                                     child: Container(
-                                      height: 50,
-                                      width: 50,
+                                      height: 40,
+                                      width: 40,
                                       decoration: const BoxDecoration(
                                         shape: BoxShape.circle,
                                       ),
@@ -102,23 +106,19 @@ class _THomeDetailInformationState extends State<THomeDetailInformation> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
-                          padding: const EdgeInsets.only(
-                            left: TSizes.defaultSpace,
-                            right: TSizes.defaultSpace,
-                            bottom: TSizes.defaultSpace,
-                          ),
+                          padding: const EdgeInsets.all(TSizes.defaultSpace),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Row(
                                 children: [
                                   // Name
-                                  Text('Yogurt', style: Theme.of(context).textTheme.headlineMedium),
+                                  Text(name, style: Theme.of(context).textTheme.headlineMedium),
                                   const SizedBox(width: TSizes.sm),
 
                                   // Age
                                   Text(
-                                    '20',
+                                    age,
                                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontSize: 25),
                                   )
                                 ],
@@ -188,10 +188,11 @@ class _THomeDetailInformationState extends State<THomeDetailInformation> {
                               Container(
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(30),
-                                  color: dark ?Colors.black.withOpacity(0.4) :TColors.grey,
+                                  color: dark ? Colors.black.withOpacity(0.4) : TColors.grey,
                                 ),
                                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
-                                child: Text('Take care of yourself', style: Theme.of(context).textTheme.bodyMedium),
+                                child: Text('Take care of yourself',
+                                    style: Theme.of(context).textTheme.bodyMedium),
                               ),
                             ],
                           ),

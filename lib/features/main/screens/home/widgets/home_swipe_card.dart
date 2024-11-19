@@ -8,6 +8,7 @@ class TSwipeCard extends StatelessWidget {
   final bool heightWidthHomeDetail;
   final bool borderRadiusImage;
   final bool shadowImage;
+  final String image;
 
   const TSwipeCard({
     super.key,
@@ -18,22 +19,33 @@ class TSwipeCard extends StatelessWidget {
     this.heightWidthHomeDetail = false,
     this.borderRadiusImage = true,
     this.shadowImage = true,
+    required this.image,
   });
 
   @override
   Widget build(BuildContext context) {
     final dark = THelperFunctions.isDarkMode(context);
+
     return Stack(
+      fit: StackFit.expand,
       children: [
-        // Image
+        // Cached Image
         Container(
           width: heightWidthHomeDetail ? THelperFunctions.screenWidth() : null,
           height: heightWidthHomeDetail ? (THelperFunctions.screenHeight() * 0.6) - 25 : null,
           decoration: BoxDecoration(
             borderRadius: borderRadiusImage ? BorderRadius.circular(10) : null,
-            image: const DecorationImage(
+          ),
+          child: ClipRRect(
+            borderRadius: borderRadiusImage ? BorderRadius.circular(10) : BorderRadius.zero,
+            child: CachedNetworkImage(
+              imageUrl: image,
               fit: BoxFit.cover,
-              image: AssetImage(TImages.girl),
+              placeholder: (context, url) => TShimmerEffect(
+                width: THelperFunctions.screenWidth(),
+                height: THelperFunctions.screenHeight(),
+              ),
+              errorWidget: (context, url, error) => const Icon(Icons.error, color: Colors.red),
             ),
           ),
         ),
@@ -50,7 +62,7 @@ class TSwipeCard extends StatelessWidget {
                 end: Alignment.center,
                 colors: dark
                     ? [TColors.black, Colors.transparent]
-                    : [TColors.primary.withOpacity(0.85), Colors.transparent],
+                    : [TColors.primary.withOpacity(0.75), Colors.transparent],
               ),
             ),
           ),
@@ -63,8 +75,7 @@ class TSwipeCard extends StatelessWidget {
                 onTap: onLeftTap,
                 child: Container(
                   width: heightWidthHomeDetail ? THelperFunctions.screenWidth() : null,
-                  height:
-                      heightWidthHomeDetail ? (THelperFunctions.screenHeight() * 0.6) - 25 : null,
+                  height: heightWidthHomeDetail ? (THelperFunctions.screenHeight() * 0.6) - 25 : null,
                   color: Colors.transparent,
                 ),
               ),
@@ -74,14 +85,15 @@ class TSwipeCard extends StatelessWidget {
                 onTap: onRightTap,
                 child: Container(
                   width: heightWidthHomeDetail ? THelperFunctions.screenWidth() : null,
-                  height:
-                      heightWidthHomeDetail ? (THelperFunctions.screenHeight() * 0.6) - 25 : null,
+                  height: heightWidthHomeDetail ? (THelperFunctions.screenHeight() * 0.6) - 25 : null,
                   color: Colors.transparent,
                 ),
               ),
             ),
           ],
         ),
+
+        // Image Navigation Dots
         TImageNavigationDots(currentPhoto: currentPhoto, numberPhotos: numberPhotos),
       ],
     );

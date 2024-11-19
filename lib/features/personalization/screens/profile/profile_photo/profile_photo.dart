@@ -74,8 +74,11 @@ class TProFilePhoto extends StatelessWidget {
                                 child: CachedNetworkImage(
                                   fit: BoxFit.cover,
                                   imageUrl: controller.newPhotos[index],
-                                  progressIndicatorBuilder: (context, url, progress) =>
-                                      const TShimmerEffect(width: double.infinity, height: double.infinity),
+                                  progressIndicatorBuilder: (context, url, progress) => const TShimmerEffect(
+                                    width: double.infinity,
+                                    height: double.infinity,
+                                    radius: 8,
+                                  ),
                                   errorWidget: (context, url, error) => const Icon(Icons.error),
                                 ),
                               ),
