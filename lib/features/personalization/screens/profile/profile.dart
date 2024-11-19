@@ -6,6 +6,7 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = UserController.instance;
+    final controllerRemoveAccount = Get.put(RemoveAccountController());
 
     // Delete account warning
     void deleteAccountWarningPopup() {
@@ -15,7 +16,9 @@ class ProfileScreen extends StatelessWidget {
         middleText: 'Are you sure you want to delete your account permanently ? '
             'This action is not reversible and all of your data will be removed permanently',
         confirm: ElevatedButton(
-          onPressed: () {},
+          onPressed: () {
+            controllerRemoveAccount.deleteUserAccount();
+          },
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.red,
             side: const BorderSide(color: Colors.red),
@@ -115,7 +118,9 @@ class ProfileScreen extends StatelessWidget {
                   title: 'Phone Number',
                   value: controller.user.value.phoneNumber,
                   isEdit: true,
-                  onTap: () {},
+                  onTap: () {
+                    Get.to(() => const UpdatePhoneNumber());
+                  },
                 ),
               ),
 

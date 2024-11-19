@@ -11,9 +11,6 @@ class UserController extends GetxController {
   // Reactive user object
   Rx<UserModel> user = UserModel.empty().obs;
 
-  // Form key for re-authentication
-  GlobalKey<FormState> reAuthFormKey = GlobalKey<FormState>();
-
   // Reactive variables
   final hidePassword = true.obs;
 
@@ -22,9 +19,6 @@ class UserController extends GetxController {
 
   // Index of the image currently being deleted
   final deletingIndex = RxnInt();
-
-  final verifyEmail = TextEditingController();
-  final verifyPassword = TextEditingController();
 
   // Indicates whether the profile is being loaded
   final profileLoading = false.obs;
@@ -40,11 +34,6 @@ class UserController extends GetxController {
     super.onInit();
     // Fetch user record when the controller is initialized
     fetchUserRecord();
-  }
-
-  /// Add multiple photos to the user's profile pictures list
-  void addPhotos(List<String> photos) {
-    newPhotos.addAll(photos);
   }
 
   /// Fetch the user's profile details from the repository
@@ -73,22 +62,33 @@ class UserController extends GetxController {
       await fetchUserRecord();
 
       if (userCredentials != null) {
-        // Map user data from credentials
-        final user = UserModel(
+        // Gắn dữ liệu đã fetch vào các trường của user model mới
+        final fetchedUser = user.value;
+
+        final newUser = UserModel(
           id: userCredentials.user!.uid,
-          username: '',
-          email: userCredentials.user!.email ?? '',
-          phoneNumber: userCredentials.user!.phoneNumber ?? '',
-          profilePictures: [],
-          dateOfBirth: '',
-          gender: '',
-          wantSeeing: '',
-          lifeStyle: [],
-          identityVerificationQR: '',
+          // ID từ Firebase Authentication
+          username: fetchedUser.username,
+          // Ưu tiên dữ liệu đã có
+          email: fetchedUser.email.isNotEmpty ? fetchedUser.email : userCredentials.user!.email ?? '',
+          phoneNumber: fetchedUser.phoneNumber,
+          profilePictures: fetchedUser.profilePictures.isNotEmpty ? fetchedUser.profilePictures : [],
+          dateOfBirth: fetchedUser.dateOfBirth,
+          gender: fetchedUser.gender,
+          wantSeeing: fetchedUser.wantSeeing,
+          lifeStyle: fetchedUser.lifeStyle,
+          identityVerificationQR: fetchedUser.identityVerificationQR,
         );
 
-        // Save the mapped user data
-        await userRepository.saveUserRecord(user);
+        // Lưu dữ liệu mới vào Firestore thông qua UserRepository
+        await userRepository.saveUserRecord(newUser);
+
+        if (fetchedUser.username.isEmpty) {
+          TLoaders.successSnackBar(
+            title: 'Data Saved',
+            message: 'Your information has been successfully saved.',
+          );
+        }
       }
     } catch (e) {
       TLoaders.warningSnackBar(

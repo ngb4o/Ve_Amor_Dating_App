@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:ve_amor_app/common/widgets/loaders/shimmer.dart';
-import 'package:ve_amor_app/features/authentication/controller/user/user_controller.dart';
 
+import '../../../features/personalization/controller/user_controller.dart';
 import '../../../utils/constants/colors.dart';
-import '../../../utils/constants/image_strings.dart';
 import '../images/t_circular_image.dart';
 
 class TUserProfileTile extends StatelessWidget {

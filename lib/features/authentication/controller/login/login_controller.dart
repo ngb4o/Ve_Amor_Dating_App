@@ -7,7 +7,7 @@ import '../../../../generated/assets.dart';
 import '../../../../utils/helpers/network_manager.dart';
 import '../../../../utils/popups/full_screen_loader.dart';
 import '../../../../utils/popups/loaders.dart';
-import '../user/user_controller.dart';
+import '../../../personalization/controller/user_controller.dart';
 
 class LoginController extends GetxController {
   static LoginController get instance => Get.find();

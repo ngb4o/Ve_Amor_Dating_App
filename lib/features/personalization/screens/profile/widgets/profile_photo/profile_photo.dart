@@ -2,13 +2,13 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
-import 'package:ve_amor_app/features/authentication/controller/user/user_controller.dart';
-import 'package:ve_amor_app/features/main/screens/profile/widgets/profile_photo/profile_add_photo.dart';
+import 'package:ve_amor_app/features/personalization/screens/profile/widgets/profile_photo/profile_add_photo.dart';
 
 import '../../../../../../common/widgets/loaders/shimmer.dart';
 import '../../../../../../utils/constants/colors.dart';
 import '../../../../../../utils/constants/sizes.dart';
 import '../../../../../../utils/helpers/helper_functions.dart';
+import '../../../../controller/user_controller.dart';
 
 class TProFilePhoto extends StatelessWidget {
   const TProFilePhoto({super.key});

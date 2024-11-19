@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:ve_amor_app/features/authentication/controller/user/user_controller.dart';
 
 import '../../../../../../utils/constants/colors.dart';
 import '../../../../../../utils/constants/image_strings.dart';
 import '../../../../../../utils/constants/sizes.dart';
 import '../../../../../../utils/constants/text_strings.dart';
 import '../../../../../../utils/helpers/helper_functions.dart';
+import '../../../../controller/user_controller.dart';
 
 class TProfileAddPhoto extends StatelessWidget {
   const TProfileAddPhoto({super.key});

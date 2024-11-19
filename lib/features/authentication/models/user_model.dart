@@ -32,6 +32,12 @@ class UserModel {
   // Helper function to format phone number
   String get formattedPhoneNo => TFormatter.formatPhoneNumber(phoneNumber);
 
+  // Helper function to get the full name
+  String get fullName => username;
+
+  // Static function to split full name into first and last name
+  static List<String> nameParts(fullname) => fullname.split("");
+
   // Static function to create an empty user model
   static UserModel empty() => UserModel(
     id: '',
