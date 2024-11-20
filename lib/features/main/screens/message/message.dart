@@ -33,24 +33,34 @@ class MessageScreen extends StatelessWidget {
                         return const Text('No user found');
                       } else {
                         return SizedBox(
-                            height: 160,
-                            child: Row(
-                              children: [
-                                const NewMatchLikesCard(),
-                                ListView.builder(
-                                  scrollDirection: Axis.horizontal,
-                                  shrinkWrap: true,
-                                  itemCount: controller.allUsers.length,
-                                  itemBuilder: (context, index) {
-                                    final user = controller.allUsers[index];
-                                    return TNewMatchUserCard(
+                          height: 160,
+                          child: Row(
+                            children: [
+                              const NewMatchLikesCard(),
+                              ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                shrinkWrap: true,
+                                itemCount: controller.allUsers.length,
+                                itemBuilder: (context, index) {
+                                  final user = controller.allUsers[index];
+                                  return GestureDetector(
+                                    onTap: () => Get.to(
+                                      () => ChatPage(
+                                        imagePath: user.profilePictures[0],
+                                        name: user.username,
+                                        receiverID: user.id,
+                                      ),
+                                    ),
+                                    child: TNewMatchUserCard(
                                       name: user.username,
                                       image: user.profilePictures[0],
-                                    );
-                                  },
-                                ),
-                              ],
-                            ));
+                                    ),
+                                  );
+                                },
+                              ),
+                            ],
+                          ),
+                        );
                       }
                     },
                   )
@@ -91,10 +101,19 @@ class MessageScreen extends StatelessWidget {
                               physics: const NeverScrollableScrollPhysics(),
                               itemBuilder: (context, index) {
                                 final user = controller.allUsers[index];
-                                return TMessageCard(
-                                  imagePath: user.profilePictures[0],
-                                  name: user.username,
-                                  message: 'Hello',
+                                return GestureDetector(
+                                  onTap: () => Get.to(
+                                    () => ChatPage(
+                                      imagePath: user.profilePictures[0],
+                                      name: user.username,
+                                      receiverID: user.id,
+                                    ),
+                                  ),
+                                  child: TMessageCard(
+                                    imagePath: user.profilePictures[0],
+                                    name: user.username,
+                                    message: 'Hello',
+                                  ),
                                 );
                               },
                             )

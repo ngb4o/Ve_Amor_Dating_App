@@ -26,9 +26,16 @@ class HomeScreen extends StatelessWidget {
                 final items = controller.allUsers.map((user) {
                   return SwipeItem(
                     content: user.username,
-                    likeAction: () {},
-                    nopeAction: () {},
-                    superlikeAction: () {},
+                    likeAction: () {
+                      controller.currentPhotoIndex.value = 0;
+                    },
+                    nopeAction: () {
+                      controller.currentPhotoIndex.value = 0;
+                    },
+                    superlikeAction: () {
+                      controller.currentPhotoIndex.value = 0;
+
+                    },
                     onSlideUpdate: (SlideRegion? region) async {},
                   );
                 }).toList();

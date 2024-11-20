@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:ve_amor_app/utils/constants/sizes.dart';
 
 import '../../../../../common/widgets/loaders/shimmer.dart';
-import '../../../../../utils/helpers/helper_functions.dart';
 
 class TNewMatchUserCard extends StatelessWidget {
   const TNewMatchUserCard({
@@ -50,10 +49,3 @@ class TNewMatchUserCard extends StatelessWidget {
     );
   }
 }
-
-// Image.network(
-// image,
-// width: 110,
-// height: 120,
-// fit: BoxFit.cover,
-// ),

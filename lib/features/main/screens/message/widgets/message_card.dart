@@ -28,8 +28,9 @@ class TMessageCard extends StatelessWidget {
             Stack(
               children: [
                 ClipOval(
-                  child: CachedNetworkImage(
-                    imageUrl: isNetworkImage ? imagePath : '',
+                  child: isNetworkImage
+                      ? CachedNetworkImage(
+                    imageUrl: imagePath,
                     width: 60,
                     height: 60,
                     fit: BoxFit.cover,
@@ -38,16 +39,13 @@ class TMessageCard extends StatelessWidget {
                       height: 60,
                       radius: 30,
                     ),
-                    errorWidget: (context, url, error) => CircleAvatar(
-                      radius: 30,
-                      backgroundColor: TColors.primary.withOpacity(0.8),
-                      backgroundImage: !isNetworkImage
-                          ? AssetImage(imagePath) as ImageProvider
-                          : null,
-                      child: !isNetworkImage
-                          ? null
-                          : const Icon(Icons.error, color: Colors.red),
-                    ),
+                    errorWidget: (context, url, error) => const Icon(Icons.error, color: Colors.red),
+                  )
+                      : Image.asset(
+                    TImages.darkAppLogo,
+                    width: 60,
+                    height: 60,
+                    fit: BoxFit.cover,
                   ),
                 ),
                 if (isActive)
