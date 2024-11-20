@@ -8,11 +8,13 @@ class OnBoardingNextButton extends StatelessWidget {
     final dark = THelperFunctions.isDarkMode(context);
     final controller = OnBoardingController.instance;
     return Positioned(
-      right: TSizes.defaultSpace,
+      right: TSizes.defaultSpace + 2,
       bottom: TDeviceUtils.getBottomNavigationBarHeight(),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          shape: const CircleBorder(),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12)
+          ),
           backgroundColor: dark ? TColors.primary : TColors.primary,
         ),
         onPressed: () {

@@ -80,7 +80,7 @@ class SettingsScreen extends StatelessWidget {
                     subtitle: 'Set image quality to be seen',
                     trailing: Switch(
                       activeColor: TColors.primary,
-                      value: false,
+                      value: true,
                       onChanged: (value) {},
                     ),
                     icon: Iconsax.image,
@@ -94,7 +94,7 @@ class SettingsScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(right: 10),
               child: SizedBox(
-                width: THelperFunctions.screenWidth(),
+                width: MediaQuery.of(context).size.width,
                 height: 250,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,

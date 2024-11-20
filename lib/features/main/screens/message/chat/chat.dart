@@ -42,7 +42,7 @@ class _ChatPageState extends State<ChatPage> {
     myFocusNode.addListener(() {
       if (myFocusNode.hasFocus) {
         // Delay the scroll to the bottom until the keyboard is visible
-        Future.delayed(Duration(milliseconds: 500), () => scrollDown());
+        Future.delayed(const Duration(milliseconds: 500), () => scrollDown());
       }
     });
 
