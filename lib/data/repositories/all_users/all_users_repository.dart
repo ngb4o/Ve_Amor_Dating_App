@@ -5,7 +5,7 @@ import 'package:ve_amor_app/features/main/models/all_users_model.dart';
 class AllUsersRepository extends GetxController {
   static AllUsersRepository get instance => Get.find();
 
-  final _db = FirebaseFirestore.instance;
+  final FirebaseFirestore _db = FirebaseFirestore.instance;
 
   // Fetch all users except the current user
   Future<List<AllUsersModel>> getAllUsers(String currentUserUid) async {

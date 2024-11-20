@@ -62,7 +62,7 @@ class TSwipeCard extends StatelessWidget {
                 end: Alignment.center,
                 colors: dark
                     ? [TColors.black, Colors.transparent]
-                    : [TColors.primary.withOpacity(0.75), Colors.transparent],
+                    : [TColors.primary.withOpacity(0.8), Colors.transparent],
               ),
             ),
           ),

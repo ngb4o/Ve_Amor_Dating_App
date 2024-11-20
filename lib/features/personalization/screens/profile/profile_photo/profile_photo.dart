@@ -44,6 +44,7 @@ class TProFilePhoto extends StatelessWidget {
               }
             },
             child: Stack(
+              fit: StackFit.expand,
               children: [
                 Padding(
                   padding: const EdgeInsets.all(TSizes.xs),
@@ -79,7 +80,8 @@ class TProFilePhoto extends StatelessWidget {
                                     height: double.infinity,
                                     radius: 8,
                                   ),
-                                  errorWidget: (context, url, error) => const Icon(Icons.error),
+                                  errorWidget: (context, url, error) =>
+                                      const Icon(Icons.error, color: TColors.primary),
                                 ),
                               ),
                             )

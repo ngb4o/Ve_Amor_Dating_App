@@ -1,9 +1,19 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:ve_amor_app/utils/constants/image_strings.dart';
 import 'package:ve_amor_app/utils/constants/sizes.dart';
 
+import '../../../../../common/widgets/loaders/shimmer.dart';
+import '../../../../../utils/helpers/helper_functions.dart';
+
 class TNewMatchUserCard extends StatelessWidget {
-  const TNewMatchUserCard({super.key});
+  const TNewMatchUserCard({
+    super.key,
+    required this.name,
+    required this.image,
+  });
+
+  final String name;
+  final String image;
 
   @override
   Widget build(BuildContext context) {
@@ -14,23 +24,36 @@ class TNewMatchUserCard extends StatelessWidget {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(TSizes.borderRadiusSm),
-            child: Image.asset(
-              TImages.girl,
+            child: CachedNetworkImage(
+              imageUrl: image,
               width: 110,
               height: 120,
               fit: BoxFit.cover,
+              placeholder: (context, url) => const TShimmerEffect(
+                width: 110,
+                height: 120,
+                radius: TSizes.borderRadiusSm,
+              ),
+              errorWidget: (context, url, error) => const Icon(Icons.error, color: Colors.red),
             ),
           ),
           const SizedBox(height: TSizes.xs),
           Text(
-            'Yogurt',
-            style: Theme.of(context)
-                .textTheme
-                .labelLarge!
-                .copyWith(fontWeight: FontWeight.w600),
+            name,
+            style: Theme.of(context).textTheme.labelLarge!.copyWith(fontWeight: FontWeight.w600),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            textAlign: TextAlign.center,
           ),
         ],
       ),
     );
   }
 }
+
+// Image.network(
+// image,
+// width: 110,
+// height: 120,
+// fit: BoxFit.cover,
+// ),

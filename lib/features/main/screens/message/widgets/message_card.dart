@@ -8,6 +8,7 @@ class TMessageCard extends StatelessWidget {
     this.isActive = true,
     required this.name,
     required this.message,
+    this.isNetworkImage = true,
   });
 
   final String imagePath;
@@ -15,6 +16,7 @@ class TMessageCard extends StatelessWidget {
   final bool isActive;
   final String name;
   final String message;
+  final bool isNetworkImage;
 
   @override
   Widget build(BuildContext context) {
@@ -25,10 +27,28 @@ class TMessageCard extends StatelessWidget {
           children: [
             Stack(
               children: [
-                CircleAvatar(
-                  radius: 30,
-                  backgroundColor: TColors.primary.withOpacity(0.8),
-                  backgroundImage: AssetImage(imagePath),
+                ClipOval(
+                  child: CachedNetworkImage(
+                    imageUrl: isNetworkImage ? imagePath : '',
+                    width: 60,
+                    height: 60,
+                    fit: BoxFit.cover,
+                    placeholder: (context, url) => const TShimmerEffect(
+                      width: 60,
+                      height: 60,
+                      radius: 30,
+                    ),
+                    errorWidget: (context, url, error) => CircleAvatar(
+                      radius: 30,
+                      backgroundColor: TColors.primary.withOpacity(0.8),
+                      backgroundImage: !isNetworkImage
+                          ? AssetImage(imagePath) as ImageProvider
+                          : null,
+                      child: !isNetworkImage
+                          ? null
+                          : const Icon(Icons.error, color: Colors.red),
+                    ),
+                  ),
                 ),
                 if (isActive)
                   Positioned(
@@ -55,7 +75,10 @@ class TMessageCard extends StatelessWidget {
                     children: [
                       Text(
                         name,
-                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.bold),
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyLarge!
+                            .copyWith(fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(width: TSizes.xs),
                       if (isVerify)
@@ -83,3 +106,4 @@ class TMessageCard extends StatelessWidget {
     );
   }
 }
+
