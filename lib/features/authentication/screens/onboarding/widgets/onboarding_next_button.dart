@@ -10,17 +10,25 @@ class OnBoardingNextButton extends StatelessWidget {
     return Positioned(
       right: TSizes.defaultSpace + 2,
       bottom: TDeviceUtils.getBottomNavigationBarHeight(),
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12)
+      child: Obx(
+        () => ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            backgroundColor: dark ? TColors.primary : TColors.primary,
           ),
-          backgroundColor: dark ? TColors.primary : TColors.primary,
+          onPressed: () {
+            controller.nextPage();
+          },
+          child: controller.currentPageIndex.value == 2
+              ? const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: TSizes.md, vertical: 3),
+                  child: Text('Get Started'),
+                )
+              : const Icon(
+                  Iconsax.arrow_right_3,
+                  color: TColors.white,
+                ),
         ),
-        onPressed: () {
-          controller.nextPage();
-        },
-        child: const Icon(Iconsax.arrow_right_3, color: TColors.white,),
       ),
     );
   }
