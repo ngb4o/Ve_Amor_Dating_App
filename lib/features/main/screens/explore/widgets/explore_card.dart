@@ -15,7 +15,7 @@ class TExploreCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Get.to(() => const HomeScreen()),
+      onTap: () => Get.to(() => const HomeScreen(showBackArrow: true, centerTitle: true)),
       child: Container(
         decoration: BoxDecoration(
           color: color,

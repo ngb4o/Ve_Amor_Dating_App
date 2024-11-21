@@ -12,17 +12,22 @@ class THomeAppBar extends StatelessWidget {
     this.iconSecurityActionAppbar = false,
     this.showActionButtonAppbar = true,
     this.centerAppbar = false,
+    this.showBackArrow = false,
+    this.centerTitle = false,
   });
 
   final bool iconSecurityActionAppbar;
   final bool showActionButtonAppbar;
   final bool centerAppbar;
+  final bool showBackArrow;
+  final bool centerTitle;
 
   @override
   Widget build(BuildContext context) {
     final dark = THelperFunctions.isDarkMode(context);
 
     return TAppbar(
+      showBackArrow: showBackArrow,
       title: Row(
         mainAxisAlignment: centerAppbar ? MainAxisAlignment.center : MainAxisAlignment.start,
         children: [

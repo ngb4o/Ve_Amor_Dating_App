@@ -1,7 +1,14 @@
 part of 'home_imports.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+  const HomeScreen({
+    super.key,
+    this.showBackArrow = false,
+    this.centerTitle = false,
+  });
+
+  final bool showBackArrow;
+  final bool centerTitle;
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +20,7 @@ class HomeScreen extends StatelessWidget {
       body: Column(
         children: [
           // Appbar
-          const THomeAppBar(),
+          THomeAppBar(showBackArrow: showBackArrow, centerTitle: centerTitle),
 
           // Swipe Card
           Obx(
@@ -34,7 +41,6 @@ class HomeScreen extends StatelessWidget {
                     },
                     superlikeAction: () {
                       controller.currentPhotoIndex.value = 0;
-
                     },
                     onSlideUpdate: (SlideRegion? region) async {},
                   );
@@ -66,7 +72,8 @@ class HomeScreen extends StatelessWidget {
                                 Obx(() => TSwipeCard(
                                       currentPhoto: controller.currentPhotoIndex.value,
                                       numberPhotos: numberPhotos,
-                                      image: user.profilePictures[controller.currentPhotoIndex.value],
+                                      image:
+                                          user.profilePictures[controller.currentPhotoIndex.value],
                                       onLeftTap: () => controller.previousPhoto(numberPhotos),
                                       onRightTap: () => controller.nextPhoto(numberPhotos),
                                     )),
@@ -79,7 +86,7 @@ class HomeScreen extends StatelessWidget {
 
                                 // Information
                                 Obx(
-                                  () =>  Padding(
+                                  () => Padding(
                                     padding: const EdgeInsets.all(16),
                                     child: Column(
                                       mainAxisAlignment: MainAxisAlignment.end,
@@ -91,7 +98,8 @@ class HomeScreen extends StatelessWidget {
                                             name: user.username,
                                             age: user.age.toString(),
                                             index: index,
-                                            image: user.profilePictures[controller.currentPhotoIndex.value],
+                                            image: user.profilePictures[
+                                                controller.currentPhotoIndex.value],
                                             numberOfPhotos: numberPhotos,
                                           ),
                                         ),
