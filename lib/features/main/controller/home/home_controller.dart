@@ -25,6 +25,7 @@ class HomeController extends GetxController {
 
       final users = await _allUsersRepository.getAllUsers(_auth.currentUser!.uid);
       allUsers.assignAll(users);
+      print('--------------------------$users.length');
     } catch (e) {
       Get.snackbar('Error', 'Failed to fetch users: $e');
     } finally {

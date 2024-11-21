@@ -5,6 +5,7 @@ class SettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = SettingController.instance;
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -17,7 +18,8 @@ class SettingsScreen extends StatelessWidget {
                   TAppbar(
                     title: Text(
                       'Account',
-                      style: Theme.of(context).textTheme.headlineMedium!.apply(color: TColors.white),
+                      style:
+                          Theme.of(context).textTheme.headlineMedium!.apply(color: TColors.white),
                     ),
                   ),
 
@@ -65,15 +67,17 @@ class SettingsScreen extends StatelessWidget {
                     ),
                     icon: Iconsax.location,
                   ),
-                  TSettingsMenuTile(
-                    title: 'Dark Mode',
-                    subtitle: 'Enable dark theme for comfortable night',
-                    trailing: Switch(
-                      activeColor: TColors.primary,
-                      value: false,
-                      onChanged: (value) {},
+                  Obx(
+                    () => TSettingsMenuTile(
+                      title: 'Dark Mode',
+                      subtitle: 'Enable dark theme for comfortable night',
+                      trailing: Switch(
+                        activeColor: TColors.primary,
+                        value: controller.isDarkMode.value,
+                        onChanged: controller.toggleDarkMode,
+                      ),
+                      icon: Icons.dark_mode_outlined,
                     ),
-                    icon: Icons.dark_mode_outlined,
                   ),
                   TSettingsMenuTile(
                     title: 'HD Image Quality',

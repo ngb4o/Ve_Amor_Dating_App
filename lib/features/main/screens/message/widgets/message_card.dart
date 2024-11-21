@@ -20,6 +20,7 @@ class TMessageCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final dark = THelperFunctions.isDarkMode(context);
     return Column(
       children: [
         const SizedBox(height: TSizes.sm),
@@ -30,23 +31,24 @@ class TMessageCard extends StatelessWidget {
                 ClipOval(
                   child: isNetworkImage
                       ? CachedNetworkImage(
-                    imageUrl: imagePath,
-                    width: 60,
-                    height: 60,
-                    fit: BoxFit.cover,
-                    placeholder: (context, url) => const TShimmerEffect(
-                      width: 60,
-                      height: 60,
-                      radius: 30,
-                    ),
-                    errorWidget: (context, url, error) => const Icon(Icons.error, color: Colors.red),
-                  )
+                          imageUrl: imagePath,
+                          width: 60,
+                          height: 60,
+                          fit: BoxFit.cover,
+                          placeholder: (context, url) => const TShimmerEffect(
+                            width: 60,
+                            height: 60,
+                            radius: 30,
+                          ),
+                          errorWidget: (context, url, error) =>
+                              const Icon(Icons.error, color: Colors.red),
+                        )
                       : Image.asset(
-                    TImages.darkAppLogo,
-                    width: 60,
-                    height: 60,
-                    fit: BoxFit.cover,
-                  ),
+                          dark ? TImages.lightAppLogo : TImages.darkAppLogo,
+                          width: 60,
+                          height: 60,
+                          fit: BoxFit.cover,
+                        ),
                 ),
                 if (isActive)
                   Positioned(
@@ -104,4 +106,3 @@ class TMessageCard extends StatelessWidget {
     );
   }
 }
-

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:ve_amor_app/utils/constants/colors.dart';
 import 'package:ve_amor_app/utils/constants/image_strings.dart';
 import 'package:ve_amor_app/utils/constants/sizes.dart';
+import 'package:ve_amor_app/utils/helpers/helper_functions.dart';
 
 import '../../../../../common/widgets/loaders/shimmer.dart';
 

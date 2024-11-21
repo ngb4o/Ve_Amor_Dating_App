@@ -7,6 +7,7 @@ import 'package:iconsax/iconsax.dart';
 import 'package:ve_amor_app/common/widgets/appbar/appbar.dart';
 import 'package:ve_amor_app/utils/constants/image_strings.dart';
 import 'package:ve_amor_app/utils/constants/sizes.dart';
+import 'package:ve_amor_app/utils/helpers/helper_functions.dart';
 
 import '../../../../../common/widgets/loaders/shimmer.dart';
 import '../../../../../utils/constants/colors.dart';
@@ -70,7 +71,7 @@ class _ChatPageState extends State<ChatPage> {
   @override
   Widget build(BuildContext context) {
     final String currentUserID = FirebaseAuth.instance.currentUser!.uid;
-
+    final dark = THelperFunctions.isDarkMode(context);
     return Scaffold(
       appBar: TAppbar(
         showBackArrow: true,
@@ -91,7 +92,7 @@ class _ChatPageState extends State<ChatPage> {
                 const Icon(Icons.error, color: Colors.red),
               )
                   : Image.asset(
-                TImages.lightAppLogo, // For local assets
+                dark ? TImages.darkAppLogo :TImages.lightAppLogo, // For local assets
                 width: 30,
                 height: 30,
                 fit: BoxFit.cover,

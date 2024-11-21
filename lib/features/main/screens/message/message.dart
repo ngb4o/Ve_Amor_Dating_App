@@ -26,7 +26,7 @@ class MessageScreen extends StatelessWidget {
 
                   // Card
                   Obx(
-                    () {
+                        () {
                       if (controller.isLoading.value) {
                         return const Center(child: CircularProgressIndicator());
                       } else if (controller.allUsers.isEmpty) {
@@ -37,26 +37,28 @@ class MessageScreen extends StatelessWidget {
                           child: Row(
                             children: [
                               const NewMatchLikesCard(),
-                              ListView.builder(
-                                scrollDirection: Axis.horizontal,
-                                shrinkWrap: true,
-                                itemCount: controller.allUsers.length,
-                                itemBuilder: (context, index) {
-                                  final user = controller.allUsers[index];
-                                  return GestureDetector(
-                                    onTap: () => Get.to(
-                                      () => ChatPage(
-                                        imagePath: user.profilePictures[0],
-                                        name: user.username,
-                                        receiverID: user.id,
+                              Expanded(
+                                child: ListView.builder(
+                                  scrollDirection: Axis.horizontal,
+                                  shrinkWrap: true,
+                                  itemCount: controller.allUsers.length,
+                                  itemBuilder: (context, index) {
+                                    final user = controller.allUsers[index];
+                                    return GestureDetector(
+                                      onTap: () => Get.to(
+                                            () => ChatPage(
+                                          imagePath: user.profilePictures[0],
+                                          name: user.username,
+                                          receiverID: user.id,
+                                        ),
                                       ),
-                                    ),
-                                    child: TNewMatchUserCard(
-                                      name: user.username,
-                                      image: user.profilePictures[0],
-                                    ),
-                                  );
-                                },
+                                      child: TNewMatchUserCard(
+                                        name: user.username,
+                                        image: user.profilePictures[0],
+                                      ),
+                                    );
+                                  },
+                                ),
                               ),
                             ],
                           ),
@@ -79,7 +81,7 @@ class MessageScreen extends StatelessWidget {
 
                   // List Message
                   Obx(
-                    () {
+                        () {
                       if (controller.isLoading.value) {
                         return const Center(child: CircularProgressIndicator());
                       } else if (controller.allUsers.isEmpty) {
@@ -96,14 +98,14 @@ class MessageScreen extends StatelessWidget {
                             ),
                             ListView.builder(
                               padding: EdgeInsets.zero,
-                              itemCount: 2,
+                              itemCount: controller.allUsers.length,
                               shrinkWrap: true,
                               physics: const NeverScrollableScrollPhysics(),
                               itemBuilder: (context, index) {
                                 final user = controller.allUsers[index];
                                 return GestureDetector(
                                   onTap: () => Get.to(
-                                    () => ChatPage(
+                                        () => ChatPage(
                                       imagePath: user.profilePictures[0],
                                       name: user.username,
                                       receiverID: user.id,
