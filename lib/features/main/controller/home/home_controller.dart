@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
-import 'package:ve_amor_app/data/repositories/all_users/all_users_repository.dart';
+import 'package:ve_amor_app/data/repositories/user/user_repository.dart';
 import 'package:ve_amor_app/features/main/models/all_users_model.dart';
 
 class HomeController extends GetxController {
@@ -8,9 +8,9 @@ class HomeController extends GetxController {
 
   final isLoading = false.obs;
   RxInt currentPhotoIndex = 0.obs;
-  final _allUsersRepository = Get.put(AllUsersRepository());
   RxList<AllUsersModel> allUsers = <AllUsersModel>[].obs;
   final _auth = FirebaseAuth.instance;
+  final _user = Get.put(UserRepository());
 
   @override
   void onInit() {
@@ -23,9 +23,9 @@ class HomeController extends GetxController {
     try {
       isLoading.value = true;
 
-      final users = await _allUsersRepository.getAllUsers(_auth.currentUser!.uid);
+      final users = await _user.getAllUsers(_auth.currentUser!.uid);
       allUsers.assignAll(users);
-      print('--------------------------$users.length');
+      print('--------------------------${users.length}');
     } catch (e) {
       Get.snackbar('Error', 'Failed to fetch users: $e');
     } finally {

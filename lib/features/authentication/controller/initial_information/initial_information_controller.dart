@@ -132,7 +132,7 @@ class InitialInformationController extends GetxController {
       return;
     }
 
-    userTempData['LifeStyle'] = questionAnswers;
+    userTempData['LifeStyle'] = questionAnswers.values.expand((answers) => answers).toList();
     Get.to(() => const InitialRecentPicturePage());
   }
 

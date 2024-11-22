@@ -4,6 +4,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get/get.dart';
 import 'package:ve_amor_app/data/repositories/authentication/authentication_repository.dart';
 import 'package:ve_amor_app/features/personalization/models/user_model.dart';
+import '../../../features/main/models/all_users_model.dart';
 import '../../../utils/exceptions/firebase_auth_exceptions.dart';
 import '../../../utils/exceptions/format_exceptions.dart';
 import '../../../utils/exceptions/platform_exceptions.dart';
@@ -164,6 +165,28 @@ class UserRepository extends GetxController {
       throw TPlatformException(e.code).message;
     } catch (e) {
       throw 'Failed to delete the image. Please try again!';
+    }
+  }
+
+  // Fetch all users except the current user
+  Future<List<AllUsersModel>> getAllUsers(String currentUserUid) async {
+    try {
+      // Fetch data from 'Users' collection
+      final snapshot = await _db.collection('Users').get();
+
+      // Filter out the current user from the list
+      final filteredDocs = snapshot.docs
+          .where((doc) => doc.id != currentUserUid)
+          .toList();
+
+      // Log the filtered data
+      print('Filtered Firestore Data: ${filteredDocs.map((e) => e.data())}');
+
+      // Convert to a list of AllUsersModel
+      return filteredDocs.map((doc) => AllUsersModel.fromSnapshot(doc)).toList();
+    } catch (e) {
+      print('Error fetching users: $e');
+      return [];
     }
   }
 }
