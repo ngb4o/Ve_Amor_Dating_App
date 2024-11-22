@@ -18,6 +18,7 @@ class InitialInformationController extends GetxController {
   final selectedGender = ''.obs;
   final selectedWantSeeing = ''.obs;
   final newPhotos = <String>[].obs;
+  final questionAnswers = <String, List<String>>{}.obs;
 
   // Temporary Model To Save information
   Map<String, dynamic> userTempData = {};
@@ -41,6 +42,22 @@ class InitialInformationController extends GetxController {
   // -- Remove Picture
   void removePhoto(int index) {
     newPhotos.removeAt(index);
+  }
+
+  // If selected more options
+  void toggleLifestyleOption(String questionKey, String option) {
+    final currentOptions = questionAnswers[questionKey] ?? [];
+    if (currentOptions.contains(option)) {
+      currentOptions.remove(option);
+    } else {
+      currentOptions.add(option);
+    }
+    questionAnswers[questionKey] = currentOptions;
+  }
+
+  // If selected only one option
+  void clearAndAddSingleOption(String questionKey, String option) {
+    questionAnswers[questionKey] = [option];
   }
 
   // The Function Stores A Temporary Name
@@ -103,6 +120,20 @@ class InitialInformationController extends GetxController {
     }
     userTempData['WantSeeing'] = selectedWantSeeing.value;
     Get.to(() => const InitialLifestylePage());
+  }
+
+  // The Function Stores A Temporary Lifestyle
+  void saveLifestyle() {
+    if (questionAnswers.isEmpty) {
+      TLoaders.errorSnackBar(
+        title: 'Lifestyle not selected',
+        message: 'Please answer the lifestyle questions before proceeding!',
+      );
+      return;
+    }
+
+    userTempData['LifeStyle'] = questionAnswers;
+    Get.to(() => const InitialRecentPicturePage());
   }
 
   // The Function Stores A Temporary List of Photos

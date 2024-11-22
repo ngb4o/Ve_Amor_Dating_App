@@ -5,6 +5,7 @@ class InitialLifestylePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = InitialInformationController.instance;
     return Scaffold(
       appBar: const TAppbar(
         showBackArrow: true,
@@ -27,7 +28,8 @@ class InitialLifestylePage extends StatelessWidget {
             // Title
             Text(
               TTexts.titleLifestyle,
-              style: Theme.of(context).textTheme.headlineMedium!.copyWith(fontWeight: FontWeight.bold),
+              style:
+                  Theme.of(context).textTheme.headlineMedium!.copyWith(fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: TSizes.sm),
 
@@ -36,27 +38,30 @@ class InitialLifestylePage extends StatelessWidget {
             const SizedBox(height: TSizes.sm),
             const Divider(),
 
-          const QuestionSection(
-            question: 'What is your zodiac sign?',
-            options: [
-              'Aries (Mar 21 - Apr 19)',
-              'Taurus (Apr 20 - May 20)',
-              'Gemini (May 21 - Jun 20)',
-              'Cancer (Jun 21 - Jul 22)',
-              'Leo (Jul 23 - Aug 22)',
-              'Virgo (Aug 23 - Sep 22)',
-              'Libra (Sep 23 - Oct 22)',
-              'Scorpio (Oct 23 - Nov 21)',
-              'Sagittarius (Nov 22 - Dec 21)',
-              'Capricorn (Dec 22 - Jan 19)',
-              'Aquarius (Jan 20 - Feb 18)',
-              'Pisces (Feb 19 - Mar 20)',
-            ],
-          ),
+            const QuestionSection(
+              questionKey: 'zodiac',
+              question: 'What is your zodiac sign?',
+              options: [
+                'Aries (Mar 21 - Apr 19)',
+                'Taurus (Apr 20 - May 20)',
+                'Gemini (May 21 - Jun 20)',
+                'Cancer (Jun 21 - Jul 22)',
+                'Leo (Jul 23 - Aug 22)',
+                'Virgo (Aug 23 - Sep 22)',
+                'Libra (Sep 23 - Oct 22)',
+                'Scorpio (Oct 23 - Nov 21)',
+                'Sagittarius (Nov 22 - Dec 21)',
+                'Capricorn (Dec 22 - Jan 19)',
+                'Aquarius (Jan 20 - Feb 18)',
+                'Pisces (Feb 19 - Mar 20)',
+              ],
+              isSelectedOnly: true,
+            ),
 
             const Divider(),
 
             const QuestionSection(
+              questionKey: 'exercise',
               question: 'Do you exercise?',
               options: [
                 'Daily',
@@ -64,10 +69,12 @@ class InitialLifestylePage extends StatelessWidget {
                 'Occasionally',
                 'Don’t exercise',
               ],
+              isSelectedOnly: true,
             ),
             const Divider(),
 
             const QuestionSection(
+              questionKey: 'pets',
               question: 'Do you have pets?',
               options: [
                 'Dog',
@@ -87,9 +94,7 @@ class InitialLifestylePage extends StatelessWidget {
 
             // Button Next
             TBottomButton(
-              onPressed: () {
-
-              },
+              onPressed: () => controller.saveLifestyle(),
               textButton: 'Next',
             )
           ],
