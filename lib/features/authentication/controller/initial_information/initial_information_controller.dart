@@ -102,7 +102,7 @@ class InitialInformationController extends GetxController {
       return;
     }
     userTempData['WantSeeing'] = selectedWantSeeing.value;
-    Get.to(() => const InitialRecentPicturePage());
+    Get.to(() => const InitialLifestylePage());
   }
 
   // The Function Stores A Temporary List of Photos

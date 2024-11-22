@@ -21,7 +21,7 @@ class OnBoardingNextButton extends StatelessWidget {
           },
           child: controller.currentPageIndex.value == 2
               ? const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: TSizes.md, vertical: 3),
+                  padding: EdgeInsets.symmetric(horizontal: TSizes.md),
                   child: Text('Get Started'),
                 )
               : const Icon(

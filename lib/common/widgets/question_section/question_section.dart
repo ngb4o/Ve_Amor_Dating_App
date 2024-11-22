@@ -36,7 +36,7 @@ class QuestionSection extends StatelessWidget {
                   borderRadius: BorderRadius.circular(30),
                 ),
                 padding: const EdgeInsets.symmetric(horizontal: 5),
-                labelStyle: const TextStyle(fontSize: 11),
+                labelStyle: const TextStyle(fontSize: 12),
               );
             }).toList(),
           ),

@@ -42,8 +42,32 @@ class AuthenticationRepository extends GetxController {
     final user = _auth.currentUser;
     if (user != null) {
       if (user.emailVerified) {
-        // Call the checkUserData method to check the user's data
-        await checkUserData(user);
+        // Retrieve the user document from Firestore
+        try {
+          final userDoc = await _db.collection('Users').doc(user.uid).get();
+
+          if (userDoc.exists) {
+            final data = userDoc.data();
+            if (data != null &&
+                data.containsKey('Username') &&
+                data['Username'] != null &&
+                data['Username'].isNotEmpty) {
+              // If `Username` exists, navigate to NavigationMenu
+              Get.offAll(() => const NavigationMenu());
+            } else {
+              // If `Username` does not exist, navigate to InitialNamePage
+              Get.offAll(() => const InitialNamePage());
+            }
+          } else {
+            // If user document doesn't exist, navigate to InitialNamePage
+            Get.offAll(() => const InitialNamePage());
+          }
+        } catch (e) {
+          TLoaders.errorSnackBar(
+            title: 'Error',
+            message: 'An error occurred while checking user data.',
+          );
+        }
       } else {
         // If email is not verified
         Get.offAll(() => VerifyEmailScreen(email: user.email));
@@ -58,33 +82,6 @@ class AuthenticationRepository extends GetxController {
       }
     }
   }
-
-  // Method to check user data in Firestore
-  Future<void> checkUserData(User user) async {
-    try {
-      // Retrieve the user document from Firestore
-      final userDoc = await _db.collection('Users').doc(user.uid).get();
-
-      if (userDoc.exists) {
-        // Check if the `username` field exists in the document
-        final data = userDoc.data();
-        if (data != null && data.containsKey('Username') && data['Username'] != null && data['Username'].isNotEmpty) {
-          // If `Username` exists, navigate to NavigationMenu
-          Get.offAll(() => const NavigationMenu());
-        } else {
-          // If `Username` does not exist, navigate to InitialNamePage
-          Get.offAll(() => const InitialNamePage());
-        }
-      } else {
-        // If user document doesn't exist, navigate to InitialNamePage
-        Get.offAll(() => const InitialNamePage());
-      }
-    } catch (e) {
-      // Handle errors if any
-      TLoaders.errorSnackBar(title: 'Error', message: 'An error occurred while checking user data.');
-    }
-  }
-
 
 /*------------------------------- Email & Password Sign In -------------------------------*/
   // [EmailAuthentication] - Login

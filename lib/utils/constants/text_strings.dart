@@ -101,8 +101,8 @@ class TTexts {
   static const String subTitleRecentPicture = "Upload 2 photos to start. Add 4 or more to make your profile stand out";
 
   // Lifestyle
-  static const String titleLifestyle= "Let’s exchange lifestyle habits!";
-  static const String subTitleLifestyle = "Do their habits resemble yours? Let’s share first.";
+  static const String titleLifestyle= "Let’s exchange lifestyle habits and personalities!";
+  static const String subTitleLifestyle = "Do their habits and personalities resemble yours? Let’s share first.";
 
   // Message
   static const String newMatches= "New Matches";
