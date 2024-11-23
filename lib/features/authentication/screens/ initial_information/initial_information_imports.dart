@@ -4,7 +4,6 @@ import 'package:iconsax/iconsax.dart';
 import 'package:ve_amor_app/common/widgets/appbar/appbar.dart';
 import 'package:ve_amor_app/common/widgets/bottom_button/bottom_button.dart';
 import 'package:ve_amor_app/features/authentication/controller/initial_information/initial_information_controller.dart';
-import 'package:ve_amor_app/features/authentication/screens/identity_vefication/identity_verification_qr.dart';
 import 'package:ve_amor_app/utils/constants/colors.dart';
 import 'package:ve_amor_app/utils/constants/sizes.dart';
 import 'package:ve_amor_app/utils/constants/text_strings.dart';
@@ -25,3 +24,6 @@ part 'initial_interested.dart';
 part 'initial_recent_pictures.dart';
 
 part 'initial_lifestyle.dart';
+
+part 'initial_finding_relationship.dart';
+

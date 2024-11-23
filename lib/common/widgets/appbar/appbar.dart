@@ -4,7 +4,6 @@ import 'package:iconsax/iconsax.dart';
 import 'package:ve_amor_app/utils/constants/colors.dart';
 import 'package:ve_amor_app/utils/constants/sizes.dart';
 import 'package:ve_amor_app/utils/device/device_utility.dart';
-import 'package:ve_amor_app/utils/helpers/helper_functions.dart';
 
 class TAppbar extends StatelessWidget implements PreferredSizeWidget {
   const TAppbar({
@@ -26,7 +25,6 @@ class TAppbar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    final dark = THelperFunctions.isDarkMode(context);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: TSizes.md),
       child: AppBar(
