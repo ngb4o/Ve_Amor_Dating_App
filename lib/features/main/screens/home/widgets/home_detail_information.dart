@@ -4,17 +4,9 @@ class THomeDetailInformation extends StatelessWidget {
   const THomeDetailInformation(
     this.index, {
     super.key,
-    required this.image,
-    required this.numberOfPhoto,
-    required this.name,
-    required this.age,
   });
 
   final int index;
-  final String image;
-  final int numberOfPhoto;
-  final String name;
-  final String age;
 
   @override
   Widget build(BuildContext context) {
@@ -41,15 +33,15 @@ class THomeDetailInformation extends StatelessWidget {
                           children: [
                             Obx(
                               () => TSwipeCard(
-                                image: controller
-                                    .allUsers[index].profilePictures[controller.currentPhotoIndex.value],
+                                image: controller.allUsers[index]
+                                    .profilePictures[controller.currentPhotoIndex.value],
                                 currentPhoto: controller.currentPhotoIndex.value,
-                                numberPhotos: numberOfPhoto,
+                                numberPhotos: controller.allUsers[index].profilePictures.length,
                                 heightWidthHomeDetail: true,
                                 borderRadiusImage: false,
                                 shadowImage: false,
-                                onLeftTap: () => controller.previousPhoto(numberOfPhoto),
-                                onRightTap: () => controller.nextPhoto(numberOfPhoto),
+                                onLeftTap: () => controller.previousPhoto(controller.allUsers[index].profilePictures.length),
+                                onRightTap: () => controller.nextPhoto(controller.allUsers[index].profilePictures.length),
                               ),
                             ),
 
@@ -57,7 +49,7 @@ class THomeDetailInformation extends StatelessWidget {
                             Obx(
                               () => TImageNavigationDots(
                                 currentPhoto: controller.currentPhotoIndex.value,
-                                numberPhotos: numberOfPhoto,
+                                numberPhotos: controller.allUsers[index].profilePictures.length,
                               ),
                             ),
 
@@ -76,21 +68,22 @@ class THomeDetailInformation extends StatelessWidget {
                                       Navigator.pop(context);
                                     },
                                     child: Container(
-                                      height: 40,
-                                      width: 40,
+                                      height: 50,
+                                      width: 50,
                                       decoration: const BoxDecoration(
                                         shape: BoxShape.circle,
                                       ),
                                       child: Center(
-                                          child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Image.asset(
-                                          'assets/icons/home/arrow_down.png',
-                                          scale: 20,
-                                          color: Colors.white,
-                                          fit: BoxFit.cover,
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Image.asset(
+                                            'assets/icons/home/arrow_down.png',
+                                            scale: 20,
+                                            color: Colors.white,
+                                            fit: BoxFit.cover,
+                                          ),
                                         ),
-                                      )),
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -113,13 +106,16 @@ class THomeDetailInformation extends StatelessWidget {
                               Row(
                                 children: [
                                   // Name
-                                  Text(name, style: Theme.of(context).textTheme.headlineMedium),
+                                  Text(controller.allUsers[index].username, style: Theme.of(context).textTheme.headlineMedium),
                                   const SizedBox(width: TSizes.sm),
 
                                   // Age
                                   Text(
-                                    age,
-                                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontSize: 25),
+                                    controller.allUsers[index].age.toString(),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium!
+                                        .copyWith(fontSize: 25),
                                   )
                                 ],
                               ),
@@ -153,14 +149,17 @@ class THomeDetailInformation extends StatelessWidget {
                                   Text('Looking',
                                       style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                                           fontWeight: FontWeight.bold,
-                                          color: dark ? TColors.white : Colors.black.withOpacity(0.6))),
+                                          color: dark
+                                              ? TColors.white
+                                              : Colors.black.withOpacity(0.6))),
                                 ],
                               ),
                               const SizedBox(height: TSizes.md),
 
                               Padding(
                                 padding: const EdgeInsets.only(left: TSizes.sm),
-                                child: Text('💘 Lover', style: Theme.of(context).textTheme.headlineSmall),
+                                child: Text('💘 Lover',
+                                    style: Theme.of(context).textTheme.headlineSmall),
                               ),
 
                               const SizedBox(height: TSizes.sm),
@@ -177,22 +176,35 @@ class THomeDetailInformation extends StatelessWidget {
                                   const SizedBox(width: TSizes.sm),
 
                                   // Title
-                                  Text('Hobby',
-                                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                  Text(
+                                    'Lifestyle habits and personalities',
+                                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                                           fontWeight: FontWeight.bold,
-                                          color: dark ? TColors.white : Colors.black.withOpacity(0.6))),
+                                          color:
+                                              dark ? TColors.white : Colors.black.withOpacity(0.6),
+                                        ),
+                                  ),
                                 ],
                               ),
                               const SizedBox(height: TSizes.md),
 
-                              Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(30),
-                                  color: dark ? Colors.black.withOpacity(0.4) : TColors.grey,
-                                ),
-                                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
-                                child: Text('Take care of yourself',
-                                    style: Theme.of(context).textTheme.bodyMedium),
+                              Wrap(
+                                spacing: 10,
+                                runSpacing: 10,
+                                children: controller.allUsers[index].lifeStyle.map((lifestyle) {
+                                  return Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(30),
+                                      color: dark ? Colors.black.withOpacity(0.4) : TColors.grey,
+                                    ),
+                                    padding:
+                                        const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                                    child: Text(
+                                      lifestyle,
+                                      style: Theme.of(context).textTheme.bodyMedium,
+                                    ),
+                                  );
+                                }).toList(),
                               ),
                             ],
                           ),

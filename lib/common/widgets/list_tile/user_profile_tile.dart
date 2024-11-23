@@ -21,7 +21,7 @@ class TUserProfileTile extends StatelessWidget {
     return Obx(() {
       if (controller.profileLoading.value) {
         // Display A Shimmer Loader While User Profile being loader
-        return const TShimmerEffect(width: 80, height: 20);
+        return const TShimmerEffect(width: 200, height: 20);
       }
       return ListTile(
         // Image

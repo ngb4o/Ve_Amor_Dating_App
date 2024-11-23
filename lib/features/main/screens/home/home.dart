@@ -95,12 +95,8 @@ class HomeScreen extends StatelessWidget {
                                         Material(
                                           color: Colors.transparent,
                                           child: TInfoSection(
-                                            name: user.username,
-                                            age: user.age.toString(),
                                             index: index,
-                                            image: user.profilePictures[
-                                                controller.currentPhotoIndex.value],
-                                            numberOfPhotos: numberPhotos,
+                                            image: user.profilePictures[controller.currentPhotoIndex.value],
                                           ),
                                         ),
                                         const SizedBox(height: TSizes.md),

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:ve_amor_app/common/widgets/appbar/appbar.dart';
+import 'package:ve_amor_app/features/main/controller/home/home_controller.dart';
 import 'package:ve_amor_app/features/main/screens/message/chat/widgets/widget_imports.dart';
 import 'package:ve_amor_app/utils/constants/image_strings.dart';
 import 'package:ve_amor_app/utils/constants/sizes.dart';
@@ -32,7 +33,8 @@ class ChatPage extends StatefulWidget {
 }
 
 class _ChatPageState extends State<ChatPage> {
-  final MessageController _messageController = Get.put(MessageController());
+  final homeController = HomeController.instance;
+  final _messageController = Get.put(MessageController());
   final ScrollController _scrollController = ScrollController();
   FocusNode myFocusNode = FocusNode();
 

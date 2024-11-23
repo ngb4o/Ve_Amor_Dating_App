@@ -16,7 +16,11 @@ class MessageScreen extends StatelessWidget {
 
             // New Matches
             Padding(
-              padding: const EdgeInsets.all(TSizes.defaultSpace),
+              padding: const EdgeInsets.only(
+                top: TSizes.defaultSpace,
+                left: TSizes.defaultSpace,
+                right: TSizes.defaultSpace,
+              ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -98,7 +102,7 @@ class MessageScreen extends StatelessWidget {
                                 final user = controller.allUsers[index];
                                 return GestureDetector(
                                   onTap: () => Get.to(
-                                        () => ChatPage(
+                                    () => ChatPage(
                                       imagePath: user.profilePictures[0],
                                       name: user.username,
                                       receiverID: user.id,
