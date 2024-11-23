@@ -110,8 +110,16 @@ class TTexts {
 
   // Explore
   static const String titleExplore = "Welcome to the Explore tab";
-  // static const String
 
+  // Identity Verification
   static const String titleIdentityVerification = "One Account, One Identity";
   static const String subTitleIdentityVerification ="To ensure each individual can only register one account, please scan the QR code on your Citizen ID (CCCD) or Passport to complete your registration. This helps us provide a secure and personalized experience for every user.";
+
+  // Message Empty
+  static const String titleMessageEmpty = 'Start swiping';
+  static const String subTitleMessageEmpty = 'When you match with someone, they will appear here, and you can send them a message.';
+
+  // Chat Empty
+  static const String titleChatEmpty = "You have matched with ";
+  static const String subTitleChatEmpty = "Take the initiative and send a message to start the conversation!";
 }

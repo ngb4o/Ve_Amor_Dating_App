@@ -26,11 +26,11 @@ class MessageScreen extends StatelessWidget {
 
                   // Card
                   Obx(
-                        () {
+                    () {
                       if (controller.isLoading.value) {
                         return const Center(child: CircularProgressIndicator());
                       } else if (controller.allUsers.isEmpty) {
-                        return const Text('No user found');
+                        return const TMessageEmpty(small: true);
                       } else {
                         return SizedBox(
                           height: 160,
@@ -46,7 +46,7 @@ class MessageScreen extends StatelessWidget {
                                     final user = controller.allUsers[index];
                                     return GestureDetector(
                                       onTap: () => Get.to(
-                                            () => ChatPage(
+                                        () => ChatPage(
                                           imagePath: user.profilePictures[0],
                                           name: user.username,
                                           receiverID: user.id,
@@ -81,21 +81,14 @@ class MessageScreen extends StatelessWidget {
 
                   // List Message
                   Obx(
-                        () {
+                    () {
                       if (controller.isLoading.value) {
                         return const Center(child: CircularProgressIndicator());
                       } else if (controller.allUsers.isEmpty) {
-                        return const Text('No user found');
+                        return const TMessageEmpty();
                       } else {
                         return Column(
                           children: [
-                            const TMessageCard(
-                              imagePath: TImages.lightAppLogo,
-                              name: 'Team VeAmor',
-                              message: 'Upgrade now to start matching...',
-                              isVerify: true,
-                              isNetworkImage: false,
-                            ),
                             ListView.builder(
                               padding: EdgeInsets.zero,
                               itemCount: controller.allUsers.length,
@@ -118,7 +111,14 @@ class MessageScreen extends StatelessWidget {
                                   ),
                                 );
                               },
-                            )
+                            ),
+                            const TMessageCard(
+                              imagePath: TImages.lightAppLogo,
+                              name: 'Team VeAmor',
+                              message: 'Upgrade now to start matching',
+                              isVerify: true,
+                              isNetworkImage: false,
+                            ),
                           ],
                         );
                       }

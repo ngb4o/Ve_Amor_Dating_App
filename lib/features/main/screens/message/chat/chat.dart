@@ -2,9 +2,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:ve_amor_app/common/widgets/appbar/appbar.dart';
+import 'package:ve_amor_app/features/main/screens/message/chat/widgets/widget_imports.dart';
 import 'package:ve_amor_app/utils/constants/image_strings.dart';
 import 'package:ve_amor_app/utils/constants/sizes.dart';
 import 'package:ve_amor_app/utils/helpers/helper_functions.dart';
@@ -33,7 +33,7 @@ class ChatPage extends StatefulWidget {
 
 class _ChatPageState extends State<ChatPage> {
   final MessageController _messageController = Get.put(MessageController());
-  final ScrollController _scrollController = ScrollController(); // ScrollController to manage scrolling
+  final ScrollController _scrollController = ScrollController();
   FocusNode myFocusNode = FocusNode();
 
   @override
@@ -46,6 +46,11 @@ class _ChatPageState extends State<ChatPage> {
         Future.delayed(const Duration(milliseconds: 500), () => scrollDown());
       }
     });
+
+    Future.delayed(
+      const Duration(milliseconds: 500),
+      () => scrollDown(),
+    );
 
     // Load messages
     _messageController.loadMessages(FirebaseAuth.instance.currentUser!.uid, widget.receiverID);
@@ -62,8 +67,8 @@ class _ChatPageState extends State<ChatPage> {
     if (_scrollController.hasClients) {
       _scrollController.animateTo(
         _scrollController.position.maxScrollExtent,
-        duration: const Duration(milliseconds: 500),
-        curve: Curves.easeOut,
+        duration: const Duration(seconds: 1),
+        curve: Curves.fastOutSlowIn,
       );
     }
   }
@@ -80,28 +85,27 @@ class _ChatPageState extends State<ChatPage> {
             ClipOval(
               child: widget.isNetworkImage
                   ? CachedNetworkImage(
-                imageUrl: widget.imagePath,
-                width: 30,
-                height: 30,
-                fit: BoxFit.cover,
-                placeholder: (context, url) => const TShimmerEffect(
-                  width: 30,
-                  height: 30,
-                ),
-                errorWidget: (context, url, error) =>
-                const Icon(Icons.error, color: Colors.red),
-              )
+                      imageUrl: widget.imagePath,
+                      width: 35,
+                      height: 35,
+                      fit: BoxFit.cover,
+                      placeholder: (context, url) => const TShimmerEffect(
+                        width: 35,
+                        height: 35,
+                      ),
+                      errorWidget: (context, url, error) => const Icon(Icons.error, color: Colors.red),
+                    )
                   : Image.asset(
-                dark ? TImages.darkAppLogo :TImages.lightAppLogo, // For local assets
-                width: 30,
-                height: 30,
-                fit: BoxFit.cover,
-              ),
+                      dark ? TImages.darkAppLogo : TImages.lightAppLogo, // For local assets
+                      width: 30,
+                      height: 30,
+                      fit: BoxFit.cover,
+                    ),
             ),
             const SizedBox(height: 5),
             Text(
               widget.name,
-              style: Theme.of(context).textTheme.labelLarge,
+              style: Theme.of(context).textTheme.labelLarge!.copyWith(fontSize: 10),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               textAlign: TextAlign.center,
@@ -119,6 +123,22 @@ class _ChatPageState extends State<ChatPage> {
           Expanded(
             child: Obx(() {
               final messages = _messageController.messages;
+              final isLoading = _messageController.isLoading.value;
+
+              // Loading
+              if (isLoading) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+
+              // Empty
+              if (messages.isEmpty) {
+                return TChatEmpty(
+                  name: widget.name,
+                  imagePath: widget.imagePath,
+                );
+              }
 
               return ListView.builder(
                 controller: _scrollController,
@@ -127,17 +147,21 @@ class _ChatPageState extends State<ChatPage> {
                   final message = messages[index];
                   return Align(
                     alignment:
-                    message.senderID == currentUserID ? Alignment.centerRight : Alignment.centerLeft,
-                    child: Container(
-                      padding: const EdgeInsets.all(10),
-                      margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                      decoration: BoxDecoration(
-                        color: message.senderID == currentUserID ? TColors.primary : Colors.grey.shade500,
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Text(
-                        message.message,
-                        style: const TextStyle(color: Colors.white),
+                        message.senderID == currentUserID ? Alignment.centerRight : Alignment.centerLeft,
+                    child: GestureDetector(
+                      onLongPress: () {
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+                        margin: const EdgeInsets.symmetric(vertical: 2.5, horizontal: 25),
+                        decoration: BoxDecoration(
+                          color: message.senderID == currentUserID ? TColors.primary : Colors.grey.shade500,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Text(
+                          message.message,
+                          style: const TextStyle(color: Colors.white),
+                        ),
                       ),
                     ),
                   );
@@ -168,10 +192,13 @@ class _ChatPageState extends State<ChatPage> {
                   decoration: const BoxDecoration(color: TColors.primary, shape: BoxShape.circle),
                   child: IconButton(
                     icon: const Icon(
-                      Iconsax.arrow_up_1,
+                      Iconsax.arrow_up,
                       color: Colors.white,
                     ),
-                    onPressed: () => _messageController.sendMessage(widget.receiverID),
+                    onPressed: () async {
+                      await _messageController.sendMessage(widget.receiverID);
+                      scrollDown();
+                    },
                   ),
                 ),
               ],
@@ -182,4 +209,3 @@ class _ChatPageState extends State<ChatPage> {
     );
   }
 }
-
