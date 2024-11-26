@@ -75,6 +75,7 @@ class SignupController extends GetxController {
         wantSeeing: '',
         lifeStyle: [],
         identityVerificationQR: '',
+        findingRelationship: '',
       );
 
       final userRepository = Get.put(UserRepository());

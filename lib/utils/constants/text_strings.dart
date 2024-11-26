@@ -122,4 +122,8 @@ class TTexts {
   // Chat Empty
   static const String titleChatEmpty = "You have matched with ";
   static const String subTitleChatEmpty = "Take the initiative and send a message to start the conversation!";
+
+  // Relationship
+  static const String titleRelationship = "What are you looking for?";
+  static const String subTitleRelationship = "If you change your mind, that's okay. There will always be someone who fits your purpose.";
 }

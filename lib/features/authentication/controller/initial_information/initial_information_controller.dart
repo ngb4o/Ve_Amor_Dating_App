@@ -17,6 +17,8 @@ class InitialInformationController extends GetxController {
   final dateOfBirth = TextEditingController();
   final selectedGender = ''.obs;
   final selectedWantSeeing = ''.obs;
+  final selectedFindingRelationship = ''.obs;
+  var scannedCode = ''.obs;
   final newPhotos = <String>[].obs;
   final questionAnswers = <String, List<String>>{}.obs;
 
@@ -31,6 +33,16 @@ class InitialInformationController extends GetxController {
   // Update WantSeeing
   void updateWantSeeing(String wantSeeing) {
     selectedWantSeeing.value = wantSeeing;
+  }
+
+  // Function to update the scanned QR code
+  void updateScannedCode(String code) {
+    scannedCode.value = code;
+  }
+
+  // Update Relationship
+  void updateFindingRelationship(String relationship) {
+    selectedFindingRelationship.value = relationship;
   }
 
   // Pictures
@@ -119,6 +131,19 @@ class InitialInformationController extends GetxController {
       return;
     }
     userTempData['WantSeeing'] = selectedWantSeeing.value;
+    Get.to(() => const InitialFindingRelationshipPage());
+  }
+
+  // The Function Stores A Temporary Finding Relationship
+  void saveFindingRelationship() {
+    if (selectedFindingRelationship.value.isEmpty) {
+      TLoaders.errorSnackBar(
+        title: 'Relationship preference not selected',
+        message: 'Please select a relationship preference before proceeding!',
+      );
+      return;
+    }
+    userTempData['FindingRelationship'] = selectedFindingRelationship.value;
     Get.to(() => const InitialLifestylePage());
   }
 

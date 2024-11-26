@@ -50,6 +50,7 @@ class Assets {
   static const String logosDatingAppLogo = 'assets/logos/dating_app_logo.gif';
   static const String logosFacebookIcon = 'assets/logos/facebook-icon.png';
   static const String logosGoogleIcon = 'assets/logos/google-icon.png';
+  static const String logosLogoVeAmorApp = 'assets/logos/logoVeAmorApp.png';
   static const String logosSplashLogo = 'assets/logos/splash-logo.png';
   static const String logosTStoreSplashLogoBlack = 'assets/logos/t-store-splash-logo-black.png';
   static const String logosTStoreSplashLogoWhite = 'assets/logos/t-store-splash-logo-white.png';

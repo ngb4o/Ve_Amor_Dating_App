@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:ve_amor_app/common/widgets/appbar/appbar.dart';
+import 'package:ve_amor_app/features/authentication/controller/initial_information/initial_information_controller.dart';
 import 'package:ve_amor_app/navigation_menu.dart';
 import 'package:ve_amor_app/utils/constants/colors.dart';
 import 'package:ve_amor_app/utils/constants/image_strings.dart';
@@ -13,34 +13,22 @@ import 'package:ve_amor_app/utils/helpers/helper_functions.dart';
 
 import '../../../../common/widgets/bottom_button/bottom_button.dart';
 
-class InitialIdentityVerification extends StatefulWidget {
-  const InitialIdentityVerification({super.key});
+class InitialIdentityVerification extends StatelessWidget {
+  InitialIdentityVerification({super.key});
 
-  @override
-  _InitialIdentityVerificationState createState() => _InitialIdentityVerificationState();
-}
+  final controller = InitialInformationController.instance;
 
-class _InitialIdentityVerificationState extends State<InitialIdentityVerification> {
-  String _scanBarcode = '';
   Future<void> scanQR() async {
     String barcodeScanRes;
-    // Platform messages may fail, so we use a try/catch PlatformException.
     try {
-      barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
-          '#ff6666', 'Cancel', true, ScanMode.QR);
+      barcodeScanRes = await FlutterBarcodeScanner.scanBarcode('#ff6666', 'Cancel', true, ScanMode.QR);
       print(barcodeScanRes);
+
+      // Update the scanned code in GetX controller
+      controller.updateScannedCode(barcodeScanRes);
     } on PlatformException {
       barcodeScanRes = 'Failed to get platform version.';
     }
-
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
-    if (!mounted) return;
-
-    setState(() {
-      _scanBarcode = barcodeScanRes;
-    });
   }
 
   @override
@@ -101,7 +89,7 @@ class _InitialIdentityVerificationState extends State<InitialIdentityVerificatio
             TBottomButton(
               onPressed: () => Get.to(() => const NavigationMenu()),
               textButton: 'Next',
-            )
+            ),
           ],
         ),
       ),

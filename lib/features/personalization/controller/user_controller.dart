@@ -73,6 +73,7 @@ class UserController extends GetxController {
           wantSeeing: user.value.wantSeeing,
           lifeStyle: user.value.lifeStyle,
           identityVerificationQR: user.value.identityVerificationQR,
+          findingRelationship: user.value.findingRelationship,
         );
 
         // Save new data to Firestore
