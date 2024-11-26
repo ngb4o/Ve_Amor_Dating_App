@@ -158,8 +158,8 @@ class THomeDetailInformation extends StatelessWidget {
 
                               Padding(
                                 padding: const EdgeInsets.only(left: TSizes.sm),
-                                child: Text('💘 Lover',
-                                    style: Theme.of(context).textTheme.headlineSmall),
+                                child: Text('💘 ${controller.allUsers[index].findingRelationship}',
+                                    style: Theme.of(context).textTheme.bodyLarge),
                               ),
 
                               const SizedBox(height: TSizes.sm),

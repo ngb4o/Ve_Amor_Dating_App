@@ -14,6 +14,7 @@ class AllUsersModel {
   String wantSeeing;
   List<String> lifeStyle;
   String identityVerificationQR;
+  String findingRelationship;
 
   // Constructor for UserModel
   AllUsersModel({
@@ -27,6 +28,7 @@ class AllUsersModel {
     required this.wantSeeing,
     required this.lifeStyle,
     required this.identityVerificationQR,
+    required this.findingRelationship,
   });
 
   // Change data dateOfBirth to age
@@ -60,6 +62,7 @@ class AllUsersModel {
         wantSeeing: '',
         lifeStyle: [],
         identityVerificationQR: '',
+        findingRelationship: '',
       );
 
   // Convert model to JSON structure for storing data in Firebase
@@ -74,6 +77,7 @@ class AllUsersModel {
       'WantSeeing': wantSeeing,
       'LifeStyle': lifeStyle,
       'IdentityVerificationQR': identityVerificationQR,
+      'FindingRelationship': findingRelationship,
     };
   }
 
@@ -92,6 +96,7 @@ class AllUsersModel {
         wantSeeing: data['WantSeeing'] ?? '',
         lifeStyle: List<String>.from(data['LifeStyle'] ?? []),
         identityVerificationQR: data['IdentityVerificationQR'] ?? '',
+        findingRelationship: data['FindingRelationship'],
       );
     }
     return AllUsersModel.empty();
