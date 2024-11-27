@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get/get.dart';
 import 'package:ve_amor_app/data/repositories/authentication/authentication_repository.dart';
+import 'package:ve_amor_app/features/main/models/all_users_matches_model.dart';
 import 'package:ve_amor_app/features/personalization/models/user_model.dart';
 import '../../../features/main/models/all_users_model.dart';
 import '../../../utils/exceptions/firebase_auth_exceptions.dart';
@@ -17,7 +18,6 @@ class UserRepository extends GetxController {
 
   // Firebase Storage instance
   final FirebaseStorage _storage = FirebaseStorage.instance;
-
 
   // Save user data to Firestore
   Future<void> saveUserRecord(UserModel user) async {
@@ -76,7 +76,10 @@ class UserRepository extends GetxController {
   // Update specific fields in Firestore
   Future<void> updateSingleField(Map<String, dynamic> json) async {
     try {
-      await _db.collection('Users').doc(AuthenticationRepository.instance.authUser?.uid).update(json);
+      await _db
+          .collection('Users')
+          .doc(AuthenticationRepository.instance.authUser?.uid)
+          .update(json);
     } on FirebaseException catch (e) {
       throw TFirebaseAuthException(e.code).message;
     } on FormatException catch (_) {
@@ -115,8 +118,14 @@ class UserRepository extends GetxController {
         TaskSnapshot snapshot = await uploadTask;
         String downloadUrl = await snapshot.ref.getDownloadURL();
         uploadedUrls.add(downloadUrl); // Collect uploaded URLs
+      } on FirebaseException catch (e) {
+        throw TFirebaseAuthException(e.code).message;
+      } on FormatException catch (_) {
+        throw const TFormatException();
+      } on TPlatformException catch (e) {
+        throw TPlatformException(e.code).message;
       } catch (e) {
-        throw Exception('Failed to upload $path: $e');
+        throw 'Something went wrong. Please try again!';
       }
     }
     return uploadedUrls;
@@ -143,7 +152,7 @@ class UserRepository extends GetxController {
     } on TPlatformException catch (e) {
       throw TPlatformException(e.code).message;
     } catch (e) {
-      throw 'Failed to upload the image. Please try again!';
+      throw 'Something went wrong. Please try again!';
     }
   }
 
@@ -164,27 +173,8 @@ class UserRepository extends GetxController {
     } on TPlatformException catch (e) {
       throw TPlatformException(e.code).message;
     } catch (e) {
-      throw 'Failed to delete the image. Please try again!';
+      throw 'Something went wrong. Please try again!';
     }
   }
 
-  // Fetch all users except the current user
-  Future<List<AllUsersModel>> getAllUsers(String currentUserUid) async {
-    try {
-      // Fetch data from 'Users' collection
-      final snapshot = await _db.collection('Users').get();
-
-      // Filter out users without Username or matching current user's UID
-      final filteredDocs = snapshot.docs.where((doc) {
-        final data = doc.data();
-        return doc.id != currentUserUid && data['Username'] != null && data['Username'].toString().isNotEmpty;
-      }).toList();
-
-      // Convert to a list of AllUsersModel
-      return filteredDocs.map((doc) => AllUsersModel.fromSnapshot(doc)).toList();
-    } catch (e) {
-      print('Error fetching users with username: $e');
-      return [];
-    }
-  }
 }
