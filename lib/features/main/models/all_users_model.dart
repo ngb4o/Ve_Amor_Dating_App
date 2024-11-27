@@ -15,21 +15,26 @@ class AllUsersModel {
   List<String> lifeStyle;
   String identityVerificationQR;
   String findingRelationship;
+  List<String> likes;
+  List<String> nopes;
+  List<String> matches;
 
   // Constructor for UserModel
-  AllUsersModel({
-    required this.id,
-    required this.username,
-    required this.email,
-    required this.phoneNumber,
-    required this.profilePictures,
-    required this.dateOfBirth,
-    required this.gender,
-    required this.wantSeeing,
-    required this.lifeStyle,
-    required this.identityVerificationQR,
-    required this.findingRelationship,
-  });
+  AllUsersModel(
+      {required this.id,
+      required this.username,
+      required this.email,
+      required this.phoneNumber,
+      required this.profilePictures,
+      required this.dateOfBirth,
+      required this.gender,
+      required this.wantSeeing,
+      required this.lifeStyle,
+      required this.identityVerificationQR,
+      required this.findingRelationship,
+      required this.likes,
+      required this.nopes,
+      required this.matches});
 
   // Change data dateOfBirth to age
   int get age {
@@ -63,6 +68,9 @@ class AllUsersModel {
         lifeStyle: [],
         identityVerificationQR: '',
         findingRelationship: '',
+        likes: [],
+        nopes: [],
+        matches: [],
       );
 
   // Convert model to JSON structure for storing data in Firebase
@@ -78,6 +86,9 @@ class AllUsersModel {
       'LifeStyle': lifeStyle,
       'IdentityVerificationQR': identityVerificationQR,
       'FindingRelationship': findingRelationship,
+      'Likes': likes,
+      'Nopes': nopes,
+      'Matches': matches,
     };
   }
 
@@ -97,6 +108,9 @@ class AllUsersModel {
         lifeStyle: List<String>.from(data['LifeStyle'] ?? []),
         identityVerificationQR: data['IdentityVerificationQR'] ?? '',
         findingRelationship: data['FindingRelationship'],
+        likes: List<String>.from(data['Likes'] ?? []),
+        nopes: List<String>.from(data['Nopes'] ?? []),
+        matches: List<String>.from(data['Matches'] ?? []),
       );
     }
     return AllUsersModel.empty();

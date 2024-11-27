@@ -174,18 +174,16 @@ class UserRepository extends GetxController {
       // Fetch data from 'Users' collection
       final snapshot = await _db.collection('Users').get();
 
-      // Filter out the current user from the list
-      final filteredDocs = snapshot.docs
-          .where((doc) => doc.id != currentUserUid)
-          .toList();
-
-      // Log the filtered data
-      print('Filtered Firestore Data: ${filteredDocs.map((e) => e.data())}');
+      // Filter out users without Username or matching current user's UID
+      final filteredDocs = snapshot.docs.where((doc) {
+        final data = doc.data();
+        return doc.id != currentUserUid && data['Username'] != null && data['Username'].toString().isNotEmpty;
+      }).toList();
 
       // Convert to a list of AllUsersModel
       return filteredDocs.map((doc) => AllUsersModel.fromSnapshot(doc)).toList();
     } catch (e) {
-      print('Error fetching users: $e');
+      print('Error fetching users with username: $e');
       return [];
     }
   }

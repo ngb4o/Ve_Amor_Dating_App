@@ -16,6 +16,9 @@ class UserModel {
   List<String> lifeStyle;
   String identityVerificationQR;
   String findingRelationship;
+  List<String> likes;
+  List<String> nopes;
+  List<String> matches;
 
   // Constructor for UserModel
   UserModel({
@@ -30,6 +33,9 @@ class UserModel {
     required this.lifeStyle,
     required this.identityVerificationQR,
     required this.findingRelationship,
+    required this.likes,
+    required this.nopes,
+    required this.matches
   });
 
   // Change data dateOfBirth to age
@@ -64,6 +70,9 @@ class UserModel {
         lifeStyle: [],
         identityVerificationQR: '',
         findingRelationship: '',
+        likes: [],
+        nopes: [],
+        matches: [],
       );
 
   // Convert model to JSON structure for storing data in Firebase
@@ -79,6 +88,9 @@ class UserModel {
       'LifeStyle': lifeStyle,
       'IdentityVerificationQR': identityVerificationQR,
       'FindingRelationship': findingRelationship,
+      'Likes': likes,
+      'Nopes': nopes,
+      'Matches': matches,
     };
   }
 
@@ -98,6 +110,9 @@ class UserModel {
         lifeStyle: List<String>.from(data['LifeStyle'] ?? []),
         identityVerificationQR: data['IdentityVerificationQR'] ?? '',
         findingRelationship: data['FindingRelationship'],
+        likes: List<String>.from(data['Likes'] ?? []),
+        nopes: List<String>.from(data['Nopes'] ?? []),
+        matches: List<String>.from(data['Matches'] ?? []),
       );
     }
     return UserModel.empty();
