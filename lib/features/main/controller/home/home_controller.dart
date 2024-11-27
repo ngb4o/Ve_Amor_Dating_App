@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:ve_amor_app/data/repositories/dating/dating_repository.dart';
 import 'package:ve_amor_app/data/repositories/user/user_repository.dart';
 import 'package:ve_amor_app/features/main/models/all_users_model.dart';
+import 'package:ve_amor_app/utils/popups/loaders.dart';
 
 class HomeController extends GetxController {
   static HomeController get instance => Get.find();
@@ -53,10 +54,20 @@ class HomeController extends GetxController {
   }
 
   // Handle like action
-  Future<void> likeUser(String likedUserId) async {
+  // Handle like action
+  Future<void> likeUser(String likedUserId, String likedUserName) async {
     try {
       final currentUserId = _auth.currentUser!.uid;
-      await _dating.handleLike(currentUserId, likedUserId);
+
+      // Thực hiện hành động like qua repository
+      final isMatch = await _dating.handleLike(currentUserId, likedUserId);
+
+      allUsers.removeWhere((user) => user.id == likedUserId);
+
+      // Kiểm tra nếu có match
+      if (isMatch) {
+        // TLoaders.successSnackBar(title: 'Match! You and ${likedUserName} have matched!');
+      }
     } catch (e) {
       Get.snackbar('Error', 'Failed to like user: $e');
     }
@@ -67,6 +78,7 @@ class HomeController extends GetxController {
     try {
       final currentUserId = _auth.currentUser!.uid;
       await _dating.handleNope(currentUserId, nopedUserId);
+      allUsers.removeWhere((user) => user.id == nopedUserId);
     } catch (e) {
       Get.snackbar('Error', 'Failed to nope user: $e');
     }

@@ -39,7 +39,7 @@ class HomeScreen extends StatelessWidget {
                 return SwipeItem(
                   content: user.username,
                   likeAction: () async {
-                    await controller.likeUser(user.id);
+                    await controller.likeUser(user.id, user.username);
                     controller.resetPhotoIndex();
                   },
                   nopeAction: () async {

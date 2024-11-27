@@ -264,7 +264,7 @@ class THomeDetailInformation extends StatelessWidget {
                     color: Colors.green,
                     size: 60,
                     onTap: () async {
-                      await controller.likeUser(controller.allUsers[index].id);
+                      await controller.likeUser(controller.allUsers[index].id, controller.allUsers[index].username);
                       controller.resetPhotoIndex();
                       Navigator.pop(context);
                     },

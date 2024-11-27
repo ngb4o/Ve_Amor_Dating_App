@@ -55,9 +55,9 @@ class DatingRepository extends GetxController {
   }
 
   // Function to handle "Like"
-  Future<void> handleLike(String currentUserId, String likedUserId) async {
+  // Function to handle "Like"
+  Future<bool> handleLike(String currentUserId, String likedUserId) async {
     try {
-      // Add the liked user's UID to the `likes` list of the current user
       final currentUserRef = _db.collection('Users').doc(currentUserId);
       final likedUserRef = _db.collection('Users').doc(likedUserId);
 
@@ -71,14 +71,16 @@ class DatingRepository extends GetxController {
       final likedUserLikes = List<String>.from(likedUserSnapshot.data()?['Likes'] ?? []);
 
       if (likedUserLikes.contains(currentUserId)) {
-        // If both users like each other, add to the matches list
+        // Add to matches list if mutual like
         await currentUserRef.update({
           "Matches": FieldValue.arrayUnion([likedUserId]),
         });
         await likedUserRef.update({
           "Matches": FieldValue.arrayUnion([currentUserId]),
         });
+        return true; // Match found
       }
+      return false; // No match
     } on FirebaseException catch (e) {
       throw TFirebaseAuthException(e.code).message;
     } on FormatException catch (_) {
