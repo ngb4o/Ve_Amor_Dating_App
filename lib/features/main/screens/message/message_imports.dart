@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:ve_amor_app/common/widgets/empty/empty.dart';
 import 'package:ve_amor_app/common/widgets/likes_card/new_match_likes_card.dart';
+import 'package:ve_amor_app/common/widgets/loaders/shimmer.dart';
 import 'package:ve_amor_app/common/widgets/texts/section_heading.dart';
 import 'package:ve_amor_app/features/main/controller/home/home_controller.dart';
 import 'package:ve_amor_app/features/main/controller/message/message_controller.dart';

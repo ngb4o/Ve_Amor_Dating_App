@@ -32,9 +32,16 @@ class MessageScreen extends StatelessWidget {
                   Obx(
                     () {
                       if (controller.isLoading.value) {
-                        return const Center(child: CircularProgressIndicator());
+                        return TShimmerEffect(
+                          width: THelperFunctions.screenWidth(),
+                          height: THelperFunctions.screenHeight(),
+                        );
                       } else if (controller.allUsersMatches.isEmpty) {
-                        return const TEmpty(small: true, titleText: '', subTitleText: '',);
+                        return const TEmpty(
+                          small: true,
+                          titleText: '',
+                          subTitleText: '',
+                        );
                       } else {
                         return SizedBox(
                           height: 160,
@@ -87,9 +94,14 @@ class MessageScreen extends StatelessWidget {
                   Obx(
                     () {
                       if (controller.isLoading.value) {
-                        return const Center(child: CircularProgressIndicator());
+                        return TShimmerEffect(
+                          width: THelperFunctions.screenWidth(),
+                          height: THelperFunctions.screenHeight(),
+                        );
                       } else if (controller.allUsersMatches.isEmpty) {
-                        return const TEmpty(titleText: TTexts.titleChatEmpty, subTitleText: TTexts.subTitleChatEmpty);
+                        return const TEmpty(
+                            titleText: TTexts.titleChatEmpty,
+                            subTitleText: TTexts.subTitleChatEmpty);
                       } else {
                         return Column(
                           children: [

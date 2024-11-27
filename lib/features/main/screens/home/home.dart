@@ -24,7 +24,11 @@ class HomeScreen extends StatelessWidget {
           // Swipe Card
           Obx(() {
             if (controller.isLoading.value) {
-              return const Center(child: CircularProgressIndicator());
+              return Expanded(
+                child: TShimmerEffect(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height),
+              );
             } else if (controller.allUsers.isEmpty) {
               return const Padding(
                 padding: EdgeInsets.all(TSizes.defaultSpace),
