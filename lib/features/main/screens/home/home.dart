@@ -25,9 +25,12 @@ class HomeScreen extends StatelessWidget {
           Obx(() {
             if (controller.isLoading.value) {
               return Expanded(
-                child: TShimmerEffect(
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height),
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 10, top: 5, right: 10, bottom: 20),
+                  child: TShimmerEffect(
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.height),
+                ),
               );
             } else if (controller.allUsers.isEmpty) {
               return const Padding(
