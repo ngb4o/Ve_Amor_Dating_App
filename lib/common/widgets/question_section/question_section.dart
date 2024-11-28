@@ -47,7 +47,16 @@ class QuestionSection extends StatelessWidget {
               children: options.map((option) {
                 final isSelected = selectedOptions.contains(option);
                 return ChoiceChip(
-                  label: Text(option, style: TextStyle(color: dark ? TColors.white : Colors.black)),
+                  label: Text(
+                    option,
+                    style: TextStyle(
+                      color: dark
+                          ? TColors.white
+                          : isSelected
+                              ? TColors.white
+                              : TColors.black,
+                    ),
+                  ),
                   selected: isSelected,
                   onSelected: (_) {
                     if (isSelectedOnly) {
