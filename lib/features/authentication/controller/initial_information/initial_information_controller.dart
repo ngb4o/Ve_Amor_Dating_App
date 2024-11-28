@@ -9,6 +9,8 @@ import 'package:ve_amor_app/utils/popups/full_screen_loader.dart';
 import 'package:ve_amor_app/utils/popups/loaders.dart';
 import 'package:ve_amor_app/utils/validators/validation.dart';
 
+import '../../screens/ initial_information/identity_verification_qr.dart';
+
 class InitialInformationController extends GetxController {
   static InitialInformationController get instance => Get.find();
 
@@ -87,7 +89,7 @@ class InitialInformationController extends GetxController {
 
     // If validation is passed, save name and navigate to the next page
     userTempData['Username'] = userName.text.trim();
-    Get.to(() => const InitialBirthdayPage());
+    Get.to(() =>  const InitialBirthdayPage());
   }
 
   // The Function Stores A Temporary Birthday

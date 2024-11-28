@@ -104,9 +104,7 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
                 const SizedBox(width: 8),
                 IconButton(
                   icon: const Icon(Icons.send),
-                  onPressed: () {
-                    _isLoading ? null : _sendMessage;
-                  },
+                  onPressed: _isLoading ? null : _sendMessage,
                 ),
               ],
             ),
