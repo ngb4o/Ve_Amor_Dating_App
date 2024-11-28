@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
-import 'gemini_service.dart';
+import 'package:ve_amor_app/common/widgets/appbar/appbar.dart';
+import 'package:ve_amor_app/utils/constants/colors.dart';
+import 'package:ve_amor_app/utils/constants/enums.dart';
+import 'package:ve_amor_app/utils/constants/sizes.dart';
+import '../../../../../data/services/gemini/gemini_service.dart';
 
 class ChatBotScreen extends StatefulWidget {
   const ChatBotScreen({super.key});
@@ -50,9 +54,10 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('AI Chatbot'),
-        backgroundColor: Colors.deepPurple,
+      appBar: const TAppbar(
+        showBackArrow: true,
+        title: Text('Chat AI'),
+        isCenterTitle: true,
       ),
       body: Column(
         children: [
@@ -68,7 +73,7 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
                     margin: const EdgeInsets.symmetric(vertical: 5),
                     padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
-                      color: isUserMessage ? Colors.deepPurple : Colors.grey[300],
+                      color: isUserMessage ? TColors.primary : Colors.grey[300],
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Text(
@@ -82,12 +87,9 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
               },
             ),
           ),
-
-          if (_isLoading)
-            const CircularProgressIndicator(),
-
+          if (_isLoading) const CircularProgressIndicator(),
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(TSizes.defaultSpace),
             child: Row(
               children: [
                 Expanded(
@@ -102,7 +104,9 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
                 const SizedBox(width: 8),
                 IconButton(
                   icon: const Icon(Icons.send),
-                  onPressed: _isLoading ? null : _sendMessage,
+                  onPressed: () {
+                    _isLoading ? null : _sendMessage;
+                  },
                 ),
               ],
             ),

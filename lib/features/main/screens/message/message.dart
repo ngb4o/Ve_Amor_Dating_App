@@ -161,8 +161,8 @@ class MessageScreen extends StatelessWidget {
 
       // Floating chat icon button at the bottom right
       floatingActionButton: FloatingActionButton(
-        onPressed: () => Get.to(() => ChatBotScreen()), // Navigate to ChatBotScreen
-        backgroundColor: Colors.deepPurple,
+        onPressed: () => Get.to(() => const ChatBotScreen()), // Navigate to ChatBotScreen
+        backgroundColor: TColors.primary,
         child: const Icon(Icons.chat, color: Colors.white),
       ),
     );
