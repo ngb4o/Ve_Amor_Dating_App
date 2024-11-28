@@ -12,7 +12,6 @@ class THomeDetailInformation extends StatelessWidget {
   Widget build(BuildContext context) {
     final dark = THelperFunctions.isDarkMode(context);
     final controller = HomeController.instance;
-    final matchEngine = MatchEngine();
 
     return Scaffold(
       body: SafeArea(

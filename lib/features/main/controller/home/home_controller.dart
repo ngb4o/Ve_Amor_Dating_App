@@ -1,9 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:ve_amor_app/data/repositories/dating/dating_repository.dart';
-import 'package:ve_amor_app/data/repositories/user/user_repository.dart';
 import 'package:ve_amor_app/features/main/models/all_users_model.dart';
-import 'package:ve_amor_app/utils/popups/loaders.dart';
 
 class HomeController extends GetxController {
   static HomeController get instance => Get.find();

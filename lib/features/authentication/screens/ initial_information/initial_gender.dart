@@ -11,7 +11,6 @@ class _InitialGenderPageState extends State<InitialGenderPage> {
   @override
   Widget build(BuildContext context) {
     final controller = InitialInformationController.instance;
-    final dark = THelperFunctions.isDarkMode(context);
 
     return Scaffold(
       appBar: const TAppbar(showBackArrow: true),

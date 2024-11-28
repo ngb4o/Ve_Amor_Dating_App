@@ -94,7 +94,7 @@ class TProFilePhoto extends StatelessWidget {
                               strokeWidth: 2,
                               child: Container(
                                 decoration: BoxDecoration(
-                                  color: Colors.grey.shade300,
+                                  color: dark ? Colors.grey.shade700 :Colors.grey.shade300,
                                   borderRadius: BorderRadius.circular(8),
                                 ),
                               ),

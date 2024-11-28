@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:ve_amor_app/utils/constants/colors.dart';
 
 import '../../../features/authentication/controller/initial_information/initial_information_controller.dart';
 import '../../../utils/constants/sizes.dart';
 import 'package:get/get.dart';
+
+import '../../../utils/helpers/helper_functions.dart';
 
 class QuestionSection extends StatelessWidget {
   final String questionKey;
@@ -21,6 +24,7 @@ class QuestionSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = InitialInformationController.instance;
+    final dark = THelperFunctions.isDarkMode(context);
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: TSizes.sm),
@@ -43,7 +47,7 @@ class QuestionSection extends StatelessWidget {
               children: options.map((option) {
                 final isSelected = selectedOptions.contains(option);
                 return ChoiceChip(
-                  label: Text(option),
+                  label: Text(option, style: TextStyle(color: dark ? TColors.white : Colors.black)),
                   selected: isSelected,
                   onSelected: (_) {
                     if (isSelectedOnly) {
@@ -69,4 +73,3 @@ class QuestionSection extends StatelessWidget {
     );
   }
 }
-

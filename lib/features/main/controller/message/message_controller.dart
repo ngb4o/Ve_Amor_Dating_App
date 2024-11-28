@@ -5,8 +5,6 @@ import 'package:ve_amor_app/features/main/models/all_users_matches_model.dart';
 import 'package:ve_amor_app/features/main/models/message_model.dart';
 import 'package:ve_amor_app/data/repositories/chat/message_repository.dart';
 
-import '../../../../data/repositories/user/user_repository.dart';
-
 class MessageController extends GetxController {
   static MessageController get instance => Get.find();
 

@@ -5,7 +5,6 @@ class MessageScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final dark = THelperFunctions.isDarkMode(context);
     final controller = Get.put(MessageController());
     return Scaffold(
       body: SingleChildScrollView(

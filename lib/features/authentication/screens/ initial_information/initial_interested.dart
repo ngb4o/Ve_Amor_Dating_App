@@ -6,7 +6,6 @@ class InitialInterestedPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = InitialInformationController.instance;
-    final dark = THelperFunctions.isDarkMode(context);
     return Scaffold(
       appBar: const TAppbar(showBackArrow: true),
       body: Padding(

@@ -3,7 +3,6 @@ import 'package:iconsax/iconsax.dart';
 
 import '../../../utils/constants/colors.dart';
 import '../../../utils/constants/sizes.dart';
-import '../../../utils/constants/text_strings.dart';
 
 class TEmpty extends StatelessWidget {
   const TEmpty({
