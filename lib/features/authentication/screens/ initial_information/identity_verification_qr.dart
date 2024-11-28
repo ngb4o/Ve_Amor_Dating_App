@@ -22,7 +22,7 @@ class InitialIdentityVerification extends StatelessWidget {
     String barcodeScanRes;
     try {
       barcodeScanRes = await FlutterBarcodeScanner.scanBarcode('#ff6666', 'Cancel', true, ScanMode.QR);
-      print(barcodeScanRes);
+      print('$barcodeScanRes');
 
       // Update the scanned code in GetX controller
       controller.updateScannedCode(barcodeScanRes);
