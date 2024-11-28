@@ -13,7 +13,7 @@ class MessageScreen extends StatelessWidget {
             // Appbar
             const THomeAppBar(iconSecurityActionAppbar: true),
 
-            // New Matches
+            // New Matches Section
             Padding(
               padding: const EdgeInsets.only(
                 top: TSizes.defaultSpace,
@@ -27,9 +27,9 @@ class MessageScreen extends StatelessWidget {
                   const TSectionHeading(title: TTexts.newMatches),
                   const SizedBox(height: TSizes.spaceBtwItems - 5),
 
-                  // Card
+                  // Card for displaying new matches
                   Obx(
-                    () {
+                        () {
                       if (controller.isLoading.value) {
                         return TShimmerEffect(
                           width: THelperFunctions.screenWidth(),
@@ -56,7 +56,7 @@ class MessageScreen extends StatelessWidget {
                                     final user = controller.allUsersMatches[index];
                                     return GestureDetector(
                                       onTap: () => Get.to(
-                                        () => ChatPage(
+                                            () => ChatPage(
                                           imagePath: user.profilePictures[0],
                                           name: user.username,
                                           receiverID: user.id,
@@ -80,18 +80,18 @@ class MessageScreen extends StatelessWidget {
               ),
             ),
 
-            // Message
+            // Message Section
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: TSizes.defaultSpace),
               child: Column(
                 children: [
-                  // Title
+                  // Title for Message section
                   const TSectionHeading(title: TTexts.message),
                   const SizedBox(height: TSizes.spaceBtwItems - 5),
 
-                  // List Message
+                  // List of Messages
                   Obx(
-                    () {
+                        () {
                       if (controller.isLoading.value) {
                         return TShimmerEffect(
                           width: THelperFunctions.screenWidth(),
@@ -113,7 +113,7 @@ class MessageScreen extends StatelessWidget {
                                 final user = controller.allUsersMatches[index];
                                 return GestureDetector(
                                   onTap: () => Get.to(
-                                    () => ChatPage(
+                                        () => ChatPage(
                                       imagePath: user.profilePictures[0],
                                       name: user.username,
                                       receiverID: user.id,
@@ -122,11 +122,24 @@ class MessageScreen extends StatelessWidget {
                                   child: TMessageCard(
                                     imagePath: user.profilePictures[0],
                                     name: user.username,
-                                    message: 'Hello',
+                                    message: 'Hello',  // Placeholder message
                                   ),
                                 );
                               },
                             ),
+
+                            // Chatbot button
+                            GestureDetector(
+                              onTap: () => Get.to(() => ChatBotScreen()),
+                              child: TMessageCard(
+                                imagePath: TImages.lightAppLogo,
+                                name: 'AI Chatbot',
+                                message: 'Ask me anything!',
+                                isNetworkImage: false,
+                              ),
+                            ),
+
+                            // Fixed message card
                             const TMessageCard(
                               imagePath: TImages.lightAppLogo,
                               name: 'Team VeAmor',
@@ -138,12 +151,19 @@ class MessageScreen extends StatelessWidget {
                         );
                       }
                     },
-                  )
+                  ),
                 ],
               ),
             )
           ],
         ),
+      ),
+
+      // Floating chat icon button at the bottom right
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => Get.to(() => ChatBotScreen()), // Navigate to ChatBotScreen
+        backgroundColor: Colors.deepPurple,
+        child: const Icon(Icons.chat, color: Colors.white),
       ),
     );
   }
