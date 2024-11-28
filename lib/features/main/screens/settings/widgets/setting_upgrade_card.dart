@@ -190,11 +190,16 @@ class SubscriptionCard extends StatelessWidget {
               ),
               const Spacer(),
               Center(
-                child: Text(
-                  'See all features',
-                  style: TextStyle(
-                    color: details['textColor'],
-                    fontWeight: FontWeight.bold,
+                child: GestureDetector(
+                  onTap: () {
+                    Get.to(() => UpgradeCardDetailScreen(subscriptionType: subscriptionType));
+                  },
+                  child: Text(
+                    'See all features',
+                    style: TextStyle(
+                      color: details['textColor'],
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ),
