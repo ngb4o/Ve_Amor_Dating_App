@@ -13,7 +13,6 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(HomeController());
-
     late MatchEngine matchEngine;
 
     return Scaffold(
@@ -23,101 +22,112 @@ class HomeScreen extends StatelessWidget {
           THomeAppBar(showBackArrow: showBackArrow, centerTitle: centerTitle),
 
           // Swipe Card
-          Obx(
-            () {
-              if (controller.isLoading.value) {
-                return const Center(child: CircularProgressIndicator());
-              } else if (controller.allUsers.isEmpty) {
-                return const Text('No found user');
-              } else {
-                final items = controller.allUsers.map((user) {
-                  return SwipeItem(
-                    content: user.username,
-                    likeAction: () {
-                      controller.currentPhotoIndex.value = 0;
-                    },
-                    nopeAction: () {
-                      controller.currentPhotoIndex.value = 0;
-                    },
-                    superlikeAction: () {
-                      controller.currentPhotoIndex.value = 0;
-                    },
-                    onSlideUpdate: (SlideRegion? region) async {},
-                  );
-                }).toList();
+          Obx(() {
+            if (controller.isLoading.value) {
+              return Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 10, top: 5, right: 10, bottom: 20),
+                  child: TShimmerEffect(
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.height),
+                ),
+              );
+            } else if (controller.allUsers.isEmpty) {
+              return const Padding(
+                padding: EdgeInsets.all(TSizes.defaultSpace),
+                child: TEmpty(titleText: '', subTitleText: ''),
+              );
+            } else {
+              final items = controller.allUsers.map((user) {
+                return SwipeItem(
+                  content: user.username,
+                  likeAction: () async {
+                    await controller.likeUser(user.id, user.username);
+                    controller.resetPhotoIndex();
+                  },
+                  nopeAction: () async {
+                    await controller.nopeUser(user.id);
+                    controller.resetPhotoIndex();
+                  },
+                  superlikeAction: () {
+                    controller.resetPhotoIndex();
+                  },
+                  onSlideUpdate: (SlideRegion? region) async {},
+                );
+              }).toList();
 
-                matchEngine = MatchEngine(swipeItems: items);
+              matchEngine = MatchEngine(swipeItems: items);
 
-                return Expanded(
-                  child: SwipeCards(
-                    matchEngine: matchEngine,
-                    upSwipeAllowed: true,
-                    onStackFinished: () {
-                      controller.resetPhotoIndex();
-                    },
-                    itemBuilder: (context, index) {
-                      final user = controller.allUsers[index];
-                      final numberPhotos = user.profilePictures.length;
-                      return Padding(
-                        padding: const EdgeInsets.only(left: 10, top: 5, right: 10, bottom: 20),
-                        child: SizedBox(
-                          width: THelperFunctions.screenWidth(),
-                          height: THelperFunctions.screenHeight(),
-                          child: Hero(
-                            tag: 'imageTage$index',
-                            child: Stack(
-                              fit: StackFit.expand,
-                              children: [
-                                // Card
-                                Obx(() => TSwipeCard(
-                                      currentPhoto: controller.currentPhotoIndex.value,
-                                      numberPhotos: numberPhotos,
-                                      image:
-                                          user.profilePictures[controller.currentPhotoIndex.value],
-                                      onLeftTap: () => controller.previousPhoto(numberPhotos),
-                                      onRightTap: () => controller.nextPhoto(numberPhotos),
-                                    )),
+              return Expanded(
+                child: SwipeCards(
+                  matchEngine: matchEngine,
+                  upSwipeAllowed: true,
+                  onStackFinished: () {
+                    controller.resetPhotoIndex();
+                  },
+                  itemBuilder: (context, index) {
+                    final user = controller.allUsers[index];
+                    final numberPhotos = user.profilePictures.length;
 
-                                // Dot Image Navigation
-                                Obx(() => TImageNavigationDots(
-                                      currentPhoto: controller.currentPhotoIndex.value,
-                                      numberPhotos: numberPhotos,
-                                    )),
+                    return Padding(
+                      padding: const EdgeInsets.only(left: 10, top: 5, right: 10, bottom: 20),
+                      child: SizedBox(
+                        width: THelperFunctions.screenWidth(),
+                        height: THelperFunctions.screenHeight(),
+                        child: Hero(
+                          tag: 'imageTage$index',
+                          child: Stack(
+                            fit: StackFit.expand,
+                            children: [
+                              // Card
+                              Obx(() => TSwipeCard(
+                                    currentPhoto: controller.currentPhotoIndex.value,
+                                    numberPhotos: numberPhotos,
+                                    image: user.profilePictures[controller.currentPhotoIndex.value],
+                                    onLeftTap: () => controller.previousPhoto(numberPhotos),
+                                    onRightTap: () => controller.nextPhoto(numberPhotos),
+                                  )),
 
-                                // Information
-                                Obx(
-                                  () => Padding(
-                                    padding: const EdgeInsets.all(16),
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Material(
-                                          color: Colors.transparent,
-                                          child: TInfoSection(
-                                            index: index,
-                                            image: user.profilePictures[controller.currentPhotoIndex.value],
-                                          ),
+                              // Dot Image Navigation
+                              Obx(() => TImageNavigationDots(
+                                    currentPhoto: controller.currentPhotoIndex.value,
+                                    numberPhotos: numberPhotos,
+                                  )),
+
+                              // Information
+                              Obx(
+                                () => Padding(
+                                  padding: const EdgeInsets.all(16),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Material(
+                                        color: Colors.transparent,
+                                        child: TInfoSection(
+                                          index: index,
+                                          image: user
+                                              .profilePictures[controller.currentPhotoIndex.value],
                                         ),
-                                        const SizedBox(height: TSizes.md),
+                                      ),
+                                      const SizedBox(height: TSizes.md),
 
-                                        // Action Button
-                                        TActionButtonRow(matchEngine: matchEngine),
-                                      ],
-                                    ),
+                                      // Action Button
+                                      TActionButtonRow(matchEngine: matchEngine),
+                                    ],
                                   ),
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
                         ),
-                      );
-                    },
-                  ),
-                );
-              }
-            },
-          ),
+                      ),
+                    );
+                  },
+                ),
+              );
+            }
+          }),
         ],
       ),
     );

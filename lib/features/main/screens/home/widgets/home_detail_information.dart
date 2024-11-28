@@ -40,8 +40,10 @@ class THomeDetailInformation extends StatelessWidget {
                                 heightWidthHomeDetail: true,
                                 borderRadiusImage: false,
                                 shadowImage: false,
-                                onLeftTap: () => controller.previousPhoto(controller.allUsers[index].profilePictures.length),
-                                onRightTap: () => controller.nextPhoto(controller.allUsers[index].profilePictures.length),
+                                onLeftTap: () => controller.previousPhoto(
+                                    controller.allUsers[index].profilePictures.length),
+                                onRightTap: () => controller
+                                    .nextPhoto(controller.allUsers[index].profilePictures.length),
                               ),
                             ),
 
@@ -106,7 +108,8 @@ class THomeDetailInformation extends StatelessWidget {
                               Row(
                                 children: [
                                   // Name
-                                  Text(controller.allUsers[index].username, style: Theme.of(context).textTheme.headlineMedium),
+                                  Text(controller.allUsers[index].username,
+                                      style: Theme.of(context).textTheme.headlineMedium),
                                   const SizedBox(width: TSizes.sm),
 
                                   // Age
@@ -227,8 +230,10 @@ class THomeDetailInformation extends StatelessWidget {
                     assetPath: 'assets/icons/home/clear.png',
                     color: Colors.red,
                     size: 60,
-                    onTap: () {
-                      // _matchEngine.currentItem!.nope();
+                    onTap: () async {
+                      await controller.nopeUser(controller.allUsers[index].id);
+                      controller.resetPhotoIndex();
+                      Navigator.pop(context);
                     },
                     hasBorder: false,
                     hasElevation: true,
@@ -257,8 +262,10 @@ class THomeDetailInformation extends StatelessWidget {
                     assetPath: 'assets/icons/home/heart.png',
                     color: Colors.green,
                     size: 60,
-                    onTap: () {
-                      // _matchEngine.currentItem!.like();
+                    onTap: () async {
+                      await controller.likeUser(controller.allUsers[index].id, controller.allUsers[index].username);
+                      controller.resetPhotoIndex();
+                      Navigator.pop(context);
                     },
                     hasBorder: false,
                     hasElevation: true,

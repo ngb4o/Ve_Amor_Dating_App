@@ -84,7 +84,7 @@ class InitialIdentityVerification extends StatelessWidget {
               ),
             ),
 
-            Spacer(),
+            const Spacer(),
             // Button Next
             TBottomButton(
               onPressed: () => Get.to(() => const NavigationMenu()),

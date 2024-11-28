@@ -3,7 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:ve_amor_app/common/widgets/success_screen/success_screen.dart';
 import 'package:ve_amor_app/data/repositories/authentication/authentication_repository.dart';
-import 'package:ve_amor_app/features/authentication/screens/%20initial_information/initial_information_imports.dart';
 import 'package:ve_amor_app/generated/assets.dart';
 import 'package:ve_amor_app/utils/constants/text_strings.dart';
 import 'package:ve_amor_app/utils/popups/loaders.dart';

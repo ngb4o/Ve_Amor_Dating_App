@@ -1,12 +1,20 @@
-part of 'widget_imports.dart';
+import 'package:flutter/material.dart';
+import 'package:iconsax/iconsax.dart';
 
-class TMessageEmpty extends StatelessWidget {
-  const TMessageEmpty({
+import '../../../utils/constants/colors.dart';
+import '../../../utils/constants/sizes.dart';
+
+class TEmpty extends StatelessWidget {
+  const TEmpty({
     super.key,
     this.small = false,
+    required this.titleText,
+    required this.subTitleText,
   });
 
   final bool small;
+  final String titleText;
+  final String subTitleText;
 
   @override
   Widget build(BuildContext context) {
@@ -20,12 +28,12 @@ class TMessageEmpty extends StatelessWidget {
             if (!small) ...[
               const SizedBox(height: TSizes.spaceBtwItems),
               Text(
-                TTexts.titleMessageEmpty,
+                titleText,
                 style: Theme.of(context).textTheme.titleLarge,
               ),
               const SizedBox(height: TSizes.spaceBtwItems),
               Text(
-                TTexts.subTitleMessageEmpty,
+                subTitleText,
                 style: Theme.of(context).textTheme.bodyLarge,
                 textAlign: TextAlign.center,
               ),

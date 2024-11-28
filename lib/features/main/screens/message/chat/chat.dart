@@ -54,8 +54,10 @@ class _ChatPageState extends State<ChatPage> {
       () => scrollDown(),
     );
 
-    // Load messages
-    _messageController.loadMessages(FirebaseAuth.instance.currentUser!.uid, widget.receiverID);
+// Load messages on page init
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _messageController.loadMessages(FirebaseAuth.instance.currentUser!.uid, widget.receiverID);
+    });
   }
 
   @override

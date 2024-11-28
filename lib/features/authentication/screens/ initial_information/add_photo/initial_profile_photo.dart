@@ -73,7 +73,9 @@ class TInitialProFilePhoto extends StatelessWidget {
                             strokeWidth: 2,
                             child: Container(
                               decoration: BoxDecoration(
-                                  color: Colors.grey.shade300, borderRadius: BorderRadius.circular(8)),
+                                color: dark ? Colors.grey.shade700 :Colors.grey.shade300,
+                                borderRadius: BorderRadius.circular(8),
+                              ),
                             ),
                           );
                   }),
@@ -89,7 +91,8 @@ class TInitialProFilePhoto extends StatelessWidget {
                       decoration: const BoxDecoration(shape: BoxShape.circle),
                       child: Center(
                         child: Obx(() {
-                          return controller.newPhotos.isNotEmpty && index < controller.newPhotos.length
+                          return controller.newPhotos.isNotEmpty &&
+                                  index < controller.newPhotos.length
                               ? GestureDetector(
                                   onTap: () {
                                     controller.removePhoto(index);

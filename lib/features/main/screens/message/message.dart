@@ -5,9 +5,7 @@ class MessageScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final dark = THelperFunctions.isDarkMode(context);
-    final controller = HomeController.instance;
-
+    final controller = Get.put(MessageController());
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -33,9 +31,16 @@ class MessageScreen extends StatelessWidget {
                   Obx(
                         () {
                       if (controller.isLoading.value) {
-                        return const Center(child: CircularProgressIndicator());
-                      } else if (controller.allUsers.isEmpty) {
-                        return const TMessageEmpty(small: true);  // If no users
+                        return TShimmerEffect(
+                          width: THelperFunctions.screenWidth(),
+                          height: THelperFunctions.screenHeight(),
+                        );
+                      } else if (controller.allUsersMatches.isEmpty) {
+                        return const TEmpty(
+                          small: true,
+                          titleText: '',
+                          subTitleText: '',
+                        );
                       } else {
                         return SizedBox(
                           height: 160,
@@ -46,9 +51,9 @@ class MessageScreen extends StatelessWidget {
                                 child: ListView.builder(
                                   scrollDirection: Axis.horizontal,
                                   shrinkWrap: true,
-                                  itemCount: controller.allUsers.length,
+                                  itemCount: controller.allUsersMatches.length,
                                   itemBuilder: (context, index) {
-                                    final user = controller.allUsers[index];
+                                    final user = controller.allUsersMatches[index];
                                     return GestureDetector(
                                       onTap: () => Get.to(
                                             () => ChatPage(
@@ -88,19 +93,24 @@ class MessageScreen extends StatelessWidget {
                   Obx(
                         () {
                       if (controller.isLoading.value) {
-                        return const Center(child: CircularProgressIndicator());
-                      } else if (controller.allUsers.isEmpty) {
-                        return const TMessageEmpty();  // If no users
+                        return TShimmerEffect(
+                          width: THelperFunctions.screenWidth(),
+                          height: THelperFunctions.screenHeight(),
+                        );
+                      } else if (controller.allUsersMatches.isEmpty) {
+                        return const TEmpty(
+                            titleText: TTexts.titleChatEmpty,
+                            subTitleText: TTexts.subTitleChatEmpty);
                       } else {
                         return Column(
                           children: [
                             ListView.builder(
                               padding: EdgeInsets.zero,
-                              itemCount: controller.allUsers.length,
+                              itemCount: controller.allUsersMatches.length,
                               shrinkWrap: true,
                               physics: const NeverScrollableScrollPhysics(),
                               itemBuilder: (context, index) {
-                                final user = controller.allUsers[index];
+                                final user = controller.allUsersMatches[index];
                                 return GestureDetector(
                                   onTap: () => Get.to(
                                         () => ChatPage(

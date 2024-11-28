@@ -2,7 +2,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 
-class UserModel {
+class AllUsersMatchesModel {
   // Keep those values final which you do not want to update
   final String id;
   final String username;
@@ -20,22 +20,21 @@ class UserModel {
   List<String> matches;
 
   // Constructor for UserModel
-  UserModel({
-    required this.id,
-    required this.username,
-    required this.email,
-    required this.phoneNumber,
-    required this.profilePictures,
-    required this.dateOfBirth,
-    required this.gender,
-    required this.wantSeeing,
-    required this.lifeStyle,
-    required this.identityVerificationQR,
-    required this.findingRelationship,
-    required this.likes,
-    required this.nopes,
-    required this.matches
-  });
+  AllUsersMatchesModel(
+      {required this.id,
+      required this.username,
+      required this.email,
+      required this.phoneNumber,
+      required this.profilePictures,
+      required this.dateOfBirth,
+      required this.gender,
+      required this.wantSeeing,
+      required this.lifeStyle,
+      required this.identityVerificationQR,
+      required this.findingRelationship,
+      required this.likes,
+      required this.nopes,
+      required this.matches});
 
   // Change data dateOfBirth to age
   int get age {
@@ -57,7 +56,7 @@ class UserModel {
   static List<String> nameParts(fullname) => fullname.split("");
 
   // Static function to create an empty user model
-  static UserModel empty() => UserModel(
+  static AllUsersMatchesModel empty() => AllUsersMatchesModel(
         id: '',
         username: '',
         email: '',
@@ -94,10 +93,10 @@ class UserModel {
   }
 
   // Factory method to create a UserModel from a Firebase document snapshot
-  factory UserModel.fromSnapshot(DocumentSnapshot<Map<String, dynamic>> document) {
+  factory AllUsersMatchesModel.fromSnapshot(DocumentSnapshot<Map<String, dynamic>> document) {
     if (document.data() != null) {
       final data = document.data()!;
-      return UserModel(
+      return AllUsersMatchesModel(
         id: document.id,
         username: data['Username'] ?? '',
         email: data['Email'] ?? '',
@@ -114,6 +113,6 @@ class UserModel {
         matches: List<String>.from(data['Matches'] ?? []),
       );
     }
-    return UserModel.empty();
+    return AllUsersMatchesModel.empty();
   }
 }

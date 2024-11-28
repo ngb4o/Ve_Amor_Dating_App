@@ -5,6 +5,8 @@ class InitialFindingRelationshipPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final dark = THelperFunctions.isDarkMode(context);
+    final controller = InitialInformationController.instance;
     // List of options
     final options = [
       {'icon': Icons.favorite, 'text': 'Lover'},
@@ -52,19 +54,21 @@ class InitialFindingRelationshipPage extends StatelessWidget {
                   return Obx(() {
                     // Check if the option is selected
                     final isSelected =
-                        InitialInformationController.instance.selectedFindingRelationship.value ==
-                            option['text'];
+                        controller.selectedFindingRelationship.value == option['text'];
                     return GestureDetector(
                       onTap: () {
                         // Update selection when tapped
-                        InitialInformationController.instance
-                            .updateFindingRelationship(option['text'].toString());
+                        controller.updateFindingRelationship(option['text'].toString());
                       },
                       child: Container(
                         padding: const EdgeInsets.symmetric(horizontal: 5),
                         decoration: BoxDecoration(
-                          color: isSelected ? TColors.primary.withOpacity(0.1) : Colors.white,
-                          borderRadius: BorderRadius.circular(12.0),
+                          color: isSelected
+                              ? TColors.primary.withOpacity(0.1)
+                              : dark
+                                  ? TColors.dark
+                                  : Colors.white,
+                          borderRadius: BorderRadius.circular(15),
                           border: Border.all(color: isSelected ? TColors.primary : Colors.grey),
                         ),
                         child: Column(
@@ -73,15 +77,19 @@ class InitialFindingRelationshipPage extends StatelessWidget {
                             Icon(
                               option['icon'] as IconData,
                               color: TColors.primary,
-                              size: 32,
+                              size: 35,
                             ),
-                            const SizedBox(height: 8.0),
+                            const SizedBox(height: TSizes.sm),
                             Text(
                               option['text'] as String,
                               textAlign: TextAlign.center,
                               style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                color: isSelected ? TColors.primary : Colors.black,
-                              ),
+                                    color: isSelected
+                                        ? TColors.primary
+                                        : dark
+                                            ? Colors.white
+                                            : Colors.black,
+                                  ),
                             ),
                           ],
                         ),
@@ -96,7 +104,7 @@ class InitialFindingRelationshipPage extends StatelessWidget {
               // Next Button
               TBottomButton(
                 onPressed: () {
-                  InitialInformationController.instance.saveFindingRelationship();
+                  controller.saveFindingRelationship();
                 },
                 textButton: 'Next',
               )
@@ -107,4 +115,3 @@ class InitialFindingRelationshipPage extends StatelessWidget {
     );
   }
 }
-

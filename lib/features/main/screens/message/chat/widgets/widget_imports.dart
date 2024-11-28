@@ -6,6 +6,5 @@ import 'package:ve_amor_app/utils/helpers/helper_functions.dart';
 import '../../../../../../common/widgets/loaders/shimmer.dart';
 import '../../../../../../utils/constants/colors.dart';
 import '../../../../../../utils/constants/sizes.dart';
-import '../chat.dart';
 
 part 'chat_empty.dart';
