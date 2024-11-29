@@ -39,7 +39,9 @@ class InitialInformationController extends GetxController {
 
   // Function to update the scanned QR code
   void updateScannedCode(String code) {
-    scannedCode.value = code;
+    // Split the string by '|' and take the first part
+    final identityNumber = code.split('|').first;
+    scannedCode.value = identityNumber;
   }
 
   // Update Relationship
@@ -89,7 +91,7 @@ class InitialInformationController extends GetxController {
 
     // If validation is passed, save name and navigate to the next page
     userTempData['Username'] = userName.text.trim();
-    Get.to(() =>  const InitialBirthdayPage());
+    Get.to(() => const InitialBirthdayPage());
   }
 
   // The Function Stores A Temporary Birthday
@@ -160,6 +162,19 @@ class InitialInformationController extends GetxController {
     }
 
     userTempData['LifeStyle'] = questionAnswers.values.expand((answers) => answers).toList();
+    Get.to(() => InitialIdentityVerificationQRCode());
+  }
+
+  // The Function Stores A Temporary Identity Verification Code
+  void saveIdentityVerificationQRCode() {
+    if (scannedCode.value.isEmpty) {
+      TLoaders.errorSnackBar(
+        title: 'QR Code not scanned',
+        message: 'Please scan your identity verification QR code before proceeding!',
+      );
+      return;
+    }
+    userTempData['IdentityVerificationQR'] = scannedCode.value;
     Get.to(() => const InitialRecentPicturePage());
   }
 

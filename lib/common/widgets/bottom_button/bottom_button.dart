@@ -20,10 +20,15 @@ class TBottomButton extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(30),
           ),
-
         ),
         onPressed: onPressed,
-        child: Text(textButton, style: const TextStyle(fontWeight: FontWeight.bold)),
+        child: Text(
+          textButton,
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
       ),
     );
   }

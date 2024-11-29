@@ -13,19 +13,20 @@ import 'package:ve_amor_app/utils/helpers/helper_functions.dart';
 
 import '../../../../common/widgets/bottom_button/bottom_button.dart';
 
-class InitialIdentityVerification extends StatelessWidget {
-  InitialIdentityVerification({super.key});
+class InitialIdentityVerificationQRCode extends StatelessWidget {
+  InitialIdentityVerificationQRCode({super.key});
 
   final controller = InitialInformationController.instance;
 
   Future<void> scanQR() async {
     String barcodeScanRes;
     try {
-      barcodeScanRes = await FlutterBarcodeScanner.scanBarcode('#ff6666', 'Cancel', true, ScanMode.QR);
-      print('$barcodeScanRes');
+      barcodeScanRes =
+          await FlutterBarcodeScanner.scanBarcode('#ff6666', 'Cancel', true, ScanMode.QR);
 
       // Update the scanned code in GetX controller
       controller.updateScannedCode(barcodeScanRes);
+      print('-------------------------------------------- ${controller.scannedCode.value}');
     } on PlatformException {
       barcodeScanRes = 'Failed to get platform version.';
     }
@@ -72,11 +73,15 @@ class InitialIdentityVerification extends StatelessWidget {
                     children: [
                       Text(
                         TTexts.captureFrom,
-                        style: Theme.of(context).textTheme.labelLarge!.copyWith(color: TColors.white),
+                        style:
+                            Theme.of(context).textTheme.labelLarge!.copyWith(color: TColors.white),
                       ),
                       Text(
                         TTexts.camera,
-                        style: Theme.of(context).textTheme.headlineMedium!.copyWith(color: TColors.white),
+                        style: Theme.of(context)
+                            .textTheme
+                            .headlineMedium!
+                            .copyWith(color: TColors.white),
                       ),
                     ],
                   ),
@@ -84,10 +89,32 @@ class InitialIdentityVerification extends StatelessWidget {
               ),
             ),
 
+            const SizedBox(height: TSizes.spaceBtwSections),
+
+            Obx(() => controller.scannedCode.value.isNotEmpty
+                ? Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Identity Number:',
+                        style: Theme.of(context).textTheme.headlineSmall,
+                      ),
+                      const SizedBox(width: TSizes.spaceBtwItems / 2),
+                      Text(
+                        controller.scannedCode.value,
+                        style: Theme.of(context).textTheme.bodySmall,
+                      ),
+                      const SizedBox(height: TSizes.spaceBtwSections),
+                    ],
+                  )
+                : const SizedBox.shrink()),
+
             const Spacer(),
             // Button Next
             TBottomButton(
-              onPressed: () => Get.to(() => const NavigationMenu()),
+              onPressed: () {
+                controller.saveIdentityVerificationQRCode();
+              },
               textButton: 'Next',
             ),
           ],
