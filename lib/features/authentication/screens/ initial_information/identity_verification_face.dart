@@ -5,6 +5,7 @@ class InitialIdentityVerificationFace extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = InitialInformationController.instance;
     return Scaffold(
       appBar: const TAppbar(showBackArrow: true),
       body: SafeArea(
@@ -29,6 +30,32 @@ class InitialIdentityVerificationFace extends StatelessWidget {
                     // Camera Button
                     GestureDetector(
                       onTap: () async {
+                        try {
+                          final ImagePicker picker = ImagePicker();
+                          // Bắt buộc sử dụng camera trước
+                          final XFile? photo = await picker.pickImage(
+                            source: ImageSource.camera,
+                            preferredCameraDevice: CameraDevice.front,
+                            // Thêm các options để đảm bảo chỉ dùng camera trước
+                            imageQuality: 80, // Có thể điều chỉnh chất lượng ảnh
+                          );
+
+                          if (photo != null) {
+                            await controller.saveFaceImage(photo.path);
+                          } else {
+                            // Người dùng đã hủy chụp ảnh
+                            TLoaders.warningSnackBar(
+                              title: 'No Photo Taken',
+                              message: 'Please take a photo with front camera',
+                            );
+                          }
+                        } catch (e) {
+                          // Xử lý lỗi khi không thể mở camera
+                          TLoaders.errorSnackBar(
+                            title: 'Camera Error',
+                            message: 'Could not access front camera. Please try again.',
+                          );
+                        }
                       },
                       child: Container(
                         width: THelperFunctions.screenWidth(),
@@ -48,7 +75,10 @@ class InitialIdentityVerificationFace extends StatelessWidget {
                             children: [
                               Text(
                                 TTexts.captureFrom,
-                                style: Theme.of(context).textTheme.labelLarge!.copyWith(color: TColors.white),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .labelLarge!
+                                    .copyWith(color: TColors.white),
                               ),
                               Text(
                                 TTexts.camera,
@@ -65,7 +95,16 @@ class InitialIdentityVerificationFace extends StatelessWidget {
                     const Expanded(child: SizedBox()), // Replace Spacer with Expanded
                     // Button Next
                     TBottomButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        if (controller.faceImage.value == null) {
+                          TLoaders.errorSnackBar(
+                            title: 'No Image',
+                            message: 'Please take a photo first',
+                          );
+                          return;
+                        }
+                        controller.saveFaceImage(controller.faceImage.value!);
+                      },
                       textButton: 'Next',
                     ),
                   ],

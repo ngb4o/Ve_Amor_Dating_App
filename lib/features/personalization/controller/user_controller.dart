@@ -72,6 +72,7 @@ class UserController extends GetxController {
           wantSeeing: user.value.wantSeeing,
           lifeStyle: user.value.lifeStyle,
           identityVerificationQR: user.value.identityVerificationQR,
+          identityVerificationFaceImage: user.value.identityVerificationFaceImage,
           findingRelationship: user.value.findingRelationship,
           likes: user.value.likes,
           nopes: user.value.nopes,

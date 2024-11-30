@@ -14,6 +14,7 @@ class AllUsersMatchesModel {
   String wantSeeing;
   List<String> lifeStyle;
   String identityVerificationQR;
+  String identityVerificationFaceImage;
   String findingRelationship;
   List<String> likes;
   List<String> nopes;
@@ -31,6 +32,7 @@ class AllUsersMatchesModel {
       required this.wantSeeing,
       required this.lifeStyle,
       required this.identityVerificationQR,
+      required this.identityVerificationFaceImage,
       required this.findingRelationship,
       required this.likes,
       required this.nopes,
@@ -67,6 +69,7 @@ class AllUsersMatchesModel {
         wantSeeing: '',
         lifeStyle: [],
         identityVerificationQR: '',
+        identityVerificationFaceImage: '',
         findingRelationship: '',
         likes: [],
         nopes: [],
@@ -85,6 +88,7 @@ class AllUsersMatchesModel {
       'WantSeeing': wantSeeing,
       'LifeStyle': lifeStyle,
       'IdentityVerificationQR': identityVerificationQR,
+      'IdentityVerificationFaceImage': identityVerificationFaceImage,
       'FindingRelationship': findingRelationship,
       'Likes': likes,
       'Nopes': nopes,
@@ -107,6 +111,7 @@ class AllUsersMatchesModel {
         wantSeeing: data['WantSeeing'] ?? '',
         lifeStyle: List<String>.from(data['LifeStyle'] ?? []),
         identityVerificationQR: data['IdentityVerificationQR'] ?? '',
+        identityVerificationFaceImage: data['IdentityVerificationFaceImage'] ?? '',
         findingRelationship: data['FindingRelationship'],
         likes: List<String>.from(data['Likes'] ?? []),
         nopes: List<String>.from(data['Nopes'] ?? []),

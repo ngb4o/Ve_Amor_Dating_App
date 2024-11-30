@@ -19,6 +19,7 @@ class InitialInformationController extends GetxController {
   final selectedWantSeeing = ''.obs;
   final selectedFindingRelationship = ''.obs;
   var scannedCode = ''.obs;
+  final faceImage = Rxn<String>();
   final newPhotos = <String>[].obs;
   final questionAnswers = <String, List<String>>{}.obs;
 
@@ -77,8 +78,7 @@ class InitialInformationController extends GetxController {
   // The Function Stores A Temporary Name
   void saveName() {
     // Validate name
-    String? validationError =
-        TValidator.validateEmptyText('Name', userName.text.trim());
+    String? validationError = TValidator.validateEmptyText('Name', userName.text.trim());
 
     if (validationError != null) {
       TLoaders.errorSnackBar(
@@ -96,8 +96,7 @@ class InitialInformationController extends GetxController {
   // The Function Stores A Temporary Birthday
   void saveBirthday() {
     // Validate birthday
-    String? validationError =
-        TValidator.validateBirthday(dateOfBirth.text.trim());
+    String? validationError = TValidator.validateBirthday(dateOfBirth.text.trim());
 
     if (validationError != null) {
       TLoaders.errorSnackBar(
@@ -161,8 +160,7 @@ class InitialInformationController extends GetxController {
       return;
     }
 
-    userTempData['LifeStyle'] =
-        questionAnswers.values.expand((answers) => answers).toList();
+    userTempData['LifeStyle'] = questionAnswers.values.expand((answers) => answers).toList();
     Get.to(() => InitialIdentityVerificationQRCode());
   }
 
@@ -171,13 +169,51 @@ class InitialInformationController extends GetxController {
     if (scannedCode.value.isEmpty || scannedCode.value.length < 12) {
       TLoaders.errorSnackBar(
         title: 'QR Code not scanned',
-        message:
-            'Please scan your identity verification QR code before proceeding!',
+        message: 'Please scan your identity verification QR code before proceeding!',
       );
       return;
     }
     userTempData['IdentityVerificationQR'] = scannedCode.value;
     Get.to(() => const InitialIdentityVerificationFace());
+  }
+
+  // The Function Stores A Temporary Identity Verification Face
+  Future<void> saveFaceImage(String imagePath) async {
+    try {
+      if (imagePath.isEmpty) {
+        TLoaders.errorSnackBar(
+          title: 'Image not captured',
+          message: 'Please take a photo before proceeding!',
+        );
+        return;
+      }
+
+      // Show loading dialog
+      TFullScreenLoader.openLoadingDialog(
+        'Uploading your photo...',
+        Assets.animations141594AnimationOfDocer,
+      );
+
+      // Upload ảnh và lấy URL sử dụng uploadProfileImage
+      String uploadedUrl = await userRepository.uploadProfileImage(imagePath);
+
+      faceImage.value = imagePath; // Lưu đường dẫn local để hiển thị
+      userTempData['IdentityVerificationFaceImage'] = uploadedUrl; // Lưu URL từ storage
+
+      // Remove loader
+      TFullScreenLoader.stopLoading();
+
+      // Navigate to next screen
+      Get.to(() => const InitialRecentPicturePage());
+    } catch (e) {
+      // Remove loader
+      TFullScreenLoader.stopLoading();
+
+      TLoaders.errorSnackBar(
+        title: 'Upload Failed',
+        message: e.toString(),
+      );
+    }
   }
 
   // The Function Stores A Temporary List of Photos

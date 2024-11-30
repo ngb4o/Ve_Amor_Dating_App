@@ -75,6 +75,7 @@ class SignupController extends GetxController {
         wantSeeing: '',
         lifeStyle: [],
         identityVerificationQR: '',
+        identityVerificationFaceImage: '',
         findingRelationship: '',
         likes: [],
         nopes: [],
