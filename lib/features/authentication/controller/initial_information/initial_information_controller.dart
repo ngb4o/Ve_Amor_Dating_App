@@ -9,8 +9,6 @@ import 'package:ve_amor_app/utils/popups/full_screen_loader.dart';
 import 'package:ve_amor_app/utils/popups/loaders.dart';
 import 'package:ve_amor_app/utils/validators/validation.dart';
 
-import '../../screens/ initial_information/identity_verification_qr.dart';
-
 class InitialInformationController extends GetxController {
   static InitialInformationController get instance => Get.find();
 
@@ -79,7 +77,8 @@ class InitialInformationController extends GetxController {
   // The Function Stores A Temporary Name
   void saveName() {
     // Validate name
-    String? validationError = TValidator.validateEmptyText('Name', userName.text.trim());
+    String? validationError =
+        TValidator.validateEmptyText('Name', userName.text.trim());
 
     if (validationError != null) {
       TLoaders.errorSnackBar(
@@ -97,7 +96,8 @@ class InitialInformationController extends GetxController {
   // The Function Stores A Temporary Birthday
   void saveBirthday() {
     // Validate birthday
-    String? validationError = TValidator.validateBirthday(dateOfBirth.text.trim());
+    String? validationError =
+        TValidator.validateBirthday(dateOfBirth.text.trim());
 
     if (validationError != null) {
       TLoaders.errorSnackBar(
@@ -161,21 +161,23 @@ class InitialInformationController extends GetxController {
       return;
     }
 
-    userTempData['LifeStyle'] = questionAnswers.values.expand((answers) => answers).toList();
+    userTempData['LifeStyle'] =
+        questionAnswers.values.expand((answers) => answers).toList();
     Get.to(() => InitialIdentityVerificationQRCode());
   }
 
   // The Function Stores A Temporary Identity Verification Code
   void saveIdentityVerificationQRCode() {
-    if (scannedCode.value.isEmpty) {
+    if (scannedCode.value.isEmpty || scannedCode.value.length < 12) {
       TLoaders.errorSnackBar(
         title: 'QR Code not scanned',
-        message: 'Please scan your identity verification QR code before proceeding!',
+        message:
+            'Please scan your identity verification QR code before proceeding!',
       );
       return;
     }
     userTempData['IdentityVerificationQR'] = scannedCode.value;
-    Get.to(() => const InitialRecentPicturePage());
+    Get.to(() => const InitialIdentityVerificationFace());
   }
 
   // The Function Stores A Temporary List of Photos

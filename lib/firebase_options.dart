@@ -3,6 +3,7 @@
 import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
 import 'package:flutter/foundation.dart'
     show defaultTargetPlatform, kIsWeb, TargetPlatform;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 /// Default [FirebaseOptions] for use with your Firebase apps.
 ///
@@ -46,33 +47,32 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyA1FDCddk_LbieylOJh4rZQUiI9kNjHjOs',
-    appId: '1:266111988879:web:01ed8b485e9a033819acfa',
-    messagingSenderId: '266111988879',
-    projectId: 'veamordatingapp',
-    authDomain: 'veamordatingapp.firebaseapp.com',
-    storageBucket: 'veamordatingapp.firebasestorage.app',
-    measurementId: 'G-CCTM5JZP03',
+  static final FirebaseOptions web = FirebaseOptions(
+    apiKey: dotenv.env['FIREBASE_WEB_API_KEY'] ?? '',
+    appId: dotenv.env['FIREBASE_APP_ID_WEB'] ?? '',
+    messagingSenderId: dotenv.env['FIREBASE_MESSAGING_SENDER_ID'] ?? '',
+    projectId: dotenv.env['FIREBASE_PROJECT_ID'] ?? '',
+    authDomain: dotenv.env['FIREBASE_AUTH_DOMAIN'] ?? '',
+    storageBucket: dotenv.env['FIREBASE_STORAGE_BUCKET'] ?? '',
+    measurementId: dotenv.env['FIREBASE_MEASUREMENT_ID'] ?? '',
   );
 
-  static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyA01c4d1uYsPGyspLYNJCcLR6C4eqOR2Cg',
-    appId: '1:266111988879:android:136a9e87861a6e0a19acfa',
-    messagingSenderId: '266111988879',
-    projectId: 'veamordatingapp',
-    storageBucket: 'veamordatingapp.firebasestorage.app',
+  static final FirebaseOptions android = FirebaseOptions(
+    apiKey: dotenv.env['FIREBASE_ANDROID_API_KEY'] ?? '',
+    appId: dotenv.env['FIREBASE_APP_ID_ANDROID'] ?? '',
+    messagingSenderId: dotenv.env['FIREBASE_MESSAGING_SENDER_ID'] ?? '',
+    projectId: dotenv.env['FIREBASE_PROJECT_ID'] ?? '',
+    storageBucket: dotenv.env['FIREBASE_STORAGE_BUCKET'] ?? '',
   );
 
-  static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyAcRoZAzdg1kKDNX4m4B6LWQXBoJNJGSJE',
-    appId: '1:266111988879:ios:fca61265d120580c19acfa',
-    messagingSenderId: '266111988879',
-    projectId: 'veamordatingapp',
-    storageBucket: 'veamordatingapp.firebasestorage.app',
-    androidClientId: '266111988879-ai2o925ems1kj8fr4nsm3agajadkstl3.apps.googleusercontent.com',
-    iosClientId: '266111988879-d402sjkik8dolcpqv031f6elmji07nm8.apps.googleusercontent.com',
-    iosBundleId: 'com.example.veAmorApp',
+  static final FirebaseOptions ios = FirebaseOptions(
+    apiKey: dotenv.env['FIREBASE_IOS_API_KEY'] ?? '',
+    appId: dotenv.env['FIREBASE_APP_ID_IOS'] ?? '',
+    messagingSenderId: dotenv.env['FIREBASE_MESSAGING_SENDER_ID'] ?? '',
+    projectId: dotenv.env['FIREBASE_PROJECT_ID'] ?? '',
+    storageBucket: dotenv.env['FIREBASE_STORAGE_BUCKET'] ?? '',
+    androidClientId: dotenv.env['FIREBASE_ANDROID_CLIENT_ID'] ?? '',
+    iosClientId: dotenv.env['FIREBASE_IOS_CLIENT_ID'] ?? '',
+    iosBundleId: dotenv.env['FIREBASE_IOS_BUNDLE_ID'] ?? '',
   );
-
 }

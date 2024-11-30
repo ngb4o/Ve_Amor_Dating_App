@@ -77,7 +77,7 @@ class InitialFindingRelationshipPage extends StatelessWidget {
                             Icon(
                               option['icon'] as IconData,
                               color: TColors.primary,
-                              size: 35,
+                              size: 50,
                             ),
                             const SizedBox(height: TSizes.sm),
                             Text(

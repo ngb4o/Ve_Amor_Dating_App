@@ -98,26 +98,35 @@ class TTexts {
 
   // Recent Pictures
   static const String titleRecentPicture = "Add your recent picture";
-  static const String subTitleRecentPicture = "Upload 2 photos to start. Add 4 or more to make your profile stand out";
+  static const String subTitleRecentPicture =
+      "Upload 2 photos to start. Add 4 or more to make your profile stand out";
 
   // Lifestyle
-  static const String titleLifestyle= "Let’s exchange lifestyle habits and personalities!";
-  static const String subTitleLifestyle = "Do their habits and personalities resemble yours? Let’s share first.";
+  static const String titleLifestyle = "Let’s exchange lifestyle habits and personalities!";
+  static const String subTitleLifestyle =
+      "Do their habits and personalities resemble yours? Let’s share first.";
 
   // Message
-  static const String newMatches= "New Matches";
-  static const String message= "Message";
+  static const String newMatches = "New Matches";
+  static const String message = "Message";
 
   // Explore
   static const String titleExplore = "Welcome to the Explore tab";
 
   // Identity Verification
-  static const String titleIdentityVerification = "One Account, One Identity";
-  static const String subTitleIdentityVerification ="To ensure each individual can only register one account, please scan the QR code on your Citizen ID (CCCD) or Passport to complete your registration. This helps us provide a secure and personalized experience for every user.";
+  static const String titleIdentityVerificationQR = "One Account, One Identity";
+  static const String subTitleIdentityVerificationQR =
+      "To ensure each individual can only register one account, please scan the QR code on your Citizen ID (CCCD) or Passport to complete your registration. This helps us provide a secure and personalized experience for every user.";
+
+  // Identity Verification Face
+  static const String titleIdentityVerificationFace = "Face Verification";
+  static const String subTitleIdentityVerificationFace =
+      "Please take a clear photo of your face without makeup, accessories, or filters. This photo will be used to verify your identity when you upload new photos to ensure account authenticity and prevent impersonation.";
 
   // Message Empty
   static const String titleMessageEmpty = 'Start swiping';
-  static const String subTitleMessageEmpty = 'When you match with someone, they will appear here, and you can send them a message.';
+  static const String subTitleMessageEmpty =
+      'When you match with someone, they will appear here, and you can send them a message.';
 
   // Chat Empty
   static const String titleChatEmpty = "You have matched with ";
@@ -125,5 +134,6 @@ class TTexts {
 
   // Relationship
   static const String titleRelationship = "What are you looking for?";
-  static const String subTitleRelationship = "If you change your mind, that's okay. There will always be someone who fits your purpose.";
+  static const String subTitleRelationship =
+      "If you change your mind, that's okay. There will always be someone who fits your purpose.";
 }

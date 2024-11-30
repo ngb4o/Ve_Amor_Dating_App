@@ -1,17 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
-import 'package:get/get.dart';
-import 'package:ve_amor_app/common/widgets/appbar/appbar.dart';
-import 'package:ve_amor_app/features/authentication/controller/initial_information/initial_information_controller.dart';
-import 'package:ve_amor_app/navigation_menu.dart';
-import 'package:ve_amor_app/utils/constants/colors.dart';
-import 'package:ve_amor_app/utils/constants/image_strings.dart';
-import 'package:ve_amor_app/utils/constants/sizes.dart';
-import 'package:ve_amor_app/utils/constants/text_strings.dart';
-import 'package:ve_amor_app/utils/helpers/helper_functions.dart';
-
-import '../../../../common/widgets/bottom_button/bottom_button.dart';
+part of 'initial_information_imports.dart';
 
 class InitialIdentityVerificationQRCode extends StatelessWidget {
   InitialIdentityVerificationQRCode({super.key});
@@ -43,13 +30,13 @@ class InitialIdentityVerificationQRCode extends StatelessWidget {
           children: [
             // Title
             Text(
-              TTexts.titleIdentityVerification,
+              TTexts.titleIdentityVerificationQR,
               style: Theme.of(context).textTheme.headlineLarge,
             ),
             const SizedBox(height: TSizes.spaceBtwItems),
 
             // Sub Title
-            Text(TTexts.subTitleIdentityVerification, style: Theme.of(context).textTheme.bodySmall),
+            Text(TTexts.subTitleIdentityVerificationQR, style: Theme.of(context).textTheme.bodySmall),
             const SizedBox(height: TSizes.spaceBtwSections),
 
             // Camera

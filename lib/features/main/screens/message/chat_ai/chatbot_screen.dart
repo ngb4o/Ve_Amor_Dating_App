@@ -3,6 +3,7 @@ import 'package:ve_amor_app/common/widgets/appbar/appbar.dart';
 import 'package:ve_amor_app/utils/constants/colors.dart';
 import 'package:ve_amor_app/utils/constants/enums.dart';
 import 'package:ve_amor_app/utils/constants/sizes.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import '../../../../../data/services/gemini/gemini_service.dart';
 
 class ChatBotScreen extends StatefulWidget {
@@ -21,8 +22,7 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
   @override
   void initState() {
     super.initState();
-    // Thay YOUR_API_KEY bằng API key thực tế
-    _geminiService = GeminiService('AIzaSyB8Ze0liwnMmwQPR3qSbHZjBDO-mNyZ794');
+    _geminiService = GeminiService(dotenv.env['GEMINI_API_KEY'] ?? '');
   }
 
   void _sendMessage() async {
@@ -68,7 +68,9 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
               itemBuilder: (context, index) {
                 final isUserMessage = !_messages[index].startsWith('AI:');
                 return Align(
-                  alignment: isUserMessage ? Alignment.centerRight : Alignment.centerLeft,
+                  alignment: isUserMessage
+                      ? Alignment.centerRight
+                      : Alignment.centerLeft,
                   child: Container(
                     margin: const EdgeInsets.symmetric(vertical: 5),
                     padding: const EdgeInsets.all(12),
