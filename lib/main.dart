@@ -8,11 +8,16 @@ import 'app.dart';
 import 'data/repositories/authentication/authentication_repository.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
+import 'data/services/encryption/encryption_service.dart';
+
 Future<void> main() async {
   // Ensure Flutter is initialized first
   WidgetsFlutterBinding.ensureInitialized();
 
   await dotenv.load(fileName: "assets/.env");
+
+  final encryptionService = EncryptionService();
+  encryptionService.init();
 
   // Widgets Binding
   final WidgetsBinding widgetsBinding =

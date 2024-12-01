@@ -3,6 +3,14 @@ import 'package:get/get.dart';
 import 'package:ve_amor_app/data/repositories/user/user_repository.dart';
 import 'package:ve_amor_app/features/personalization/models/user_model.dart';
 import 'package:ve_amor_app/utils/popups/loaders.dart';
+import 'package:ve_amor_app/data/services/amazon/aws_compare_face.dart';
+import 'package:ve_amor_app/utils/popups/full_screen_loader.dart';
+import 'package:ve_amor_app/utils/constants/image_strings.dart';
+import 'dart:io';
+import 'package:http/http.dart' as http;
+import 'package:path_provider/path_provider.dart';
+
+import '../../../generated/assets.dart';
 
 class UserController extends GetxController {
   static UserController get instance => Get.find();
@@ -64,7 +72,9 @@ class UserController extends GetxController {
         final newUser = UserModel(
           id: userCredentials.user!.uid,
           username: user.value.username,
-          email: user.value.email.isNotEmpty ? user.value.email : userCredentials.user!.email ?? '',
+          email: user.value.email.isNotEmpty
+              ? user.value.email
+              : userCredentials.user!.email ?? '',
           phoneNumber: user.value.phoneNumber,
           profilePictures: user.value.profilePictures,
           dateOfBirth: user.value.dateOfBirth,
@@ -72,7 +82,8 @@ class UserController extends GetxController {
           wantSeeing: user.value.wantSeeing,
           lifeStyle: user.value.lifeStyle,
           identityVerificationQR: user.value.identityVerificationQR,
-          identityVerificationFaceImage: user.value.identityVerificationFaceImage,
+          identityVerificationFaceImage:
+          user.value.identityVerificationFaceImage,
           findingRelationship: user.value.findingRelationship,
           likes: user.value.likes,
           nopes: user.value.nopes,
@@ -90,7 +101,8 @@ class UserController extends GetxController {
     } catch (e) {
       TLoaders.warningSnackBar(
         title: 'Data not saved',
-        message: 'Something went wrong while saving your information. Please try again.',
+        message:
+        'Something went wrong while saving your information. Please try again.',
       );
     }
   }
@@ -125,7 +137,66 @@ class UserController extends GetxController {
   /// Upload a new image to Firebase and update the user's profile
   Future<void> pushImageFirebase(String filePath) async {
     try {
-      // Start uploading state
+
+      // Start face comparison process
+      TFullScreenLoader.openLoadingDialog(
+        'Comparing your photo with verification face...',
+        Assets.animations141594AnimationOfDocer,
+      );
+
+      // Verify that user has a verification face image
+      if (user.value.identityVerificationFaceImage.isEmpty) {
+        TLoaders.errorSnackBar(
+          title: 'Verification Required',
+          message: 'Please complete face verification first.',
+        );
+        return;
+      }
+
+      // Download verification face image to local temporary file
+      final verificationImageFile = await _downloadVerificationImage();
+      if (verificationImageFile == null) {
+        TLoaders.errorSnackBar(
+          title: 'Verification Error',
+          message: 'Could not access verification image. Please try again.',
+        );
+        return;
+      }
+
+
+      // Compare faces using AWS Rekognition
+      final result = await AWSService.compareFaceWithImage(
+        verificationImageFile.path,
+        filePath,
+      );
+
+      // Delete temporary file
+      await verificationImageFile.delete();
+
+      TFullScreenLoader.stopLoading();
+
+      // Handle comparison errors
+      if (result.containsKey('error')) {
+        TLoaders.errorSnackBar(
+          title: 'Face Verification Error',
+          message: result['error'],
+        );
+        return;
+      }
+
+      final similarity = result['similarity'].toStringAsFixed(1);
+
+      // Check if faces match
+      if (!result['isMatch']) {
+        TLoaders.errorSnackBar(
+          title: 'Face Verification Failed',
+          message:
+          'Face similarity: $similarity%. Must be at least 95% similar to your verification photo.',
+        );
+        return;
+      }
+
+      // If faces match, proceed with upload
       imageUploading.value = true;
 
       // Upload the image and get the download URL
@@ -138,7 +209,7 @@ class UserController extends GetxController {
 
       TLoaders.successSnackBar(
         title: 'Upload Successful',
-        message: 'Your image has been uploaded and added to your profile.',
+        message: 'Face similarity: $similarity%. Photo uploaded successfully.',
       );
     } catch (e) {
       TLoaders.errorSnackBar(
@@ -147,6 +218,25 @@ class UserController extends GetxController {
       );
     } finally {
       imageUploading.value = false;
+    }
+  }
+
+  /// Download verification image to temporary file
+  Future<File?> _downloadVerificationImage() async {
+    try {
+      final response =
+      await http.get(Uri.parse(user.value.identityVerificationFaceImage));
+
+      if (response.statusCode == 200) {
+        final tempDir = await getTemporaryDirectory();
+        final tempFile = File('${tempDir.path}/verification_face.jpg');
+        await tempFile.writeAsBytes(response.bodyBytes);
+        return tempFile;
+      }
+      return null;
+    } catch (e) {
+      print('Error downloading verification image: $e');
+      return null;
     }
   }
 }

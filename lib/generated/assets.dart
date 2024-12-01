@@ -26,6 +26,7 @@ class Assets {
   static const String animationsSammyLineSuccess = 'assets/images/animations/sammy-line-success.png';
   static const String animationsSammyLineTravelBackpackWithPassportAndAirTicket = 'assets/images/animations/sammy-line-travel-backpack-with-passport-and-air-ticket.gif';
   static const String animationsSammyLineWorkout = 'assets/images/animations/sammy-line-workout.gif';
+  static const String assets = 'assets/.env';
   static const String contentImageGirl = 'assets/images/content/image-girl.png';
   static const String contentUser = 'assets/images/content/user.png';
   static const String fontsCoolveticaRegular = 'assets/fonts/coolvetica_regular.otf';

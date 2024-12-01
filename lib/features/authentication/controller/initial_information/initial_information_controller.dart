@@ -10,6 +10,8 @@ import 'package:ve_amor_app/utils/popups/full_screen_loader.dart';
 import 'package:ve_amor_app/utils/popups/loaders.dart';
 import 'package:ve_amor_app/utils/validators/validation.dart';
 
+import '../../../../data/services/encryption/encryption_service.dart';
+
 class InitialInformationController extends GetxController {
   static InitialInformationController get instance => Get.find();
 
@@ -23,6 +25,7 @@ class InitialInformationController extends GetxController {
   final faceImage = Rxn<String>();
   final newPhotos = <String>[].obs;
   final questionAnswers = <String, List<String>>{}.obs;
+  final _encryptionService = EncryptionService();
 
   // Temporary Model To Save information
   Map<String, dynamic> userTempData = {};
@@ -209,7 +212,6 @@ class InitialInformationController extends GetxController {
   }
 
   // The Function Stores A Temporary Identity Verification Code
-  // The Function Stores A Temporary Identity Verification Code
   Future<void> saveIdentityVerificationQRCode() async {
     try {
       if (scannedCode.value.isEmpty || scannedCode.value.length < 12) {
@@ -226,8 +228,11 @@ class InitialInformationController extends GetxController {
         Assets.animations141594AnimationOfDocer,
       );
 
+      // Encrypt the identity number before checking existence
+      final encryptedIdentityNumber = _encryptionService.encryptData(scannedCode.value);
+
       // Check if identity number exists
-      final isExists = await userRepository.isIdentityNumberExists(scannedCode.value);
+      final isExists = await userRepository.isIdentityNumberExists(encryptedIdentityNumber);
 
       // Remove loader
       TFullScreenLoader.stopLoading();
@@ -240,7 +245,8 @@ class InitialInformationController extends GetxController {
         return;
       }
 
-      userTempData['IdentityVerificationQR'] = scannedCode.value;
+      userTempData['IdentityVerificationQR'] = encryptedIdentityNumber;
+      print('--------------------------------------------- $encryptedIdentityNumber');
       Get.to(() => const InitialIdentityVerificationFace());
     } catch (e) {
       TFullScreenLoader.stopLoading();
@@ -269,16 +275,13 @@ class InitialInformationController extends GetxController {
       );
 
       // Upload ảnh và lấy URL sử dụng uploadProfileImage
-      String uploadedUrl = await userRepository.uploadProfileImage(imagePath);
+      String uploadedUrl = await userRepository.uploadFaceImage(imagePath);
 
-      faceImage.value = imagePath; // Lưu đường dẫn local để hiển thị
-      userTempData['IdentityVerificationFaceImage'] = uploadedUrl; // Lưu URL từ storage
+      faceImage.value = imagePath;
+      userTempData['IdentityVerificationFaceImage'] = uploadedUrl;
 
       // Remove loader
       TFullScreenLoader.stopLoading();
-
-      // Navigate to next screen
-      Get.to(() => const InitialRecentPicturePage());
     } catch (e) {
       // Remove loader
       TFullScreenLoader.stopLoading();

@@ -151,6 +151,30 @@ class UserRepository extends GetxController {
     }
   }
 
+  // Upload face image to Firebase
+  Future<String> uploadFaceImage(String filePath) async {
+    try {
+      String fileName = filePath.split('/').last;
+      Reference ref = _storage.ref('profile_photos/$fileName');
+      TaskSnapshot snapshot = await ref.putFile(File(filePath));
+      String downloadUrl = await snapshot.ref.getDownloadURL();
+
+      // Update user data with the new image
+      final user = await fetchUserDetails();
+      user.identityVerificationFaceImage = downloadUrl;
+
+      return downloadUrl;
+    } on FirebaseException catch (e) {
+      throw TFirebaseAuthException(e.code).message;
+    } on FormatException catch (_) {
+      throw const TFormatException();
+    } on TPlatformException catch (e) {
+      throw TPlatformException(e.code).message;
+    } catch (e) {
+      throw 'Something went wrong. Please try again!';
+    }
+  }
+
   // Delete an image from Firebase Storage and Firestore
   Future<void> deleteProfileImage(String imageUrl) async {
     try {

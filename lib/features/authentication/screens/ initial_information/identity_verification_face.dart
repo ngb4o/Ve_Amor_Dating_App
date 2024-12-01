@@ -1,5 +1,6 @@
 part of 'initial_information_imports.dart';
 
+
 class InitialIdentityVerificationFace extends StatelessWidget {
   const InitialIdentityVerificationFace({super.key});
 
@@ -27,83 +28,87 @@ class InitialIdentityVerificationFace extends StatelessWidget {
                         style: Theme.of(context).textTheme.bodySmall),
                     const SizedBox(height: TSizes.spaceBtwSections),
 
-                    // Camera Button
-                    GestureDetector(
-                      onTap: () async {
-                        try {
-                          final ImagePicker picker = ImagePicker();
-                          // Bắt buộc sử dụng camera trước
-                          final XFile? photo = await picker.pickImage(
-                            source: ImageSource.camera,
-                            preferredCameraDevice: CameraDevice.front,
-                            // Thêm các options để đảm bảo chỉ dùng camera trước
-                            imageQuality: 80, // Có thể điều chỉnh chất lượng ảnh
+                    // Preview Image or Camera Button
+                    Obx(
+                          () => GestureDetector(
+                        onTap: () async {
+                          final imagePath = await Navigator.push<String>(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const CustomCameraScreen(),
+                            ),
                           );
 
-                          if (photo != null) {
-                            await controller.saveFaceImage(photo.path);
-                          } else {
-                            // Người dùng đã hủy chụp ảnh
-                            TLoaders.warningSnackBar(
-                              title: 'No Photo Taken',
-                              message: 'Please take a photo with front camera',
-                            );
+                          if (imagePath != null) {
+                            controller.faceImage.value = imagePath;
                           }
-                        } catch (e) {
-                          // Xử lý lỗi khi không thể mở camera
-                          TLoaders.errorSnackBar(
-                            title: 'Camera Error',
-                            message: 'Could not access front camera. Please try again.',
-                          );
-                        }
-                      },
-                      child: Container(
-                        width: THelperFunctions.screenWidth(),
-                        height: 120,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          image: const DecorationImage(
-                            fit: BoxFit.cover,
-                            image: AssetImage(TImages.camera),
-                          ),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: TSizes.xl),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                TTexts.captureFrom,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .labelLarge!
-                                    .copyWith(color: TColors.white),
+                        },
+                        child: Column(
+                          children: [
+                            Container(
+                              width: THelperFunctions.screenWidth(),
+                              height: controller.faceImage.value != null
+                                  ? THelperFunctions.screenWidth() * 4 / 3 // Chiều cao cho ảnh đã chụp
+                                  : 120, // Chiều cao ban đầu cho camera button
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                color: controller.faceImage.value != null ? Colors.black : null,
                               ),
-                              Text(
-                                TTexts.camera,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .headlineMedium!
-                                    .copyWith(color: TColors.white),
+                              child: controller.faceImage.value != null
+                                  ? ClipRRect(
+                                borderRadius: BorderRadius.circular(20),
+                                child: Image.file(
+                                  File(controller.faceImage.value!),
+                                  fit: BoxFit.cover,
+                                ),
+                              )
+                                  : Container(
+                                decoration: BoxDecoration(
+                                  image: const DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: AssetImage(TImages.camera),
+                                  ),
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left: TSizes.xl),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        TTexts.captureFrom,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .labelLarge!
+                                            .copyWith(color: TColors.white),
+                                      ),
+                                      Text(
+                                        TTexts.camera,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headlineMedium!
+                                            .copyWith(color: TColors.white),
+                                      ),
+                                    ],
+                                  ),
+                                ),
                               ),
-                            ],
-                          ),
+                            ),
+                            const SizedBox(height: TSizes.spaceBtwSections),
+                          ],
                         ),
                       ),
                     ),
-                    const Expanded(child: SizedBox()), // Replace Spacer with Expanded
+
+                    const Expanded(child: SizedBox()),
                     // Button Next
                     TBottomButton(
-                      onPressed: () {
-                        if (controller.faceImage.value == null) {
-                          TLoaders.errorSnackBar(
-                            title: 'No Image',
-                            message: 'Please take a photo first',
-                          );
-                          return;
-                        }
-                        controller.saveFaceImage(controller.faceImage.value!);
+                      onPressed: () async {
+                        await controller.saveFaceImage(controller.faceImage.value!);
+
+                        // Sau khi lưu ảnh thành công thì chuyển trang
+                        Get.to(() => const InitialRecentPicturePage());
                       },
                       textButton: 'Next',
                     ),
@@ -117,3 +122,4 @@ class InitialIdentityVerificationFace extends StatelessWidget {
     );
   }
 }
+

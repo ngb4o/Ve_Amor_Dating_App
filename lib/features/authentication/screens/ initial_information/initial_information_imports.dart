@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
@@ -12,6 +14,7 @@ import 'package:ve_amor_app/utils/constants/sizes.dart';
 import 'package:ve_amor_app/utils/constants/text_strings.dart';
 import 'package:ve_amor_app/utils/helpers/helper_functions.dart';
 
+import '../../../../common/widgets/camera/custom_camera.dart';
 import '../../../../common/widgets/question_section/question_section.dart';
 import '../../../../utils/constants/image_strings.dart';
 import '../../../../utils/popups/loaders.dart';

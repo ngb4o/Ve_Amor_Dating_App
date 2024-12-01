@@ -6,7 +6,8 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 class AWSService {
   // Thay thế bằng credentials thực của bạn
   static final String _accessKeyId = dotenv.env['AMAZON_ACCESS_KEY_ID'] ?? '';
-  static final String _secretAccessKey = dotenv.env['AMAZON_SECRET_ACCESS_KEY'] ?? '';
+  static final String _secretAccessKey =
+      dotenv.env['AMAZON_SECRET_ACCESS_KEY'] ?? '';
   static const String _region = 'ap-southeast-2';
 
   static Future<Map<String, dynamic>> compareFaceWithImage(
@@ -22,8 +23,10 @@ class AWSService {
         credentials: credentials,
       );
 
-      final sourceImageBase64 = base64Encode(await File(sourceImagePath).readAsBytes());
-      final targetImageBase64 = base64Encode(await File(targetImagePath).readAsBytes());
+      final sourceImageBase64 =
+          base64Encode(await File(sourceImagePath).readAsBytes());
+      final targetImageBase64 =
+          base64Encode(await File(targetImagePath).readAsBytes());
 
       final sourceImageBytes = base64Decode(sourceImageBase64);
       final targetImageBytes = base64Decode(targetImageBase64);

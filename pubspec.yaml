@@ -40,6 +40,9 @@ dependencies:
   image_cropper: ^8.0.2
   flutter_dotenv: ^5.0.2
   aws_rekognition_api: ^2.0.0
+  encrypt: ^5.0.3
+  camera: ^0.10.5+9
+  permission_handler: ^11.3.0
 
   # Networking
   http: ^1.2.1
