@@ -209,16 +209,46 @@ class InitialInformationController extends GetxController {
   }
 
   // The Function Stores A Temporary Identity Verification Code
-  void saveIdentityVerificationQRCode() {
-    if (scannedCode.value.isEmpty || scannedCode.value.length < 12) {
-      TLoaders.errorSnackBar(
-        title: 'QR Code not scanned',
-        message: 'Please scan your identity verification QR code before proceeding!',
+  // The Function Stores A Temporary Identity Verification Code
+  Future<void> saveIdentityVerificationQRCode() async {
+    try {
+      if (scannedCode.value.isEmpty || scannedCode.value.length < 12) {
+        TLoaders.errorSnackBar(
+          title: 'QR Code not scanned',
+          message: 'Please scan your identity verification QR code before proceeding!',
+        );
+        return;
+      }
+
+      // Show loading
+      TFullScreenLoader.openLoadingDialog(
+        'Verifying identity number...',
+        Assets.animations141594AnimationOfDocer,
       );
-      return;
+
+      // Check if identity number exists
+      final isExists = await userRepository.isIdentityNumberExists(scannedCode.value);
+
+      // Remove loader
+      TFullScreenLoader.stopLoading();
+
+      if (isExists) {
+        TLoaders.errorSnackBar(
+          title: 'Identity Number Already Exists',
+          message: 'This identity number is already registered in our system.',
+        );
+        return;
+      }
+
+      userTempData['IdentityVerificationQR'] = scannedCode.value;
+      Get.to(() => const InitialIdentityVerificationFace());
+    } catch (e) {
+      TFullScreenLoader.stopLoading();
+      TLoaders.errorSnackBar(
+        title: 'Error',
+        message: e.toString(),
+      );
     }
-    userTempData['IdentityVerificationQR'] = scannedCode.value;
-    Get.to(() => const InitialIdentityVerificationFace());
   }
 
   // The Function Stores A Temporary Identity Verification Face

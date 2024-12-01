@@ -47,6 +47,7 @@ class InitialFindingRelationshipPage extends StatelessWidget {
                   crossAxisCount: 2, // Number of columns
                   crossAxisSpacing: 12.0,
                   mainAxisSpacing: 12.0,
+                  childAspectRatio: 1.2,
                 ),
                 itemCount: options.length,
                 itemBuilder: (context, index) {
@@ -77,13 +78,13 @@ class InitialFindingRelationshipPage extends StatelessWidget {
                             Icon(
                               option['icon'] as IconData,
                               color: TColors.primary,
-                              size: 50,
+                              size: 40,
                             ),
                             const SizedBox(height: TSizes.sm),
                             Text(
                               option['text'] as String,
                               textAlign: TextAlign.center,
-                              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                              style: Theme.of(context).textTheme.labelMedium!.copyWith(
                                     color: isSelected
                                         ? TColors.primary
                                         : dark

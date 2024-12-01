@@ -74,10 +74,7 @@ class UserRepository extends GetxController {
   // Update specific fields in Firestore
   Future<void> updateSingleField(Map<String, dynamic> json) async {
     try {
-      await _db
-          .collection('Users')
-          .doc(AuthenticationRepository.instance.authUser?.uid)
-          .update(json);
+      await _db.collection('Users').doc(AuthenticationRepository.instance.authUser?.uid).update(json);
     } on FirebaseException catch (e) {
       throw TFirebaseAuthException(e.code).message;
     } on FormatException catch (_) {
@@ -164,6 +161,24 @@ class UserRepository extends GetxController {
       final user = await fetchUserDetails();
       user.profilePictures.remove(imageUrl);
       await updateUserDetails(user);
+    } on FirebaseException catch (e) {
+      throw TFirebaseAuthException(e.code).message;
+    } on FormatException catch (_) {
+      throw const TFormatException();
+    } on TPlatformException catch (e) {
+      throw TPlatformException(e.code).message;
+    } catch (e) {
+      throw 'Something went wrong. Please try again!';
+    }
+  }
+
+  /// Check if identity number already exists
+  Future<bool> isIdentityNumberExists(String identityNumber) async {
+    try {
+      final querySnapshot =
+          await _db.collection("Users").where("IdentityVerificationQR", isEqualTo: identityNumber).get();
+
+      return querySnapshot.docs.isNotEmpty;
     } on FirebaseException catch (e) {
       throw TFirebaseAuthException(e.code).message;
     } on FormatException catch (_) {
