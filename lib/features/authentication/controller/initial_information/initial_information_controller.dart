@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:ve_amor_app/data/repositories/user/user_repository.dart';
+import 'package:ve_amor_app/data/services/amazon/aws_compare_face.dart';
 import 'package:ve_amor_app/features/authentication/screens/%20initial_information/initial_information_imports.dart';
 import 'package:ve_amor_app/generated/assets.dart';
 import 'package:ve_amor_app/navigation_menu.dart';
@@ -49,9 +50,52 @@ class InitialInformationController extends GetxController {
   }
 
   // Pictures
-  // -- Add Picture
-  void addPhotos(List<String> photos) {
-    newPhotos.addAll(photos);
+  Future<void> addPhotos(List<String> photos) async {
+    for (String photo in photos) {
+      if (faceImage.value == null) {
+        TLoaders.errorSnackBar(
+          title: 'Verification Required',
+          message: 'Please complete face verification first.',
+        );
+        return;
+      }
+
+      TFullScreenLoader.openLoadingDialog(
+        'Comparing your photo with face...',
+        Assets.animations141594AnimationOfDocer,
+      );
+
+      final result = await AWSService.compareFaceWithImage(
+        faceImage.value!,
+        photo,
+      );
+
+      TFullScreenLoader.stopLoading();
+
+      if (result.containsKey('error')) {
+        TLoaders.errorSnackBar(
+          title: 'Face Verification Error',
+          message: result['error'],
+        );
+        return;
+      }
+
+      final similarity = result['similarity'].toStringAsFixed(1);
+
+      if (result['isMatch']) {
+        TLoaders.successSnackBar(
+          title: 'Face Verification Successful',
+          message: 'Face similarity: $similarity%. Photo added successfully.',
+        );
+        newPhotos.add(photo);
+      } else {
+        TLoaders.errorSnackBar(
+          title: 'Face Verification Failed',
+          message: 'Face similarity: $similarity%. Must be at least 95% similar to your verification photo.',
+        );
+        return;
+      }
+    }
   }
 
   // -- Remove Picture

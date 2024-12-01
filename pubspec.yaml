@@ -39,6 +39,7 @@ dependencies:
   flutter_barcode_scanner: ^2.0.0
   image_cropper: ^8.0.2
   flutter_dotenv: ^5.0.2
+  aws_rekognition_api: ^2.0.0
 
   # Networking
   http: ^1.2.1
