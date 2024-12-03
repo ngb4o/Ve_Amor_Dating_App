@@ -50,15 +50,6 @@ class TInfoSection extends StatelessWidget {
             )
           ],
         ),
-
-        // Location
-        const Row(
-          children: [
-            Icon(Iconsax.location, color: TColors.white, size: 16),
-            SizedBox(width: 5),
-            Text('Đà Nẵng', style: TextStyle(color: TColors.white)),
-          ],
-        ),
       ],
     );
   }

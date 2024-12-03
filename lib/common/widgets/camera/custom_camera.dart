@@ -2,7 +2,8 @@ import 'package:camera/camera.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mlkit_face_detection/google_mlkit_face_detection.dart';
-import 'package:permission_handler/permission_handler.dart';
+import 'package:ve_amor_app/common/widgets/camera/camera_service.dart';
+import 'package:ve_amor_app/common/widgets/camera/face_detector_service.dart';
 
 class CustomCameraScreen extends StatefulWidget {
   const CustomCameraScreen({super.key});
@@ -13,40 +14,28 @@ class CustomCameraScreen extends StatefulWidget {
 
 class _CustomCameraScreenState extends State<CustomCameraScreen>
     with SingleTickerProviderStateMixin {
-  CameraController? _controller;
+  final CameraService _cameraService = CameraService();
+  final FaceDetectorService _faceDetectorService = FaceDetectorService();
+
   bool _isCameraInitialized = false;
   bool _isFaceInPosition = false;
   bool _isProcessing = false;
   List<Face> _faces = [];
-  final FaceDetector _faceDetector = FaceDetector(
-    options: FaceDetectorOptions(
-      enableContours: true,
-      enableClassification: true,
-      performanceMode: FaceDetectorMode.fast,
-    ),
-  );
-  AnimationController? _animationController;
-  bool _isCountingDown = false;
 
-  // Thêm các biến để theo dõi chuyển động
+  // Tracking variables
   Offset? _lastFacePosition;
   DateTime? _lastStableTime;
-  static const double _movementThreshold = 20.0; // Ngưỡng chuyển động (px)
-  static const Duration _stabilityDuration = Duration(milliseconds: 200); // Thời gian ổn định cần thiết
-
-  @override
-  void dispose() {
-    _animationController?.dispose();
-    _controller?.stopImageStream();
-    _controller?.dispose();
-    _faceDetector.close();
-    super.dispose();
-  }
+  bool _isCountingDown = false;
+  AnimationController? _animationController;
 
   @override
   void initState() {
     super.initState();
-    _initCamera();
+    _initializeServices();
+    _setupAnimationController();
+  }
+
+  void _setupAnimationController() {
     _animationController = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 3),
@@ -57,33 +46,11 @@ class _CustomCameraScreenState extends State<CustomCameraScreen>
       });
   }
 
-  void _initCamera() async {
-    final status = await Permission.camera.request();
-    if (status.isGranted) {
-      final cameras = await availableCameras();
-      final frontCamera = cameras.firstWhere(
-        (camera) => camera.lensDirection == CameraLensDirection.front,
-        orElse: () => cameras.first,
-      );
-
-      _controller = CameraController(
-        frontCamera,
-        ResolutionPreset.high,
-        enableAudio: false,
-        imageFormatGroup: ImageFormatGroup.bgra8888,
-      );
-
-      try {
-        await _controller!.initialize();
-
-        // Start image stream for face detection
-        await _controller!
-            .startImageStream((image) => _processCameraImage(image));
-
-        setState(() => _isCameraInitialized = true);
-      } catch (e) {
-        print('Error initializing camera: $e');
-      }
+  Future<void> _initializeServices() async {
+    final controller = await _cameraService.initializeCamera();
+    if (controller != null) {
+      await controller.startImageStream((image) => _processCameraImage(image));
+      setState(() => _isCameraInitialized = true);
     }
   }
 
@@ -115,7 +82,7 @@ class _CustomCameraScreenState extends State<CustomCameraScreen>
         metadata: inputImageData,
       );
 
-      final faces = await _faceDetector.processImage(inputImage);
+      final faces = await _faceDetectorService.detectFaces(inputImage);
 
       if (!mounted) return;
 
@@ -133,7 +100,7 @@ class _CustomCameraScreenState extends State<CustomCameraScreen>
             final double movement =
                 (currentPosition - _lastFacePosition!).distance;
 
-            if (movement > _movementThreshold) {
+            if (movement > FaceDetectorService.movementThreshold) {
               // Phát hiện chuyển động mạnh
               _lastStableTime = DateTime.now();
               if (_isCountingDown) {
@@ -142,7 +109,7 @@ class _CustomCameraScreenState extends State<CustomCameraScreen>
             } else if (_lastStableTime != null) {
               // Kiểm tra thời gian ổn định
               if (DateTime.now().difference(_lastStableTime!) >
-                  _stabilityDuration) {
+                  FaceDetectorService.stabilityDuration) {
                 // Tiếp tục xử lý nhận diện bình thường
                 _processStableFace(boundingBox, imageSize);
               }
@@ -166,7 +133,7 @@ class _CustomCameraScreenState extends State<CustomCameraScreen>
 
   Future<void> _takePhoto() async {
     try {
-      final image = await _controller!.takePicture();
+      final image = await _cameraService.controller!.takePicture();
       if (mounted) {
         Navigator.pop(context, image.path);
       }
@@ -192,7 +159,7 @@ class _CustomCameraScreenState extends State<CustomCameraScreen>
           Transform.scale(
             scale: 1.0,
             child: Center(
-              child: CameraPreview(_controller!),
+              child: CameraPreview(_cameraService.controller!),
             ),
           ),
           CustomPaint(
@@ -260,7 +227,7 @@ class _CustomCameraScreenState extends State<CustomCameraScreen>
     }
   }
 
-  // Tách logic xử lý khuôn mặt ổn đ���nh thành phương thức riêng
+  // Tách logic xử lý khuôn mặt ổn đnh thành phương thức riêng
   void _processStableFace(Rect boundingBox, Size imageSize) {
     final double ovalX = imageSize.width * 0.25;
     final double ovalY = imageSize.height * 0.25;
@@ -302,6 +269,14 @@ class _CustomCameraScreenState extends State<CustomCameraScreen>
 
       _isFaceInPosition = newIsFaceInPosition;
     }
+  }
+
+  @override
+  void dispose() {
+    _animationController?.dispose();
+    _cameraService.dispose();
+    _faceDetectorService.dispose();
+    super.dispose();
   }
 }
 
