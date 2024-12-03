@@ -83,11 +83,12 @@ class UserController extends GetxController {
           lifeStyle: user.value.lifeStyle,
           identityVerificationQR: user.value.identityVerificationQR,
           identityVerificationFaceImage:
-          user.value.identityVerificationFaceImage,
+              user.value.identityVerificationFaceImage,
           findingRelationship: user.value.findingRelationship,
           likes: user.value.likes,
           nopes: user.value.nopes,
           matches: user.value.matches,
+          location: user.value.location,
         );
 
         // Save new data to Firestore
@@ -102,7 +103,7 @@ class UserController extends GetxController {
       TLoaders.warningSnackBar(
         title: 'Data not saved',
         message:
-        'Something went wrong while saving your information. Please try again.',
+            'Something went wrong while saving your information. Please try again.',
       );
     }
   }
@@ -137,7 +138,6 @@ class UserController extends GetxController {
   /// Upload a new image to Firebase and update the user's profile
   Future<void> pushImageFirebase(String filePath) async {
     try {
-
       // Start face comparison process
       TFullScreenLoader.openLoadingDialog(
         'Comparing your photo with verification face...',
@@ -162,7 +162,6 @@ class UserController extends GetxController {
         );
         return;
       }
-
 
       // Compare faces using AWS Rekognition
       final result = await AWSService.compareFaceWithImage(
@@ -191,7 +190,7 @@ class UserController extends GetxController {
         TLoaders.errorSnackBar(
           title: 'Face Verification Failed',
           message:
-          'Face similarity: $similarity%. Must be at least 95% similar to your verification photo.',
+              'Face similarity: $similarity%. Must be at least 95% similar to your verification photo.',
         );
         return;
       }
@@ -225,7 +224,7 @@ class UserController extends GetxController {
   Future<File?> _downloadVerificationImage() async {
     try {
       final response =
-      await http.get(Uri.parse(user.value.identityVerificationFaceImage));
+          await http.get(Uri.parse(user.value.identityVerificationFaceImage));
 
       if (response.statusCode == 200) {
         final tempDir = await getTemporaryDirectory();

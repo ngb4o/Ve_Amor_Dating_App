@@ -11,6 +11,7 @@ import 'package:ve_amor_app/utils/popups/loaders.dart';
 import 'package:ve_amor_app/utils/validators/validation.dart';
 
 import '../../../../data/services/encryption/encryption_service.dart';
+import 'package:ve_amor_app/data/services/location/location_service.dart';
 
 class InitialInformationController extends GetxController {
   static InitialInformationController get instance => Get.find();
@@ -29,6 +30,9 @@ class InitialInformationController extends GetxController {
 
   // Temporary Model To Save information
   Map<String, dynamic> userTempData = {};
+
+  // Add new variables for location
+  final currentLocation = Rxn<LocationInfo>();
 
   // Update Gender
   void updateGender(String gender) {
@@ -94,7 +98,8 @@ class InitialInformationController extends GetxController {
       } else {
         TLoaders.errorSnackBar(
           title: 'Face Verification Failed',
-          message: 'Face similarity: $similarity%. Must be at least 95% similar to your verification photo.',
+          message:
+              'Face similarity: $similarity%. Must be at least 95% similar to your verification photo.',
         );
         return;
       }
@@ -125,7 +130,8 @@ class InitialInformationController extends GetxController {
   // The Function Stores A Temporary Name
   void saveName() {
     // Validate name
-    String? validationError = TValidator.validateEmptyText('Name', userName.text.trim());
+    String? validationError =
+        TValidator.validateEmptyText('Name', userName.text.trim());
 
     if (validationError != null) {
       TLoaders.errorSnackBar(
@@ -143,7 +149,8 @@ class InitialInformationController extends GetxController {
   // The Function Stores A Temporary Birthday
   void saveBirthday() {
     // Validate birthday
-    String? validationError = TValidator.validateBirthday(dateOfBirth.text.trim());
+    String? validationError =
+        TValidator.validateBirthday(dateOfBirth.text.trim());
 
     if (validationError != null) {
       TLoaders.errorSnackBar(
@@ -207,7 +214,30 @@ class InitialInformationController extends GetxController {
       return;
     }
 
-    userTempData['LifeStyle'] = questionAnswers.values.expand((answers) => answers).toList();
+    userTempData['LifeStyle'] =
+        questionAnswers.values.expand((answers) => answers).toList();
+    Get.to(() => const InitialLocationPage());
+  }
+
+  // Update location info
+  void updateLocation(LocationInfo locationInfo) {
+    currentLocation.value = locationInfo;
+  }
+
+  // Save location to temporary data and navigate
+  void saveLocation() {
+    if (currentLocation.value == null) {
+      TLoaders.errorSnackBar(
+        title: 'Location Required',
+        message: 'Please enable location services and try again.',
+      );
+      return;
+    }
+
+    // Save location data
+    userTempData['Location'] = currentLocation.value!.toJson();
+
+    // Navigate to next screen (e.g., QR verification)
     Get.to(() => InitialIdentityVerificationQRCode());
   }
 
@@ -217,7 +247,8 @@ class InitialInformationController extends GetxController {
       if (scannedCode.value.isEmpty || scannedCode.value.length < 12) {
         TLoaders.errorSnackBar(
           title: 'QR Code not scanned',
-          message: 'Please scan your identity verification QR code before proceeding!',
+          message:
+              'Please scan your identity verification QR code before proceeding!',
         );
         return;
       }
@@ -229,10 +260,12 @@ class InitialInformationController extends GetxController {
       );
 
       // Encrypt the identity number before checking existence
-      final encryptedIdentityNumber = _encryptionService.encryptData(scannedCode.value);
+      final encryptedIdentityNumber =
+          _encryptionService.encryptData(scannedCode.value);
 
       // Check if identity number exists
-      final isExists = await userRepository.isIdentityNumberExists(encryptedIdentityNumber);
+      final isExists =
+          await userRepository.isIdentityNumberExists(encryptedIdentityNumber);
 
       // Remove loader
       TFullScreenLoader.stopLoading();
@@ -246,7 +279,8 @@ class InitialInformationController extends GetxController {
       }
 
       userTempData['IdentityVerificationQR'] = encryptedIdentityNumber;
-      print('--------------------------------------------- $encryptedIdentityNumber');
+      print(
+          '--------------------------------------------- $encryptedIdentityNumber');
       Get.to(() => const InitialIdentityVerificationFace());
     } catch (e) {
       TFullScreenLoader.stopLoading();
@@ -350,4 +384,5 @@ class InitialInformationController extends GetxController {
       TLoaders.errorSnackBar(title: 'Oh Snap!', message: e.toString());
     }
   }
+
 }

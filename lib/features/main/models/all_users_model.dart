@@ -1,6 +1,7 @@
 // Model class representing user data
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
+import 'package:ve_amor_app/data/services/location/location_service.dart';
 
 class AllUsersModel {
   // Keep those values final which you do not want to update
@@ -19,6 +20,7 @@ class AllUsersModel {
   List<String> likes;
   List<String> nopes;
   List<String> matches;
+  final Map<String, dynamic>? location;
 
   // Constructor for UserModel
   AllUsersModel(
@@ -36,7 +38,8 @@ class AllUsersModel {
       required this.findingRelationship,
       required this.likes,
       required this.nopes,
-      required this.matches});
+      required this.matches,
+      this.location});
 
   // Change data dateOfBirth to age
   int get age {
@@ -45,7 +48,8 @@ class AllUsersModel {
       final dob = DateFormat('dd/MM/yyyy').parse(dateOfBirth);
       final today = DateTime.now();
       int age = today.year - dob.year;
-      if (today.month < dob.month || (today.month == dob.month && today.day < dob.day)) {
+      if (today.month < dob.month ||
+          (today.month == dob.month && today.day < dob.day)) {
         age--;
       }
       return age;
@@ -74,6 +78,7 @@ class AllUsersModel {
         likes: [],
         nopes: [],
         matches: [],
+        location: null,
       );
 
   // Convert model to JSON structure for storing data in Firebase
@@ -93,11 +98,13 @@ class AllUsersModel {
       'Likes': likes,
       'Nopes': nopes,
       'Matches': matches,
+      'Location': location,
     };
   }
 
   // Factory method to create a UserModel from a Firebase document snapshot
-  factory AllUsersModel.fromSnapshot(DocumentSnapshot<Map<String, dynamic>> document) {
+  factory AllUsersModel.fromSnapshot(
+      DocumentSnapshot<Map<String, dynamic>> document) {
     if (document.data() != null) {
       final data = document.data()!;
       return AllUsersModel(
@@ -111,11 +118,13 @@ class AllUsersModel {
         wantSeeing: data['WantSeeing'] ?? '',
         lifeStyle: List<String>.from(data['LifeStyle'] ?? []),
         identityVerificationQR: data['IdentityVerificationQR'] ?? '',
-        identityVerificationFaceImage: data['IdentityVerificationFaceImage'] ?? '',
+        identityVerificationFaceImage:
+            data['IdentityVerificationFaceImage'] ?? '',
         findingRelationship: data['FindingRelationship'],
         likes: List<String>.from(data['Likes'] ?? []),
         nopes: List<String>.from(data['Nopes'] ?? []),
         matches: List<String>.from(data['Matches'] ?? []),
+        location: data['Location'] as Map<String, dynamic>?,
       );
     }
     return AllUsersModel.empty();

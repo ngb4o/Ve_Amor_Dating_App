@@ -28,7 +28,8 @@ class SignupController extends GetxController {
     try {
       // Start Loading
       TFullScreenLoader.openLoadingDialog(
-          'We are processing your information...', Assets.animations141594AnimationOfDocer);
+          'We are processing your information...',
+          Assets.animations141594AnimationOfDocer);
 
       // Check Internet Connectivity
       final isConnected = await NetworkManager.instance.isConnected();
@@ -58,7 +59,8 @@ class SignupController extends GetxController {
       }
 
       // Register user in the Firebase Authentication & Save user data in the Firebase
-      final userCredential = await AuthenticationRepository.instance.registerWithEmailAndPassword(
+      final userCredential =
+          await AuthenticationRepository.instance.registerWithEmailAndPassword(
         email.text.trim(),
         password.text.trim(),
       );
@@ -80,6 +82,7 @@ class SignupController extends GetxController {
         likes: [],
         nopes: [],
         matches: [],
+        location: null,
       );
 
       final userRepository = Get.put(UserRepository());
