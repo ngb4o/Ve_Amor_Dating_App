@@ -69,7 +69,7 @@ class ProfileScreen extends StatelessWidget {
                 ),
               ),
               Obx(
-                    () => TProfileMenu(
+                () => TProfileMenu(
                   title: 'Age',
                   value: controller.user.value.age.toString(), // Lấy tuổi từ getter
                   onTap: () {},
@@ -115,7 +115,7 @@ class ProfileScreen extends StatelessWidget {
               // Phone number
               Obx(
                 () => TProfileMenu(
-                  title: 'Phone Number',
+                  title: 'Phone',
                   value: controller.user.value.phoneNumber,
                   isUpdate: true,
                   onTap: () {

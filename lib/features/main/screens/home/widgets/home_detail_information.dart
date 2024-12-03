@@ -122,6 +122,19 @@ class THomeDetailInformation extends StatelessWidget {
                                   )
                                 ],
                               ),
+
+                              const SizedBox(height: TSizes.xs),
+                              // Location
+                              Row(
+                                children: [
+                                  // Icon
+                                  const Icon(Iconsax.location, size: TSizes.iconXs),
+                                  const SizedBox(width: TSizes.sm),
+                                  // Location
+                                  Text(controller.allUsers[index].location?['address'], style: Theme.of(context).textTheme.labelLarge)
+                                ],
+                              ),
+
                               const SizedBox(height: TSizes.sm),
                               const Divider(),
                               const SizedBox(height: TSizes.sm),

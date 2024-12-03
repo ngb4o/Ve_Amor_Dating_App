@@ -50,6 +50,18 @@ class TInfoSection extends StatelessWidget {
             )
           ],
         ),
+
+        // Location
+        Row(
+          children: [
+            const Icon(Iconsax.location, color: TColors.white, size: 16),
+            const SizedBox(width: 5),
+            Text(
+              controller.allUsers[index].location?['address'],
+              style: const TextStyle(color: TColors.white),
+            ),
+          ],
+        ),
       ],
     );
   }
