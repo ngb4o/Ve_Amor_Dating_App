@@ -282,6 +282,11 @@ class InitialInformationController extends GetxController {
 
       // Remove loader
       TFullScreenLoader.stopLoading();
+
+      TLoaders.successSnackBar(
+        title: 'Face Uploaded Success',
+        message: 'The photo has been saved for account verification.',
+      );
     } catch (e) {
       // Remove loader
       TFullScreenLoader.stopLoading();

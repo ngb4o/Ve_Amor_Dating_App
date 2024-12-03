@@ -8,12 +8,13 @@ class InitialIdentityVerificationQRCode extends StatelessWidget {
   Future<void> scanQR() async {
     String barcodeScanRes;
     try {
-      barcodeScanRes =
-          await FlutterBarcodeScanner.scanBarcode('#ff6666', 'Cancel', true, ScanMode.QR);
+      barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
+          '#ff6666', 'Cancel', true, ScanMode.QR);
 
       // Update the scanned code in GetX controller
       controller.updateScannedCode(barcodeScanRes);
-      print('-------------------------------------------- ${controller.scannedCode.value}');
+      print(
+          '-------------------------------------------- ${controller.scannedCode.value}');
     } on PlatformException {
       barcodeScanRes = 'Failed to get platform version.';
     }
@@ -36,7 +37,8 @@ class InitialIdentityVerificationQRCode extends StatelessWidget {
             const SizedBox(height: TSizes.spaceBtwItems),
 
             // Sub Title
-            Text(TTexts.subTitleIdentityVerificationQR, style: Theme.of(context).textTheme.bodySmall),
+            Text(TTexts.subTitleIdentityVerificationQR,
+                style: Theme.of(context).textTheme.bodySmall),
             const SizedBox(height: TSizes.spaceBtwSections),
 
             // Camera
@@ -60,8 +62,10 @@ class InitialIdentityVerificationQRCode extends StatelessWidget {
                     children: [
                       Text(
                         TTexts.captureFrom,
-                        style:
-                            Theme.of(context).textTheme.labelLarge!.copyWith(color: TColors.white),
+                        style: Theme.of(context)
+                            .textTheme
+                            .labelLarge!
+                            .copyWith(color: TColors.white),
                       ),
                       Text(
                         TTexts.camera,
@@ -78,6 +82,7 @@ class InitialIdentityVerificationQRCode extends StatelessWidget {
 
             const SizedBox(height: TSizes.spaceBtwSections),
 
+            // Display scanned code
             Obx(() => controller.scannedCode.value.isNotEmpty
                 ? Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -91,19 +96,21 @@ class InitialIdentityVerificationQRCode extends StatelessWidget {
                         controller.scannedCode.value,
                         style: Theme.of(context).textTheme.bodySmall,
                       ),
-                      const SizedBox(height: TSizes.spaceBtwSections),
                     ],
                   )
                 : const SizedBox.shrink()),
 
             const Spacer(),
-            // Button Next
-            TBottomButton(
-              onPressed: () {
-                controller.saveIdentityVerificationQRCode();
-              },
-              textButton: 'Next',
-            ),
+
+            // Button Next - Only show when scannedCode is not empty
+            Obx(() => controller.scannedCode.value.isNotEmpty
+                ? TBottomButton(
+                    onPressed: () {
+                      controller.saveIdentityVerificationQRCode();
+                    },
+                    textButton: 'Next',
+                  )
+                : const SizedBox.shrink()),
           ],
         ),
       ),

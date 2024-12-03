@@ -11,7 +11,8 @@ class CustomCameraScreen extends StatefulWidget {
   State<CustomCameraScreen> createState() => _CustomCameraScreenState();
 }
 
-class _CustomCameraScreenState extends State<CustomCameraScreen> with SingleTickerProviderStateMixin {
+class _CustomCameraScreenState extends State<CustomCameraScreen>
+    with SingleTickerProviderStateMixin {
   CameraController? _controller;
   bool _isCameraInitialized = false;
   bool _isFaceInPosition = false;
@@ -76,7 +77,8 @@ class _CustomCameraScreenState extends State<CustomCameraScreen> with SingleTick
         await _controller!.initialize();
 
         // Start image stream for face detection
-        await _controller!.startImageStream((image) => _processCameraImage(image));
+        await _controller!
+            .startImageStream((image) => _processCameraImage(image));
 
         setState(() => _isCameraInitialized = true);
       } catch (e) {
@@ -98,7 +100,8 @@ class _CustomCameraScreenState extends State<CustomCameraScreen> with SingleTick
       }
       final bytes = allBytes.done().buffer.asUint8List();
 
-      final Size imageSize = Size(image.width.toDouble(), image.height.toDouble());
+      final Size imageSize =
+          Size(image.width.toDouble(), image.height.toDouble());
 
       final inputImageData = InputImageMetadata(
         size: imageSize,
@@ -127,7 +130,8 @@ class _CustomCameraScreenState extends State<CustomCameraScreen> with SingleTick
 
           // Kiểm tra chuyển động
           if (_lastFacePosition != null) {
-            final double movement = (currentPosition - _lastFacePosition!).distance;
+            final double movement =
+                (currentPosition - _lastFacePosition!).distance;
 
             if (movement > _movementThreshold) {
               // Phát hiện chuyển động mạnh
@@ -137,7 +141,8 @@ class _CustomCameraScreenState extends State<CustomCameraScreen> with SingleTick
               }
             } else if (_lastStableTime != null) {
               // Kiểm tra thời gian ổn định
-              if (DateTime.now().difference(_lastStableTime!) > _stabilityDuration) {
+              if (DateTime.now().difference(_lastStableTime!) >
+                  _stabilityDuration) {
                 // Tiếp tục xử lý nhận diện bình thường
                 _processStableFace(boundingBox, imageSize);
               }
@@ -204,7 +209,9 @@ class _CustomCameraScreenState extends State<CustomCameraScreen> with SingleTick
             child: Column(
               children: [
                 Text(
-                  _isFaceInPosition ? 'Keep your face steady in the frame' : 'Move your face to the center',
+                  _isFaceInPosition
+                      ? 'Keep your face steady in the frame'
+                      : 'Move your face to the center',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: _isFaceInPosition ? Colors.green : Colors.white,
@@ -253,7 +260,7 @@ class _CustomCameraScreenState extends State<CustomCameraScreen> with SingleTick
     }
   }
 
-  // Tách logic xử lý khuôn mặt ổn định thành phương thức riêng
+  // Tách logic xử lý khuôn mặt ổn đ���nh thành phương thức riêng
   void _processStableFace(Rect boundingBox, Size imageSize) {
     final double ovalX = imageSize.width * 0.25;
     final double ovalY = imageSize.height * 0.25;
@@ -272,11 +279,12 @@ class _CustomCameraScreenState extends State<CustomCameraScreen> with SingleTick
     // Thêm kiểm tra kích thước khuôn mặt
     final double faceWidth = boundingBox.width;
     final double faceHeight = boundingBox.height;
-    final bool isFaceSizeValid =
-        faceWidth >= (ovalWidth * 0.55) && // Khuôn mặt phải chiếm ít nhất 50% chiều rộng khung
-            faceWidth <= (ovalWidth * 0.9) && // Không được quá 90% chiều rộng khung
-            faceHeight >= (ovalHeight * 0.55) && // Chiều cao tương tự
-            faceHeight <= (ovalHeight * 0.9);
+    final bool isFaceSizeValid = faceWidth >=
+            (ovalWidth *
+                0.55) && // Khuôn mặt phải chiếm ít nhất 50% chiều rộng khung
+        faceWidth <= (ovalWidth * 0.9) && // Không được quá 90% chiều rộng khung
+        faceHeight >= (ovalHeight * 0.55) && // Chiều cao tương tự
+        faceHeight <= (ovalHeight * 0.9);
 
     if (mounted) {
       bool newIsFaceInPosition = isFaceInOval && isFaceSizeValid;
@@ -315,12 +323,7 @@ class FaceBorderPainter extends CustomPainter {
     if (isInPosition && progress != null) {
       // Vẽ viền xanh theo tiến độ, bắt đầu từ 12h
       paint.shader = SweepGradient(
-        colors: [
-          Colors.green,
-          Colors.green,
-          Colors.white,
-          Colors.white
-        ],
+        colors: [Colors.green, Colors.green, Colors.white, Colors.white],
         stops: [0.0, progress!, progress!, 1.0],
         startAngle: -1.5708,
         // Bắt đầu từ vị trí 12h (-90 độ)
@@ -373,5 +376,6 @@ class FaceBorderPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(FaceBorderPainter oldDelegate) =>
-      oldDelegate.isInPosition != isInPosition || oldDelegate.progress != progress;
+      oldDelegate.isInPosition != isInPosition ||
+      oldDelegate.progress != progress;
 }
