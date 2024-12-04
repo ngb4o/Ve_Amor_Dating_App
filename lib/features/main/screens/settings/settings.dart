@@ -18,8 +18,7 @@ class SettingsScreen extends StatelessWidget {
                   TAppbar(
                     title: Text(
                       'Account',
-                      style:
-                          Theme.of(context).textTheme.headlineMedium!.apply(color: TColors.white),
+                      style: Theme.of(context).textTheme.headlineMedium!.apply(color: TColors.white),
                     ),
                   ),
 
@@ -58,14 +57,10 @@ class SettingsScreen extends StatelessWidget {
                   const TSectionHeading(title: 'App Settings', showActionButton: false),
                   const SizedBox(height: TSizes.spaceBtwItems),
                   TSettingsMenuTile(
-                    title: 'Geolocation',
-                    subtitle: 'Set recommendation based on location',
-                    trailing: Switch(
-                      activeColor: TColors.primary,
-                      value: true,
-                      onChanged: (value) {},
-                    ),
                     icon: Iconsax.location,
+                    title: 'Get Location',
+                    subtitle: 'Tap to get your current location',
+                    onTap: () => controller.updateLocation(),
                   ),
                   Obx(
                     () => TSettingsMenuTile(
