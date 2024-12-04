@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:ve_amor_app/data/repositories/user/user_repository.dart';
@@ -6,6 +7,9 @@ import 'package:ve_amor_app/generated/assets.dart';
 import 'package:ve_amor_app/utils/popups/full_screen_loader.dart';
 import 'package:ve_amor_app/utils/popups/loaders.dart';
 import 'package:ve_amor_app/utils/theme/theme.dart';
+
+import '../../../../utils/constants/colors.dart';
+import '../../../../utils/constants/sizes.dart';
 
 class SettingController extends GetxController {
   static SettingController get instance => Get.find();
@@ -38,6 +42,34 @@ class SettingController extends GetxController {
   void loadDarkModePreference() {
     isDarkMode.value = deviceStorage.read<bool>('isDarkMode') ?? false;
     Get.changeTheme(isDarkMode.value ? TAppTheme.darkTheme : TAppTheme.lightTheme);
+  }
+
+  // Hiện dialog xác nhận cập nhật vị trí
+  void showLocationUpdateConfirmation() {
+    Get.defaultDialog(
+      contentPadding: const EdgeInsets.all(TSizes.md),
+      title: 'Update Location',
+      middleText: 'Are you sure you want to update your current location? '
+          'This will replace your previous location information.',
+      confirm: ElevatedButton(
+        onPressed: () {
+          Get.back(); // Đóng dialog
+          updateLocation(); // Thực hiện cập nhật vị trí
+        },
+        style: ElevatedButton.styleFrom(
+          backgroundColor: TColors.primary,
+          side: const BorderSide(color: TColors.primary),
+        ),
+        child: const Padding(
+          padding: EdgeInsets.symmetric(horizontal: TSizes.lg),
+          child: Text('Update'),
+        ),
+      ),
+      cancel: OutlinedButton(
+        onPressed: () => Navigator.of(Get.overlayContext!).pop(),
+        child: const Text('Cancel'),
+      ),
+    );
   }
 
   // Cập nhật vị trí

@@ -18,12 +18,16 @@ class SettingsScreen extends StatelessWidget {
                   TAppbar(
                     title: Text(
                       'Account',
-                      style: Theme.of(context).textTheme.headlineMedium!.apply(color: TColors.white),
+                      style: Theme.of(context)
+                          .textTheme
+                          .headlineMedium!
+                          .apply(color: TColors.white),
                     ),
                   ),
 
                   // User Profile Card
-                  TUserProfileTile(onPressed: () => Get.to(() => const ProfileScreen())),
+                  TUserProfileTile(
+                      onPressed: () => Get.to(() => const ProfileScreen())),
 
                   const SizedBox(height: TSizes.spaceBtwSections),
                 ],
@@ -33,7 +37,9 @@ class SettingsScreen extends StatelessWidget {
             // Body
             Padding(
               padding: const EdgeInsets.only(
-                  left: TSizes.defaultSpace, top: TSizes.defaultSpace, right: TSizes.defaultSpace),
+                  left: TSizes.defaultSpace,
+                  top: TSizes.defaultSpace,
+                  right: TSizes.defaultSpace),
               child: Column(
                 children: [
                   // Account Setting
@@ -54,13 +60,14 @@ class SettingsScreen extends StatelessWidget {
 
                   // App Settings
                   const SizedBox(height: TSizes.spaceBtwSections),
-                  const TSectionHeading(title: 'App Settings', showActionButton: false),
+                  const TSectionHeading(
+                      title: 'App Settings', showActionButton: false),
                   const SizedBox(height: TSizes.spaceBtwItems),
                   TSettingsMenuTile(
                     icon: Iconsax.location,
                     title: 'Get Location',
                     subtitle: 'Tap to get your current location',
-                    onTap: () => controller.updateLocation(),
+                    onTap: () => controller.showLocationUpdateConfirmation(),
                   ),
                   Obx(
                     () => TSettingsMenuTile(
