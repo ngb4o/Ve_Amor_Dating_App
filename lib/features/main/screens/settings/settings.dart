@@ -18,16 +18,12 @@ class SettingsScreen extends StatelessWidget {
                   TAppbar(
                     title: Text(
                       'Account',
-                      style: Theme.of(context)
-                          .textTheme
-                          .headlineMedium!
-                          .apply(color: TColors.white),
+                      style: Theme.of(context).textTheme.headlineMedium!.apply(color: TColors.white),
                     ),
                   ),
 
                   // User Profile Card
-                  TUserProfileTile(
-                      onPressed: () => Get.to(() => const ProfileScreen())),
+                  TUserProfileTile(onPressed: () => Get.to(() => const ProfileScreen())),
 
                   const SizedBox(height: TSizes.spaceBtwSections),
                 ],
@@ -37,9 +33,7 @@ class SettingsScreen extends StatelessWidget {
             // Body
             Padding(
               padding: const EdgeInsets.only(
-                  left: TSizes.defaultSpace,
-                  top: TSizes.defaultSpace,
-                  right: TSizes.defaultSpace),
+                  left: TSizes.spaceBtwItems, top: TSizes.spaceBtwItems, right: TSizes.spaceBtwItems),
               child: Column(
                 children: [
                   // Account Setting
@@ -52,16 +46,20 @@ class SettingsScreen extends StatelessWidget {
                     subtitle: 'Manage data usage and connected accounts',
                     icon: Iconsax.security_card,
                   ),
-                  const TSettingsMenuTile(
+                  TSettingsMenuTile(
                     title: 'Notifications',
                     subtitle: 'Set any kind of notification message',
+                    trailing: Switch(
+                      activeColor: TColors.primary,
+                      value: true,
+                      onChanged: (value) {},
+                    ),
                     icon: Iconsax.notification,
                   ),
 
                   // App Settings
                   const SizedBox(height: TSizes.spaceBtwSections),
-                  const TSectionHeading(
-                      title: 'App Settings', showActionButton: false),
+                  const TSectionHeading(title: 'App Settings', showActionButton: false),
                   const SizedBox(height: TSizes.spaceBtwItems),
                   TSettingsMenuTile(
                     icon: Iconsax.location,

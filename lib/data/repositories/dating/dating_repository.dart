@@ -13,7 +13,8 @@ class DatingRepository extends GetxController {
   Future<List<AllUsersModel>> getAllUsers(String currentUserUid) async {
     try {
       // Fetch current user information
-      final currentUserSnapshot = await _db.collection('Users').doc(currentUserUid).get();
+      final currentUserSnapshot =
+          await _db.collection('Users').doc(currentUserUid).get();
       final currentUserData = currentUserSnapshot.data();
 
       if (currentUserData == null) {
@@ -21,7 +22,8 @@ class DatingRepository extends GetxController {
         return [];
       }
 
-      // Get Likes, Nopes, Matches list of the current user
+      // Get current user preferences
+      final String wantSeeing = currentUserData['WantSeeing'] ?? '';
       final likes = List<String>.from(currentUserData['Likes'] ?? []);
       final nopes = List<String>.from(currentUserData['Nopes'] ?? []);
       final matches = List<String>.from(currentUserData['Matches'] ?? []);
@@ -29,20 +31,35 @@ class DatingRepository extends GetxController {
       // Users already "swiped"
       final swipedUsers = {...likes, ...nopes, ...matches};
 
-      // Fetch all users from Firestore
-      final snapshot = await _db.collection('Users').get();
+      // Create query based on user preference
+      Query<Map<String, dynamic>> usersQuery =
+          _db.collection('Users').withConverter(
+                fromFirestore: (snapshot, _) => snapshot.data()!,
+                toFirestore: (data, _) => data,
+              );
 
-      // Filter the list, excluding the current user and already "swiped" users
+      // Filter by gender preference
+      if (wantSeeing != 'Everyone') {
+        usersQuery = usersQuery.where('Gender', isEqualTo: wantSeeing);
+      }
+
+      // Fetch filtered users
+      final snapshot = await usersQuery.get();
+
+      // Filter the list
       final filteredDocs = snapshot.docs.where((doc) {
         final data = doc.data();
-        return doc.id != currentUserUid &&
+        return doc.id != currentUserUid && // Exclude current user
             !swipedUsers.contains(doc.id) && // Exclude "swiped" users
             data['Username'] != null &&
             data['Username'].toString().isNotEmpty;
       }).toList();
 
-      // Convert to a list of `AllUsersModel`
-      return filteredDocs.map((doc) => AllUsersModel.fromSnapshot(doc)).toList();
+      // Convert to AllUsersModel list
+      return filteredDocs
+          .map((doc) => AllUsersModel.fromSnapshot(
+              doc as DocumentSnapshot<Map<String, dynamic>>))
+          .toList();
     } on FirebaseException catch (e) {
       throw TFirebaseAuthException(e.code).message;
     } on FormatException catch (_) {
@@ -54,7 +71,6 @@ class DatingRepository extends GetxController {
     }
   }
 
-  // Function to handle "Like"
   // Function to handle "Like"
   Future<bool> handleLike(String currentUserId, String likedUserId) async {
     try {
@@ -68,7 +84,8 @@ class DatingRepository extends GetxController {
 
       // Check if the liked user also liked back
       final likedUserSnapshot = await likedUserRef.get();
-      final likedUserLikes = List<String>.from(likedUserSnapshot.data()?['Likes'] ?? []);
+      final likedUserLikes =
+          List<String>.from(likedUserSnapshot.data()?['Likes'] ?? []);
 
       if (likedUserLikes.contains(currentUserId)) {
         // Add to matches list if mutual like
