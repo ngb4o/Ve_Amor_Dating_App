@@ -198,13 +198,13 @@ class THomeDetailInformation extends StatelessWidget {
                                   return Container(
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(30),
-                                      color: dark ? Colors.black.withOpacity(0.4) : TColors.grey,
+                                      color: TColors.primary,
                                     ),
                                     padding:
                                         const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
                                     child: Text(
                                       lifestyle,
-                                      style: Theme.of(context).textTheme.bodyMedium,
+                                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: TColors.white),
                                     ),
                                   );
                                 }).toList(),

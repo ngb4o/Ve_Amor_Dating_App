@@ -20,6 +20,7 @@ class SettingsScreen extends StatelessWidget {
                       'Account',
                       style: Theme.of(context).textTheme.headlineMedium!.apply(color: TColors.white),
                     ),
+                    paddingTitle: 0,
                   ),
 
                   // User Profile Card

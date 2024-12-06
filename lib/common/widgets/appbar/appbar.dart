@@ -14,6 +14,7 @@ class TAppbar extends StatelessWidget implements PreferredSizeWidget {
     this.actions,
     this.leadingOnPressed,
     this.isCenterTitle = false,
+    this.paddingTitle = TSizes.md
   });
 
   final Widget? title;
@@ -22,11 +23,12 @@ class TAppbar extends StatelessWidget implements PreferredSizeWidget {
   final List<Widget>? actions;
   final VoidCallback? leadingOnPressed;
   final bool isCenterTitle;
+  final double paddingTitle;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: TSizes.md),
+      padding: EdgeInsets.symmetric(horizontal: paddingTitle),
       child: AppBar(
         automaticallyImplyLeading: false,
         leading: showBackArrow
