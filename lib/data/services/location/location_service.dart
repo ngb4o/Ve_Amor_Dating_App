@@ -37,18 +37,17 @@ class LocationService {
 
     try {
       // Start Loading
-      TFullScreenLoader.openLoadingDialog('Logging you in VeAmor', Assets.animations141594AnimationOfDocer);
+      TFullScreenLoader.openLoadingDialog(
+          'Getting your current location...', Assets.animations141594AnimationOfDocer);
 
       return await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high,
       );
-
-
     } catch (e) {
       print('Error getting location: $e');
       return null;
     } finally {
-       TFullScreenLoader.stopLoading();
+      TFullScreenLoader.stopLoading();
     }
   }
 
@@ -82,7 +81,6 @@ class LocationService {
 
   // Lấy thông tin vị trí đầy đủ
   Future<LocationInfo?> getCurrentLocationInfo() async {
-
     final position = await getCurrentPosition();
     if (position == null) return null;
 

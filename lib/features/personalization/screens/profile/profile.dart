@@ -23,7 +23,8 @@ class ProfileScreen extends StatelessWidget {
             backgroundColor: Colors.red,
             side: const BorderSide(color: Colors.red),
           ),
-          child: const Padding(padding: EdgeInsets.symmetric(horizontal: TSizes.lg), child: Text('Delete')),
+          child: const Padding(
+              padding: EdgeInsets.symmetric(horizontal: TSizes.lg), child: Text('Delete')),
         ),
         cancel: OutlinedButton(
           onPressed: () => Navigator.of(Get.overlayContext!).pop(),
@@ -108,6 +109,15 @@ class ProfileScreen extends StatelessWidget {
                   title: 'E-mail',
                   value: controller.user.value.email,
                   isUpdate: false,
+                  onTap: () {},
+                ),
+              ),
+
+              // Address
+              Obx(
+                () => TProfileMenu(
+                  title: 'Address',
+                  value: controller.user.value.location?["address"],
                   onTap: () {},
                 ),
               ),
