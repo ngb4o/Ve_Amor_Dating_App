@@ -6,6 +6,7 @@ class SettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = SettingController.instance;
+    final dark = THelperFunctions.isDarkMode(context);
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -18,7 +19,8 @@ class SettingsScreen extends StatelessWidget {
                   TAppbar(
                     title: Text(
                       'Account',
-                      style: Theme.of(context).textTheme.headlineMedium!.apply(color: TColors.white),
+                      style:
+                          Theme.of(context).textTheme.headlineMedium!.apply(color: TColors.white),
                     ),
                     paddingTitle: 0,
                   ),
@@ -34,7 +36,9 @@ class SettingsScreen extends StatelessWidget {
             // Body
             Padding(
               padding: const EdgeInsets.only(
-                  left: TSizes.spaceBtwItems, top: TSizes.spaceBtwItems, right: TSizes.spaceBtwItems),
+                  left: TSizes.spaceBtwItems,
+                  top: TSizes.spaceBtwItems,
+                  right: TSizes.spaceBtwItems),
               child: Column(
                 children: [
                   // Account Setting
@@ -68,16 +72,82 @@ class SettingsScreen extends StatelessWidget {
                     subtitle: 'Tap to get your current location',
                     onTap: () => controller.showLocationUpdateConfirmation(),
                   ),
-                  Obx(
-                    () => TSettingsMenuTile(
-                      title: 'Dark Mode',
-                      subtitle: 'Enable dark theme for comfortable night',
-                      trailing: Switch(
-                        activeColor: TColors.primary,
-                        value: controller.isDarkMode.value,
-                        onChanged: controller.toggleDarkMode,
+                  TSettingsMenuTile(
+                    title: 'Theme',
+                    subtitle: 'Choose your preferred theme',
+                    icon: Icons.dark_mode_outlined,
+                    onTap: () => Get.bottomSheet(
+                      Container(
+                        padding: const EdgeInsets.all(TSizes.defaultSpace),
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).scaffoldBackgroundColor,
+                          borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(TSizes.md),
+                            topRight: Radius.circular(TSizes.md),
+                          ),
+                        ),
+                        child: Wrap(
+                          children: [
+                            // Theme System
+                            ListTile(
+                              leading: const Icon(
+                                Icons.brightness_auto,
+                                color: TColors.primary,
+                                size: TSizes.lg,
+                              ),
+                              title: const Text('System',
+                                  style: TextStyle(fontWeight: FontWeight.w600)),
+                              onTap: () {
+                                controller.updateTheme(ThemeMode.system);
+                                Get.back();
+                              },
+                              trailing: Obx(
+                                () => controller.themeMode.value == ThemeMode.system
+                                    ? const Icon(Icons.check, color: TColors.primary)
+                                    : const SizedBox(),
+                              ),
+                            ),
+
+                            // Theme Light
+                            ListTile(
+                              leading: const Icon(
+                                Icons.light_mode,
+                                color: TColors.primary,
+                                size: TSizes.lg,
+                              ),
+                              title: const Text(
+                                'Light',
+                                style: TextStyle(fontWeight: FontWeight.w600),
+                              ),
+                              onTap: () {
+                                controller.updateTheme(ThemeMode.light);
+                                Get.back();
+                              },
+                              trailing: Obx(() => controller.themeMode.value == ThemeMode.light
+                                  ? const Icon(Icons.check, color: TColors.primary)
+                                  : const SizedBox()),
+                            ),
+
+                            // Theme Dark
+                            ListTile(
+                              leading: const Icon(
+                                Icons.dark_mode,
+                                color: TColors.primary,
+                                size: TSizes.lg,
+                              ),
+                              title:
+                                  const Text('Dark', style: TextStyle(fontWeight: FontWeight.w600)),
+                              onTap: () {
+                                controller.updateTheme(ThemeMode.dark);
+                                Get.back();
+                              },
+                              trailing: Obx(() => controller.themeMode.value == ThemeMode.dark
+                                  ? const Icon(Icons.check, color: TColors.primary)
+                                  : const SizedBox()),
+                            ),
+                          ],
+                        ),
                       ),
-                      icon: Icons.dark_mode_outlined,
                     ),
                   ),
                   TSettingsMenuTile(

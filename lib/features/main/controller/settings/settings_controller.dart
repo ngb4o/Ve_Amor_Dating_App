@@ -14,7 +14,7 @@ import '../../../../utils/constants/sizes.dart';
 class SettingController extends GetxController {
   static SettingController get instance => Get.find();
 
-  final isDarkMode = false.obs;
+  final themeMode = Rx<ThemeMode>(ThemeMode.system);
   final deviceStorage = GetStorage();
   final userRepository = Get.put(UserRepository());
   final locationService = LocationService();
@@ -22,26 +22,34 @@ class SettingController extends GetxController {
 
   @override
   void onInit() {
-    loadDarkModePreference();
+    loadThemePreference();
     super.onInit();
   }
 
-  // Chuyển đổi chế độ và lưu trạng thái
-  void toggleDarkMode(bool value) {
-    isDarkMode.value = value;
-    Get.changeTheme(value ? TAppTheme.darkTheme : TAppTheme.lightTheme);
-    saveDarkModePreference(value);
+  // Cập nhật phương thức lưu theme
+  void updateTheme(ThemeMode mode) {
+    themeMode.value = mode;
+    Get.changeThemeMode(mode);
+    saveThemePreference(mode);
   }
 
-  // Lưu trạng thái Dark Mode vào GetStorage
-  void saveDarkModePreference(bool value) {
-    deviceStorage.write('isDarkMode', value);
+  // Lưu preference
+  void saveThemePreference(ThemeMode mode) {
+    String themeModeString = mode.toString().split('.').last;
+    deviceStorage.write('themeMode', themeModeString);
   }
 
-  // Đọc trạng thái Dark Mode từ GetStorage
-  void loadDarkModePreference() {
-    isDarkMode.value = deviceStorage.read<bool>('isDarkMode') ?? false;
-    Get.changeTheme(isDarkMode.value ? TAppTheme.darkTheme : TAppTheme.lightTheme);
+  // Load preference
+  void loadThemePreference() {
+    String? savedTheme = deviceStorage.read('themeMode');
+    if (savedTheme != null) {
+      ThemeMode mode = ThemeMode.values.firstWhere(
+        (e) => e.toString() == 'ThemeMode.$savedTheme',
+        orElse: () => ThemeMode.system,
+      );
+      themeMode.value = mode;
+      Get.changeThemeMode(mode);
+    }
   }
 
   // Hiện dialog xác nhận cập nhật vị trí
