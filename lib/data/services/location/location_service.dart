@@ -1,5 +1,8 @@
 import 'package:geolocator/geolocator.dart';
 import 'package:geocoding/geocoding.dart';
+import 'package:ve_amor_app/generated/assets.dart';
+import 'package:ve_amor_app/utils/helpers/network_manager.dart';
+import 'package:ve_amor_app/utils/popups/full_screen_loader.dart';
 
 class LocationService {
   // Kiểm tra và yêu cầu quyền truy cập vị trí
@@ -33,12 +36,19 @@ class LocationService {
     if (!hasPermission) return null;
 
     try {
+      // Start Loading
+      TFullScreenLoader.openLoadingDialog('Logging you in VeAmor', Assets.animations141594AnimationOfDocer);
+
       return await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high,
       );
+
+
     } catch (e) {
       print('Error getting location: $e');
       return null;
+    } finally {
+       TFullScreenLoader.stopLoading();
     }
   }
 
@@ -72,10 +82,12 @@ class LocationService {
 
   // Lấy thông tin vị trí đầy đủ
   Future<LocationInfo?> getCurrentLocationInfo() async {
+
     final position = await getCurrentPosition();
     if (position == null) return null;
 
     final address = await getAddressFromCoordinates(position);
+
     return LocationInfo(
       latitude: position.latitude,
       longitude: position.longitude,
