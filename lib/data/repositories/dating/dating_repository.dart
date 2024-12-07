@@ -13,8 +13,7 @@ class DatingRepository extends GetxController {
   Future<List<AllUsersModel>> getAllUsers(String currentUserUid) async {
     try {
       // Fetch current user information
-      final currentUserSnapshot =
-          await _db.collection('Users').doc(currentUserUid).get();
+      final currentUserSnapshot = await _db.collection('Users').doc(currentUserUid).get();
       final currentUserData = currentUserSnapshot.data();
 
       if (currentUserData == null) {
@@ -32,11 +31,10 @@ class DatingRepository extends GetxController {
       final swipedUsers = {...likes, ...nopes, ...matches};
 
       // Create query based on user preference
-      Query<Map<String, dynamic>> usersQuery =
-          _db.collection('Users').withConverter(
-                fromFirestore: (snapshot, _) => snapshot.data()!,
-                toFirestore: (data, _) => data,
-              );
+      Query<Map<String, dynamic>> usersQuery = _db.collection('Users').withConverter(
+            fromFirestore: (snapshot, _) => snapshot.data()!,
+            toFirestore: (data, _) => data,
+          );
 
       // Filter by gender preference
       if (wantSeeing != 'Everyone') {
@@ -57,8 +55,7 @@ class DatingRepository extends GetxController {
 
       // Convert to AllUsersModel list
       return filteredDocs
-          .map((doc) => AllUsersModel.fromSnapshot(
-              doc as DocumentSnapshot<Map<String, dynamic>>))
+          .map((doc) => AllUsersModel.fromSnapshot(doc as DocumentSnapshot<Map<String, dynamic>>))
           .toList();
     } on FirebaseException catch (e) {
       throw TFirebaseAuthException(e.code).message;
@@ -84,8 +81,7 @@ class DatingRepository extends GetxController {
 
       // Check if the liked user also liked back
       final likedUserSnapshot = await likedUserRef.get();
-      final likedUserLikes =
-          List<String>.from(likedUserSnapshot.data()?['Likes'] ?? []);
+      final likedUserLikes = List<String>.from(likedUserSnapshot.data()?['Likes'] ?? []);
 
       if (likedUserLikes.contains(currentUserId)) {
         // Add to matches list if mutual like
@@ -118,6 +114,53 @@ class DatingRepository extends GetxController {
       await currentUserRef.update({
         "Nopes": FieldValue.arrayUnion([nopedUserId]),
       });
+    } on FirebaseException catch (e) {
+      throw TFirebaseAuthException(e.code).message;
+    } on FormatException catch (_) {
+      throw const TFormatException();
+    } on TPlatformException catch (e) {
+      throw TPlatformException(e.code).message;
+    } catch (e) {
+      throw 'Something went wrong. Please try again!';
+    }
+  }
+
+  // Function to undo nope action
+  Future<void> undoNope(String currentUserId, String nopedUserId) async {
+    try {
+      final currentUserRef = _db.collection('Users').doc(currentUserId);
+
+      // Remove the noped user's UID from the nopes list
+      await currentUserRef.update({
+        "Nopes": FieldValue.arrayRemove([nopedUserId]),
+      });
+    } on FirebaseException catch (e) {
+      throw TFirebaseAuthException(e.code).message;
+    } on FormatException catch (_) {
+      throw const TFormatException();
+    } on TPlatformException catch (e) {
+      throw TPlatformException(e.code).message;
+    } catch (e) {
+      throw 'Something went wrong. Please try again!';
+    }
+  }
+
+  // Function to get last noped user
+  Future<AllUsersModel?> getLastNopedUser(String currentUserId) async {
+    try {
+      // Get current user data to access nopes list
+      final currentUserDoc = await _db.collection('Users').doc(currentUserId).get();
+      final nopes = List<String>.from(currentUserDoc.data()?['Nopes'] ?? []);
+
+      if (nopes.isEmpty) return null;
+
+      // Get the last noped user's data
+      final lastNopedId = nopes.last;
+      final userDoc = await _db.collection('Users').doc(lastNopedId).get();
+
+      if (!userDoc.exists) return null;
+
+      return AllUsersModel.fromSnapshot(userDoc);
     } on FirebaseException catch (e) {
       throw TFirebaseAuthException(e.code).message;
     } on FormatException catch (_) {

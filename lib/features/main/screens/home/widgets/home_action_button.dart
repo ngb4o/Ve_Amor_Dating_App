@@ -10,6 +10,8 @@ class TActionButtonRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = HomeController.instance;
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
@@ -17,7 +19,7 @@ class TActionButtonRow extends StatelessWidget {
           assetPath: 'assets/icons/home/back.png',
           color: Colors.orangeAccent,
           size: 50,
-          onTap: () {},
+          onTap: () => controller.undoLastNope(),
           hasBorder: false,
           hasElevation: true,
           hasBorderRadius: true,
@@ -67,5 +69,3 @@ class TActionButtonRow extends StatelessWidget {
     );
   }
 }
-
-

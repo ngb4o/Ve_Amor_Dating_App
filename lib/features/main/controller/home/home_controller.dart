@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:ve_amor_app/data/repositories/dating/dating_repository.dart';
 import 'package:ve_amor_app/features/main/models/all_users_model.dart';
+import 'package:ve_amor_app/utils/popups/loaders.dart';
 
 class HomeController extends GetxController {
   static HomeController get instance => Get.find();
@@ -36,6 +37,8 @@ class HomeController extends GetxController {
   void previousPhoto(int maxPhotos) {
     if (currentPhotoIndex.value > 0) {
       currentPhotoIndex.value -= 1;
+    } else {
+      currentPhotoIndex.value = maxPhotos - 1; // Go to last photo when at start
     }
   }
 
@@ -43,12 +46,16 @@ class HomeController extends GetxController {
   void nextPhoto(int maxPhotos) {
     if (currentPhotoIndex.value < maxPhotos - 1) {
       currentPhotoIndex.value += 1;
+    } else {
+      currentPhotoIndex.value = 0; // Auto reset when reaching end
     }
   }
 
-  // Reset the photo index to the first photo
+  // Reset photo index
   void resetPhotoIndex() {
-    currentPhotoIndex.value = 0;
+    if (currentPhotoIndex.value != 0) {
+      currentPhotoIndex.value = 0;
+    }
   }
 
   // Handle like action
@@ -79,6 +86,42 @@ class HomeController extends GetxController {
       allUsers.removeWhere((user) => user.id == nopedUserId);
     } catch (e) {
       Get.snackbar('Error', 'Failed to nope user: $e');
+    }
+  }
+
+  // Undo last nope action
+  Future<void> undoLastNope() async {
+    try {
+      final currentUserId = _auth.currentUser!.uid;
+
+      // Get the last noped user
+      final lastNopedUser = await _dating.getLastNopedUser(currentUserId);
+
+      if (lastNopedUser != null) {
+        // Remove from nopes list in Firebase
+        await _dating.undoNope(currentUserId, lastNopedUser.id);
+
+        // Add user back to allUsers list at the beginning
+        allUsers.insert(0, lastNopedUser);
+
+        // Reset photo index
+        resetPhotoIndex();
+
+        TLoaders.successSnackBar(
+          title: 'Undo Successful',
+          message: 'Previous profile has been restored',
+        );
+      } else {
+        TLoaders.warningSnackBar(
+          title: 'No Profiles to Undo',
+          message: 'You haven\'t noped any profiles recently',
+        );
+      }
+    } catch (e) {
+      TLoaders.warningSnackBar(
+        title: 'Error',
+        message: 'Failed to undo last action: $e',
+      );
     }
   }
 }
