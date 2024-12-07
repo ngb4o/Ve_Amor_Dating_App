@@ -63,11 +63,11 @@ class LocationService {
         final place = placemarks[0];
 
         final addressParts = [
-          place.street,
-          place.subLocality,
-          place.locality,
+          // place.street,
+          // place.subLocality,
+          // place.locality,
           place.administrativeArea,
-          place.country
+          // place.country
         ].where((part) => part != null && part.isNotEmpty).toList();
 
         return addressParts.join(', ');
