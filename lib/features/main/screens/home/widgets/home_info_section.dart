@@ -13,27 +13,36 @@ class TInfoSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = HomeController.instance;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Row(
-              children: [
-                // Name
-                Text(
-                  controller.allUsers[index].username,
-                  style: Theme.of(context).textTheme.headlineMedium!.copyWith(color: TColors.white),
-                ),
-                const SizedBox(width: 10),
+            // Name and Age
+            Expanded(
+              child: Row(
+                children: [
+                  // Name
+                  Flexible(
+                    child: Text(
+                      controller.allUsers[index].username,
+                      style: Theme.of(context).textTheme.headlineMedium!.copyWith(
+                        color: TColors.white,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 10),
 
-                // Age
-                Text(
-                  controller.allUsers[index].age.toString(),
-                  style: const TextStyle(fontSize: 25, color: TColors.white),
-                ),
-              ],
+                  // Age
+                  Text(
+                    controller.allUsers[index].age.toString(),
+                    style: const TextStyle(fontSize: 25, color: TColors.white),
+                  ),
+                ],
+              ),
             ),
 
             // Icon Detail Information
@@ -46,7 +55,10 @@ class TInfoSection extends StatelessWidget {
                   screen: THomeDetailInformation(index),
                 );
               },
-              icon: const Icon(CupertinoIcons.info_circle_fill, color: TColors.white, size: 25),
+              icon: const Icon(CupertinoIcons.info_circle_fill,
+                color: TColors.white,
+                size: 25,
+              ),
             )
           ],
         ),
@@ -56,9 +68,15 @@ class TInfoSection extends StatelessWidget {
           children: [
             const Icon(Iconsax.location, color: TColors.white, size: 16),
             const SizedBox(width: 5),
-            Text(
-              controller.allUsers[index].location?['address'],
-              style: const TextStyle(color: TColors.white),
+            Expanded(
+              child: Text(
+                controller.allUsers[index].location?['address'] ?? '',
+                style: const TextStyle(
+                  color: TColors.white,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                maxLines: 1,
+              ),
             ),
           ],
         ),
