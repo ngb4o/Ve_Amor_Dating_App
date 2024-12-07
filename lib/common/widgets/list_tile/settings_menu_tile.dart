@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 import '../../../utils/constants/colors.dart';
@@ -11,12 +10,14 @@ class TSettingsMenuTile extends StatelessWidget {
     required this.icon,
     this.trailing,
     this.onTap,
+    this.contentPadding = false,
   });
 
   final String title, subtitle;
   final IconData icon;
   final Widget? trailing;
   final VoidCallback? onTap;
+  final bool contentPadding;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +27,7 @@ class TSettingsMenuTile extends StatelessWidget {
       subtitle: Text(subtitle, style: Theme.of(context).textTheme.labelMedium),
       trailing: trailing,
       onTap: onTap,
-      contentPadding: EdgeInsets.zero,
+      contentPadding: contentPadding ? EdgeInsets.zero : null,
     );
   }
 }

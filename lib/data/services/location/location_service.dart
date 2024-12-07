@@ -4,6 +4,8 @@ import 'package:ve_amor_app/generated/assets.dart';
 import 'package:ve_amor_app/utils/helpers/network_manager.dart';
 import 'package:ve_amor_app/utils/popups/full_screen_loader.dart';
 
+import '../../../features/authentication/models/location_model.dart';
+
 class LocationService {
   // Kiểm tra và yêu cầu quyền truy cập vị trí
   Future<bool> _handleLocationPermission() async {
@@ -94,22 +96,3 @@ class LocationService {
   }
 }
 
-class LocationInfo {
-  final double latitude;
-  final double longitude;
-  final String? address;
-
-  LocationInfo({
-    required this.latitude,
-    required this.longitude,
-    this.address,
-  });
-
-  Map<String, dynamic> toJson() {
-    return {
-      'latitude': latitude,
-      'longitude': longitude,
-      'address': address,
-    };
-  }
-}

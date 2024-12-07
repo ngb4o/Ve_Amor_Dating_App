@@ -13,6 +13,8 @@ import 'package:ve_amor_app/utils/validators/validation.dart';
 import '../../../../data/services/encryption/encryption_service.dart';
 import 'package:ve_amor_app/data/services/location/location_service.dart';
 
+import '../../models/location_model.dart';
+
 class InitialInformationController extends GetxController {
   static InitialInformationController get instance => Get.find();
 

@@ -9,7 +9,8 @@ class HomeFilterScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: TAppbar(
-        title: Text('Search Settings'),
+        showBackArrow: true,
+        title: const Text('Search Settings'),
         isCenterTitle: true,
         actions: [
           TextButton(
@@ -50,39 +51,63 @@ class HomeFilterScreen extends StatelessWidget {
               ),
             ),
 
-            Divider(),
+            const SizedBox(height: TSizes.xs),
+            const Divider(),
+            const SizedBox(height: TSizes.xs),
 
             // Gender Preference
             TSettingsMenuTile(
-              title: 'Interested in the profile of',
+              title: 'Interested in',
               subtitle: 'Tap to chose gender',
               icon: Iconsax.favorite_chart,
-              onTap: () {
-
-              },
+              onTap: () {},
+              trailing: Text(
+                'Women',
+                style: Theme.of(context).textTheme.bodyMedium,
+              ),
             ),
 
-            Divider(),
-
+            const SizedBox(height: TSizes.xs),
+            const Divider(),
+            const SizedBox(height: TSizes.xs),
 
             // Age Range
-            Text(
-              'Age',
-              style: Theme.of(context).textTheme.titleSmall,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Age',
+                  style: Theme.of(context).textTheme.titleSmall,
+                ),
+                Obx(
+                  () => Text(
+                      '${controller.ageRange.value.start.toInt()}-${controller.ageRange.value.end.toInt()}'),
+                ),
+              ],
             ),
-            Obx(() => Column(
-                  children: [
-                    RangeSlider(
-                      values: controller.ageRange.value,
-                      min: 18,
-                      max: 100,
-                      onChanged: controller.updateAgeRange,
-                      activeColor: TColors.primary,
-                    ),
-                    Text(
-                        '${controller.ageRange.value.start.toInt()}-${controller.ageRange.value.end.toInt()}'),
-                  ],
-                )),
+            Obx(
+              () => RangeSlider(
+                values: controller.ageRange.value,
+                min: 18,
+                max: 100,
+                onChanged: controller.updateAgeRange,
+                activeColor: TColors.primary,
+              ),
+            ),
+
+            const SizedBox(height: TSizes.xs),
+            const Divider(),
+            const SizedBox(height: TSizes.xs),
+
+            // Looking for
+            TSettingsMenuTile(
+              title: 'Looking for',
+              subtitle: 'Tap to chose',
+              icon: Iconsax.search_favorite,
+              onTap: () {},
+              trailing: const Icon(Iconsax.arrow_right_34, size: 23),
+            ),
+
           ],
         ),
       ),

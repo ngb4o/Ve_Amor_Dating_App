@@ -10,6 +10,7 @@ import 'package:ve_amor_app/utils/theme/theme.dart';
 
 import '../../../../utils/constants/colors.dart';
 import '../../../../utils/constants/sizes.dart';
+import '../../../authentication/models/location_model.dart';
 
 class SettingController extends GetxController {
   static SettingController get instance => Get.find();
