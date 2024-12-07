@@ -19,7 +19,11 @@ class HomeScreen extends StatelessWidget {
       body: Column(
         children: [
           // Appbar
-          THomeAppBar(showBackArrow: showBackArrow, centerTitle: centerTitle),
+          THomeAppBar(
+            showBackArrow: showBackArrow,
+            centerTitle: centerTitle,
+            showIconFilter: true,
+          ),
 
           // Swipe Card
           Obx(() {
@@ -28,8 +32,7 @@ class HomeScreen extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.only(left: 10, top: 5, right: 10, bottom: 20),
                   child: TShimmerEffect(
-                      width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height),
+                      width: MediaQuery.of(context).size.width, height: MediaQuery.of(context).size.height),
                 ),
               );
             } else if (controller.allUsers.isEmpty) {
@@ -106,8 +109,7 @@ class HomeScreen extends StatelessWidget {
                                         color: Colors.transparent,
                                         child: TInfoSection(
                                           index: index,
-                                          image: user
-                                              .profilePictures[controller.currentPhotoIndex.value],
+                                          image: user.profilePictures[controller.currentPhotoIndex.value],
                                         ),
                                       ),
                                       const SizedBox(height: TSizes.md),

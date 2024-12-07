@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ve_amor_app/data/repositories/dating/dating_repository.dart';
 import 'package:ve_amor_app/features/main/models/all_users_model.dart';
@@ -13,6 +14,12 @@ class HomeController extends GetxController {
   final _auth = FirebaseAuth.instance;
   final _dating = Get.put(DatingRepository());
 
+  // Filter properties
+  final RxDouble maxDistance = 51.0.obs;
+  final RxBool showDistantProfiles = true.obs;
+  final RxString genderPreference = 'Nữ'.obs;
+  final Rx<RangeValues> ageRange = const RangeValues(18, 31).obs;
+
   @override
   void onInit() {
     fetchAllUsers();
@@ -23,7 +30,14 @@ class HomeController extends GetxController {
   Future<void> fetchAllUsers() async {
     isLoading.value = true;
     try {
-      final users = await _dating.getAllUsers(_auth.currentUser!.uid);
+      final users = await _dating.getAllUsers(
+        _auth.currentUser!.uid,
+        // maxDistance: maxDistance.value,
+        // showDistantProfiles: showDistantProfiles.value,
+        // genderPreference: genderPreference.value,
+        // minAge: ageRange.value.start.toInt(),
+        // maxAge: ageRange.value.end.toInt(),
+      );
       allUsers.assignAll(users);
       print('--------------------------${users.length}');
     } catch (e) {
@@ -123,5 +137,22 @@ class HomeController extends GetxController {
         message: 'Failed to undo last action: $e',
       );
     }
+  }
+
+  // Filter methods
+  void updateMaxDistance(double value) {
+    maxDistance.value = value;
+  }
+
+  void toggleShowDistantProfiles() {
+    showDistantProfiles.value = !showDistantProfiles.value;
+  }
+
+  void setGenderPreference(String gender) {
+    genderPreference.value = gender;
+  }
+
+  void updateAgeRange(RangeValues values) {
+    ageRange.value = values;
   }
 }
