@@ -50,6 +50,8 @@ class HomeFilterScreen extends StatelessWidget {
               ),
             ),
 
+            const SizedBox(height: TSizes.spaceBtwItems),
+
             // Age Range
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -68,7 +70,6 @@ class HomeFilterScreen extends StatelessWidget {
                 activeColor: TColors.primary,
               ),
             ),
-
 
             const SizedBox(height: TSizes.xs),
             const Divider(),
@@ -101,7 +102,6 @@ class HomeFilterScreen extends StatelessWidget {
               ),
             ),
 
-
             const SizedBox(height: TSizes.xs),
             const Divider(),
             const SizedBox(height: TSizes.xs),
@@ -133,7 +133,6 @@ class HomeFilterScreen extends StatelessWidget {
               ),
             ),
 
-
             const SizedBox(height: TSizes.xs),
             const Divider(),
             const SizedBox(height: TSizes.xs),
@@ -164,7 +163,6 @@ class HomeFilterScreen extends StatelessWidget {
               ),
             ),
 
-
             const SizedBox(height: TSizes.xs),
             const Divider(),
             const SizedBox(height: TSizes.xs),
@@ -194,7 +192,6 @@ class HomeFilterScreen extends StatelessWidget {
                 ),
               ),
             ),
-
 
             const SizedBox(height: TSizes.xs),
             const Divider(),

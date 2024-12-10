@@ -13,6 +13,7 @@ import 'package:ve_amor_app/utils/helpers/helper_functions.dart';
 import '../../../../common/widgets/list_tile/settings_menu_tile.dart';
 import '../../../../common/widgets/list_tile/user_profile_tile.dart';
 import '../../../../data/repositories/authentication/authentication_repository.dart';
+import '../../../personalization/controller/user_controller.dart';
 import '../../../personalization/screens/profile/profile_imports.dart';
 
 part 'settings.dart';

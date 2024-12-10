@@ -32,7 +32,7 @@ class TFilterChip extends StatelessWidget {
       selected: selected,
       checkmarkColor: TColors.white,
       padding: const EdgeInsets.symmetric(
-          horizontal: TSizes.sm, vertical: 12),
+          horizontal: TSizes.sm, vertical: 10),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(30),
       ),

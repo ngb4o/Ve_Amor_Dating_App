@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 import 'package:ve_amor_app/features/personalization/screens/profile/profile_photo/profile_add_photo.dart';
@@ -17,7 +18,7 @@ class TProFilePhoto extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final dark = THelperFunctions.isDarkMode(context);
-    final controller = UserController.instance;
+    final controller = Get.put(UserController());
 
     return SizedBox(
       width: THelperFunctions.screenWidth(),

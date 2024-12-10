@@ -6,6 +6,7 @@ class SettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = SettingController.instance;
+    final userController = Get.put(UserController());
     final dark = THelperFunctions.isDarkMode(context);
     return Scaffold(
       body: SingleChildScrollView(
@@ -19,14 +20,17 @@ class SettingsScreen extends StatelessWidget {
                   TAppbar(
                     title: Text(
                       'Account',
-                      style:
-                          Theme.of(context).textTheme.headlineMedium!.apply(color: TColors.white),
+                      style: Theme.of(context)
+                          .textTheme
+                          .headlineMedium!
+                          .apply(color: TColors.white),
                     ),
                     paddingTitle: 0,
                   ),
 
                   // User Profile Card
-                  TUserProfileTile(onPressed: () => Get.to(() => const ProfileScreen())),
+                  TUserProfileTile(
+                      onPressed: () => Get.to(() => const ProfileScreen())),
 
                   const SizedBox(height: TSizes.spaceBtwSections),
                 ],
@@ -64,7 +68,8 @@ class SettingsScreen extends StatelessWidget {
 
                   // App Settings
                   const SizedBox(height: TSizes.spaceBtwSections),
-                  const TSectionHeading(title: 'App Settings', showActionButton: false),
+                  const TSectionHeading(
+                      title: 'App Settings', showActionButton: false),
                   const SizedBox(height: TSizes.spaceBtwItems),
                   TSettingsMenuTile(
                     icon: Iconsax.location,
@@ -96,14 +101,17 @@ class SettingsScreen extends StatelessWidget {
                                 size: TSizes.lg,
                               ),
                               title: const Text('System',
-                                  style: TextStyle(fontWeight: FontWeight.w600)),
+                                  style:
+                                      TextStyle(fontWeight: FontWeight.w600)),
                               onTap: () {
                                 controller.updateTheme(ThemeMode.system);
                                 Get.back();
                               },
                               trailing: Obx(
-                                () => controller.themeMode.value == ThemeMode.system
-                                    ? const Icon(Icons.check, color: TColors.primary)
+                                () => controller.themeMode.value ==
+                                        ThemeMode.system
+                                    ? const Icon(Icons.check,
+                                        color: TColors.primary)
                                     : const SizedBox(),
                               ),
                             ),
@@ -123,9 +131,11 @@ class SettingsScreen extends StatelessWidget {
                                 controller.updateTheme(ThemeMode.light);
                                 Get.back();
                               },
-                              trailing: Obx(() => controller.themeMode.value == ThemeMode.light
-                                  ? const Icon(Icons.check, color: TColors.primary)
-                                  : const SizedBox()),
+                              trailing: Obx(() =>
+                                  controller.themeMode.value == ThemeMode.light
+                                      ? const Icon(Icons.check,
+                                          color: TColors.primary)
+                                      : const SizedBox()),
                             ),
 
                             // Theme Dark
@@ -135,15 +145,18 @@ class SettingsScreen extends StatelessWidget {
                                 color: TColors.primary,
                                 size: TSizes.lg,
                               ),
-                              title:
-                                  const Text('Dark', style: TextStyle(fontWeight: FontWeight.w600)),
+                              title: const Text('Dark',
+                                  style:
+                                      TextStyle(fontWeight: FontWeight.w600)),
                               onTap: () {
                                 controller.updateTheme(ThemeMode.dark);
                                 Get.back();
                               },
-                              trailing: Obx(() => controller.themeMode.value == ThemeMode.dark
-                                  ? const Icon(Icons.check, color: TColors.primary)
-                                  : const SizedBox()),
+                              trailing: Obx(() =>
+                                  controller.themeMode.value == ThemeMode.dark
+                                      ? const Icon(Icons.check,
+                                          color: TColors.primary)
+                                      : const SizedBox()),
                             ),
                           ],
                         ),

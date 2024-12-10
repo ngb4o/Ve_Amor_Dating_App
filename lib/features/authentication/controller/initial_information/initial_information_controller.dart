@@ -335,7 +335,7 @@ class InitialInformationController extends GetxController {
       // Show loading dialog
       TFullScreenLoader.openLoadingDialog(
         'Uploading your photo...',
-        Assets.animations141594AnimationOfDocer,
+        Assets.animationsCloudUploadingAnimation,
       );
 
       // Upload ảnh và lấy URL sử dụng uploadProfileImage
@@ -368,7 +368,7 @@ class InitialInformationController extends GetxController {
       // Start Loading
       TFullScreenLoader.openLoadingDialog(
         'We are processing your information...',
-        Assets.animations141594AnimationOfDocer,
+        Assets.animationsCloudUploadingAnimation,
       );
 
       List<String> uploadedUrls = await userRepository.uploadImages(newPhotos);

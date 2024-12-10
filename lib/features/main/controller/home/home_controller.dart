@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:ve_amor_app/data/repositories/dating/dating_repository.dart';
 import 'package:ve_amor_app/features/main/models/all_users_model.dart';
 import 'package:ve_amor_app/utils/popups/loaders.dart';
+import 'package:ve_amor_app/common/widgets/matches_screen/match_notification_screen.dart';
 
 class HomeController extends GetxController {
   static HomeController get instance => Get.find();
@@ -23,7 +24,8 @@ class HomeController extends GetxController {
   final RxString genderPreference = ''.obs;
   final Rx<RangeValues> ageRange = const RangeValues(18, 100).obs;
 
-  final Rxn<Map<String, dynamic>> currentUserLocation = Rxn<Map<String, dynamic>>();
+  final Rxn<Map<String, dynamic>> currentUserLocation =
+      Rxn<Map<String, dynamic>>();
 
   @override
   void onInit() {
@@ -52,27 +54,32 @@ class HomeController extends GetxController {
         }
 
         // Gender filter
-        if (genderPreference.value.isNotEmpty && user.gender != genderPreference.value) {
+        if (genderPreference.value.isNotEmpty &&
+            user.gender != genderPreference.value) {
           return false;
         }
 
         // Zodiac filter
-        if (selectedZodiac.value.isNotEmpty && user.zodiac != selectedZodiac.value) {
+        if (selectedZodiac.value.isNotEmpty &&
+            user.zodiac != selectedZodiac.value) {
           return false;
         }
 
         // Sports filter
-        if (selectedSports.isNotEmpty && !selectedSports.any((sport) => user.sports.contains(sport))) {
+        if (selectedSports.isNotEmpty &&
+            !selectedSports.any((sport) => user.sports.contains(sport))) {
           return false;
         }
 
         // Pets filter
-        if (selectedPets.isNotEmpty && !selectedPets.any((pet) => user.pets.contains(pet))) {
+        if (selectedPets.isNotEmpty &&
+            !selectedPets.any((pet) => user.pets.contains(pet))) {
           return false;
         }
 
         // Looking for filter
-        if (selectedLookingFor.value.isNotEmpty && user.findingRelationship != selectedLookingFor.value) {
+        if (selectedLookingFor.value.isNotEmpty &&
+            user.findingRelationship != selectedLookingFor.value) {
           return false;
         }
 
@@ -125,7 +132,6 @@ class HomeController extends GetxController {
   }
 
   // Handle like action
-  // Handle like action
   Future<void> likeUser(String likedUserId, String likedUserName) async {
     try {
       final currentUserId = _auth.currentUser!.uid;
@@ -137,7 +143,20 @@ class HomeController extends GetxController {
 
       // Kiểm tra nếu có match
       if (isMatch) {
-        // TLoaders.successSnackBar(title: 'Match! You and ${likedUserName} have matched!');
+        // Get user images
+        final currentUser = await _dating.getUserById(currentUserId);
+        final matchedUser = await _dating.getUserById(likedUserId);
+
+        if (currentUser != null && matchedUser != null) {
+          Get.dialog(
+            MatchNotificationScreen(
+              currentUserImage: currentUser.profilePictures.first,
+              matchedUserImage: matchedUser.profilePictures.first,
+              matchedUserName: matchedUser.username,
+            ),
+            barrierDismissible: false,
+          );
+        }
       }
     } catch (e) {
       Get.snackbar('Error', 'Failed to like user: $e');

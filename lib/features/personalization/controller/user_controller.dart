@@ -45,18 +45,17 @@ class UserController extends GetxController {
   /// Fetch the user's profile details from the repository
   Future<void> fetchUserRecord() async {
     try {
-      // Start loading
       profileLoading.value = true;
       final user = await userRepository.fetchUserDetails();
-      // Populate profile pictures
+      // Clear existing photos before adding new ones
+      newPhotos.clear();
+      // Add new photos from user data
       newPhotos.addAll(user.profilePictures);
-      // Update user object
       this.user(user);
     } catch (e) {
-      // Reset user object on error
-      user(UserModel.empty());
+      user.value = UserModel.empty();
+      newPhotos.clear(); // Clear photos on error too
     } finally {
-      // Stop loading
       profileLoading.value = false;
     }
   }
@@ -69,29 +68,28 @@ class UserController extends GetxController {
 
       if (userCredentials != null) {
         final newUser = UserModel(
-          id: userCredentials.user!.uid,
-          username: user.value.username,
-          email: user.value.email.isNotEmpty
-              ? user.value.email
-              : userCredentials.user!.email ?? '',
-          phoneNumber: user.value.phoneNumber,
-          profilePictures: user.value.profilePictures,
-          dateOfBirth: user.value.dateOfBirth,
-          gender: user.value.gender,
-          wantSeeing: user.value.wantSeeing,
-          lifeStyle: user.value.lifeStyle,
-          identityVerificationQR: user.value.identityVerificationQR,
-          identityVerificationFaceImage:
-              user.value.identityVerificationFaceImage,
-          findingRelationship: user.value.findingRelationship,
-          likes: user.value.likes,
-          nopes: user.value.nopes,
-          matches: user.value.matches,
-          location: user.value.location,
-          zodiac: user.value.zodiac,
-          sports: user.value.sports,
-          pets: user.value.pets
-        );
+            id: userCredentials.user!.uid,
+            username: user.value.username,
+            email: user.value.email.isNotEmpty
+                ? user.value.email
+                : userCredentials.user!.email ?? '',
+            phoneNumber: user.value.phoneNumber,
+            profilePictures: user.value.profilePictures,
+            dateOfBirth: user.value.dateOfBirth,
+            gender: user.value.gender,
+            wantSeeing: user.value.wantSeeing,
+            lifeStyle: user.value.lifeStyle,
+            identityVerificationQR: user.value.identityVerificationQR,
+            identityVerificationFaceImage:
+                user.value.identityVerificationFaceImage,
+            findingRelationship: user.value.findingRelationship,
+            likes: user.value.likes,
+            nopes: user.value.nopes,
+            matches: user.value.matches,
+            location: user.value.location,
+            zodiac: user.value.zodiac,
+            sports: user.value.sports,
+            pets: user.value.pets);
 
         // Save new data to Firestore
         await userRepository.saveUserRecord(newUser);
@@ -239,5 +237,12 @@ class UserController extends GetxController {
       print('Error downloading verification image: $e');
       return null;
     }
+  }
+
+  void clearUserData() {
+    user.value = UserModel.empty();
+    profileLoading.value = false;
+    // Clear photos list
+    newPhotos.clear();
   }
 }

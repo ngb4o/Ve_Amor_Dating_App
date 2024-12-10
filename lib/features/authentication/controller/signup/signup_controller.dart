@@ -28,8 +28,9 @@ class SignupController extends GetxController {
     try {
       // Start Loading
       TFullScreenLoader.openLoadingDialog(
-          'We are processing your information...',
-          Assets.animations141594AnimationOfDocer);
+        'We are processing your information...',
+        Assets.animations141594AnimationOfDocer,
+      );
 
       // Check Internet Connectivity
       final isConnected = await NetworkManager.instance.isConnected();
@@ -59,34 +60,32 @@ class SignupController extends GetxController {
       }
 
       // Register user in the Firebase Authentication & Save user data in the Firebase
-      final userCredential =
-          await AuthenticationRepository.instance.registerWithEmailAndPassword(
+      final userCredential = await AuthenticationRepository.instance.registerWithEmailAndPassword(
         email.text.trim(),
         password.text.trim(),
       );
 
       // Save Authenticated user data in the Firebase Firestore
       final newUser = UserModel(
-        id: userCredential.user!.uid,
-        username: '',
-        email: email.text.trim(),
-        phoneNumber: phoneNumber.text.trim(),
-        profilePictures: [],
-        dateOfBirth: '',
-        gender: '',
-        wantSeeing: '',
-        lifeStyle: [],
-        identityVerificationQR: '',
-        identityVerificationFaceImage: '',
-        findingRelationship: '',
-        likes: [],
-        nopes: [],
-        matches: [],
-        location: null,
-        zodiac: '',
-        sports: [],
-        pets: []
-      );
+          id: userCredential.user!.uid,
+          username: '',
+          email: email.text.trim(),
+          phoneNumber: phoneNumber.text.trim(),
+          profilePictures: [],
+          dateOfBirth: '',
+          gender: '',
+          wantSeeing: '',
+          lifeStyle: [],
+          identityVerificationQR: '',
+          identityVerificationFaceImage: '',
+          findingRelationship: '',
+          likes: [],
+          nopes: [],
+          matches: [],
+          location: null,
+          zodiac: '',
+          sports: [],
+          pets: []);
 
       final userRepository = Get.put(UserRepository());
       await userRepository.saveUserRecord(newUser);

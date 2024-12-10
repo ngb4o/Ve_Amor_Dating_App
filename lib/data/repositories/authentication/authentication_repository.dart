@@ -16,6 +16,7 @@ import 'package:ve_amor_app/utils/exceptions/firebase_exceptions.dart';
 import 'package:ve_amor_app/utils/exceptions/format_exceptions.dart';
 import 'package:ve_amor_app/utils/exceptions/platform_exceptions.dart';
 
+import '../../../features/personalization/controller/user_controller.dart';
 import '../../../utils/popups/loaders.dart';
 import '../user/user_repository.dart';
 
@@ -85,9 +86,11 @@ class AuthenticationRepository extends GetxController {
 
 /*------------------------------- Email & Password Sign In -------------------------------*/
   // [EmailAuthentication] - Login
-  Future<UserCredential> loginWithEmailPassword(String email, String password) async {
+  Future<UserCredential> loginWithEmailPassword(
+      String email, String password) async {
     try {
-      return await _auth.signInWithEmailAndPassword(email: email, password: password);
+      return await _auth.signInWithEmailAndPassword(
+          email: email, password: password);
     } on FirebaseAuthException catch (e) {
       throw TFirebaseAuthException(e.code).message;
     } on FirebaseException catch (e) {
@@ -102,9 +105,11 @@ class AuthenticationRepository extends GetxController {
   }
 
   // [EmailAuthentication] - Register
-  Future<UserCredential> registerWithEmailAndPassword(String email, String password) async {
+  Future<UserCredential> registerWithEmailAndPassword(
+      String email, String password) async {
     try {
-      return await _auth.createUserWithEmailAndPassword(email: email, password: password);
+      return await _auth.createUserWithEmailAndPassword(
+          email: email, password: password);
     } on FirebaseAuthException catch (e) {
       throw TFirebaseAuthException(e.code).message;
     } on FirebaseException catch (e) {
@@ -153,10 +158,12 @@ class AuthenticationRepository extends GetxController {
   }
 
   // [ReAuthenticate] - ReAuthenticate User
-  Future<void> reAuthenticateWithEmailAndPassword(String email, String password) async {
+  Future<void> reAuthenticateWithEmailAndPassword(
+      String email, String password) async {
     try {
       // Create a credential
-      AuthCredential credential = EmailAuthProvider.credential(email: email, password: password);
+      AuthCredential credential =
+          EmailAuthProvider.credential(email: email, password: password);
 
       // ReAuthenticate
       await _auth.currentUser!.reauthenticateWithCredential(credential);
@@ -182,7 +189,8 @@ class AuthenticationRepository extends GetxController {
       final GoogleSignInAccount? userAccount = await GoogleSignIn().signIn();
 
       // Obtain the auth details from the request
-      final GoogleSignInAuthentication? googleAuth = await userAccount?.authentication;
+      final GoogleSignInAuthentication? googleAuth =
+          await userAccount?.authentication;
 
       // Create a new credential
       final credentials = GoogleAuthProvider.credential(
@@ -213,19 +221,16 @@ class AuthenticationRepository extends GetxController {
   // [LogoutUser] - Valid for any authentication
   Future<void> logout() async {
     try {
-      // await GoogleSignIn().signOut();
+      // Reset and remove UserController instance
+      final userController = Get.find<UserController>();
+      userController.clearUserData();
+      Get.delete<UserController>(); // Remove the instance completely
+
+      await GoogleSignIn().signOut();
       await FirebaseAuth.instance.signOut();
       Get.offAll(() => const LoginScreen());
-    } on FirebaseAuthException catch (e) {
-      throw TFirebaseAuthException(e.code).message;
-    } on FirebaseException catch (e) {
-      throw TFirebaseException(e.code).message;
-    } on FormatException catch (_) {
-      throw const TFormatException();
-    } on PlatformException catch (e) {
-      throw TPlatformException(e.code).message;
     } catch (e) {
-      throw 'Something went wrong. Please try again!';
+      throw 'Error logging out user: $e';
     }
   }
 

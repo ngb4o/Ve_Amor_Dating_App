@@ -18,7 +18,7 @@ class TUserProfileTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(UserController());
+    final controller = Get.put(UserController(), permanent: false);
     return Obx(() {
       if (controller.profileLoading.value) {
         // Display A Shimmer Loader While User Profile being loader
@@ -30,20 +30,28 @@ class TUserProfileTile extends StatelessWidget {
           width: 50,
           height: 50,
           padding: 0,
-          isNetworkImage: true,
-          image: controller.user.value.profilePictures[0],
+          isNetworkImage: controller.user.value.profilePictures.isNotEmpty,
+          image: controller.user.value.profilePictures.isNotEmpty
+              ? controller.user.value.profilePictures[0]
+              : 'assets/images/content/user.png',
         ),
 
         // Name
         title: Text(
           controller.user.value.username,
-          style: Theme.of(context).textTheme.headlineSmall!.apply(color: TColors.white),
+          style: Theme.of(context)
+              .textTheme
+              .headlineSmall!
+              .apply(color: TColors.white),
         ),
 
         // Email
         subtitle: Text(
           controller.user.value.email,
-          style: Theme.of(context).textTheme.bodyMedium!.apply(color: TColors.white),
+          style: Theme.of(context)
+              .textTheme
+              .bodyMedium!
+              .apply(color: TColors.white),
         ),
 
         // Edit
