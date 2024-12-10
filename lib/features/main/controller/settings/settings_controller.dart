@@ -11,6 +11,7 @@ import 'package:ve_amor_app/utils/theme/theme.dart';
 import '../../../../utils/constants/colors.dart';
 import '../../../../utils/constants/sizes.dart';
 import '../../../authentication/models/location_model.dart';
+import '../../../personalization/controller/user_controller.dart';
 
 class SettingController extends GetxController {
   static SettingController get instance => Get.find();
@@ -20,6 +21,7 @@ class SettingController extends GetxController {
   final userRepository = Get.put(UserRepository());
   final locationService = LocationService();
   final currentLocation = Rxn<LocationInfo>();
+  final userController = Get.put(UserController());
 
   @override
   void onInit() {
@@ -99,6 +101,8 @@ class SettingController extends GetxController {
         await userRepository.updateSingleField({
           'Location': locationInfo.toJson(),
         });
+
+        userController.user.value.location?['address'] = locationInfo.address;
 
         TFullScreenLoader.stopLoading();
 

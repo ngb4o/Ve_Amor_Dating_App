@@ -208,16 +208,44 @@ class InitialInformationController extends GetxController {
 
   // The Function Stores A Temporary Lifestyle
   void saveLifestyle() {
-    if (questionAnswers.isEmpty) {
+    // Get values from questionAnswers
+    final zodiac = questionAnswers['Zodiac']?.firstOrNull;
+    final sports = questionAnswers['Sports'];
+    final pets = questionAnswers['Pets'];
+
+    // Validate zodiac
+    if (zodiac == null || zodiac.isEmpty) {
       TLoaders.errorSnackBar(
-        title: 'Lifestyle not selected',
-        message: 'Please answer the lifestyle questions before proceeding!',
+        title: 'Zodiac Required',
+        message: 'Please select your zodiac sign before proceeding!',
       );
       return;
     }
 
-    userTempData['LifeStyle'] =
-        questionAnswers.values.expand((answers) => answers).toList();
+    // Validate sports
+    if (sports == null || sports.isEmpty) {
+      TLoaders.errorSnackBar(
+        title: 'Sports Required',
+        message: 'Please select at least one sport you like!',
+      );
+      return;
+    }
+
+    // Validate pets
+    if (pets == null || pets.isEmpty) {
+      TLoaders.errorSnackBar(
+        title: 'Pets Required',
+        message: 'Please select at least one option about pets!',
+      );
+      return;
+    }
+
+    // If all validations pass, store in temporary data
+    userTempData['Zodiac'] = zodiac;
+    userTempData['Sports'] = sports;
+    userTempData['Pets'] = pets;
+
+    // Navigate to next screen
     Get.to(() => const InitialLocationPage());
   }
 
@@ -386,5 +414,4 @@ class InitialInformationController extends GetxController {
       TLoaders.errorSnackBar(title: 'Oh Snap!', message: e.toString());
     }
   }
-
 }

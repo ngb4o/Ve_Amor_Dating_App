@@ -83,6 +83,9 @@ class SignupController extends GetxController {
         nopes: [],
         matches: [],
         location: null,
+        zodiac: '',
+        sports: [],
+        pets: []
       );
 
       final userRepository = Get.put(UserRepository());

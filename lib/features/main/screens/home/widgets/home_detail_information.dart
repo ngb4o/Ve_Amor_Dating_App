@@ -33,17 +33,17 @@ class THomeDetailInformation extends StatelessWidget {
                           children: [
                             Obx(
                               () => TSwipeCard(
-                                image: controller.allUsers[index]
-                                    .profilePictures[controller.currentPhotoIndex.value],
+                                image: controller
+                                    .allUsers[index].profilePictures[controller.currentPhotoIndex.value],
                                 currentPhoto: controller.currentPhotoIndex.value,
                                 numberPhotos: controller.allUsers[index].profilePictures.length,
                                 heightWidthHomeDetail: true,
                                 borderRadiusImage: false,
                                 shadowImage: false,
-                                onLeftTap: () => controller.previousPhoto(
-                                    controller.allUsers[index].profilePictures.length),
-                                onRightTap: () => controller
-                                    .nextPhoto(controller.allUsers[index].profilePictures.length),
+                                onLeftTap: () => controller
+                                    .previousPhoto(controller.allUsers[index].profilePictures.length),
+                                onRightTap: () =>
+                                    controller.nextPhoto(controller.allUsers[index].profilePictures.length),
                               ),
                             ),
 
@@ -115,10 +115,7 @@ class THomeDetailInformation extends StatelessWidget {
                                   // Age
                                   Text(
                                     controller.allUsers[index].age.toString(),
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium!
-                                        .copyWith(fontSize: 25),
+                                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontSize: 25),
                                   )
                                 ],
                               ),
@@ -131,7 +128,8 @@ class THomeDetailInformation extends StatelessWidget {
                                   const Icon(Iconsax.location, size: TSizes.iconXs),
                                   const SizedBox(width: TSizes.sm),
                                   // Location
-                                  Text(controller.allUsers[index].location?['address'], style: Theme.of(context).textTheme.labelLarge)
+                                  Text(controller.allUsers[index].location?['address'],
+                                      style: Theme.of(context).textTheme.labelLarge)
                                 ],
                               ),
 
@@ -152,9 +150,7 @@ class THomeDetailInformation extends StatelessWidget {
                                   Text('Looking',
                                       style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                                           fontWeight: FontWeight.bold,
-                                          color: dark
-                                              ? TColors.white
-                                              : Colors.black.withOpacity(0.6))),
+                                          color: dark ? TColors.white : Colors.black.withOpacity(0.6))),
                                 ],
                               ),
                               const SizedBox(height: TSizes.md),
@@ -164,6 +160,38 @@ class THomeDetailInformation extends StatelessWidget {
                                 child: Text('💘 ${controller.allUsers[index].findingRelationship}',
                                     style: Theme.of(context).textTheme.bodyLarge),
                               ),
+
+                              const SizedBox(height: TSizes.sm),
+                              const Divider(),
+                              const SizedBox(height: TSizes.sm),
+
+                              // Zodiac
+                              Row(
+                                children: [
+                                  // Icon
+                                  Icon(Icons.ac_unit,
+                                      size: TSizes.iconMd - 5,
+                                      color: dark ? TColors.white : Colors.black.withOpacity(0.6)),
+                                  const SizedBox(width: TSizes.sm),
+
+                                  // Title
+                                  Text(
+                                    'Zodiac',
+                                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                      fontWeight: FontWeight.bold,
+                                      color: dark ? TColors.white : Colors.black.withOpacity(0.6),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: TSizes.md),
+
+                              Padding(
+                                padding: const EdgeInsets.only(left: TSizes.sm),
+                                child: Text('✨ ${controller.allUsers[index].zodiac}',
+                                    style: Theme.of(context).textTheme.bodyLarge),
+                              ),
+
 
                               const SizedBox(height: TSizes.sm),
                               const Divider(),
@@ -182,9 +210,54 @@ class THomeDetailInformation extends StatelessWidget {
                                   Text(
                                     'Lifestyle habits and personalities',
                                     style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                      fontWeight: FontWeight.bold,
+                                      color: dark ? TColors.white : Colors.black.withOpacity(0.6),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: TSizes.md),
+
+                              Wrap(
+                                spacing: 10,
+                                runSpacing: 10,
+                                children: controller.allUsers[index].sports.map((lifestyle) {
+                                  return Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(30),
+                                      color: TColors.primary,
+                                    ),
+                                    padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                                    child: Text(
+                                      lifestyle,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium
+                                          ?.copyWith(color: TColors.white),
+                                    ),
+                                  );
+                                }).toList(),
+                              ),
+
+                              const SizedBox(height: TSizes.sm),
+                              const Divider(),
+                              const SizedBox(height: TSizes.sm),
+
+                              // Pets
+                              Row(
+                                children: [
+                                  // Icon
+                                  Icon(Iconsax.pet,
+                                      size: TSizes.iconMd - 5,
+                                      color: dark ? TColors.white : Colors.black.withOpacity(0.6)),
+                                  const SizedBox(width: TSizes.sm),
+
+                                  // Title
+                                  Text(
+                                    'Pets',
+                                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                                           fontWeight: FontWeight.bold,
-                                          color:
-                                              dark ? TColors.white : Colors.black.withOpacity(0.6),
+                                          color: dark ? TColors.white : Colors.black.withOpacity(0.6),
                                         ),
                                   ),
                                 ],
@@ -194,17 +267,19 @@ class THomeDetailInformation extends StatelessWidget {
                               Wrap(
                                 spacing: 10,
                                 runSpacing: 10,
-                                children: controller.allUsers[index].lifeStyle.map((lifestyle) {
+                                children: controller.allUsers[index].pets.map((pet) {
                                   return Container(
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(30),
                                       color: TColors.primary,
                                     ),
-                                    padding:
-                                        const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                                    padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
                                     child: Text(
-                                      lifestyle,
-                                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: TColors.white),
+                                      pet,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium
+                                          ?.copyWith(color: TColors.white),
                                     ),
                                   );
                                 }).toList(),
@@ -263,7 +338,8 @@ class THomeDetailInformation extends StatelessWidget {
                     color: Colors.green,
                     size: 60,
                     onTap: () async {
-                      await controller.likeUser(controller.allUsers[index].id, controller.allUsers[index].username);
+                      await controller.likeUser(
+                          controller.allUsers[index].id, controller.allUsers[index].username);
                       controller.resetPhotoIndex();
                       Navigator.pop(context);
                     },

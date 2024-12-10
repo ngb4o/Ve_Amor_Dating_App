@@ -28,18 +28,21 @@ class InitialLifestylePage extends StatelessWidget {
             // Title
             Text(
               TTexts.titleLifestyle,
-              style:
-                  Theme.of(context).textTheme.headlineMedium!.copyWith(fontWeight: FontWeight.bold),
+              style: Theme.of(context)
+                  .textTheme
+                  .headlineMedium!
+                  .copyWith(fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: TSizes.sm),
 
             // SubTitle
-            Text(TTexts.subTitleLifestyle, style: Theme.of(context).textTheme.bodySmall),
+            Text(TTexts.subTitleLifestyle,
+                style: Theme.of(context).textTheme.bodySmall),
             const SizedBox(height: TSizes.sm),
             const Divider(),
 
             const QuestionSection(
-              questionKey: 'zodiac',
+              questionKey: 'Zodiac',
               question: 'What is your zodiac sign?',
               options: [
                 'Aries (Mar 21 - Apr 19)',
@@ -53,7 +56,7 @@ class InitialLifestylePage extends StatelessWidget {
                 'Sagittarius (Nov 22 - Dec 21)',
                 'Capricorn (Dec 22 - Jan 19)',
                 'Aquarius (Jan 20 - Feb 18)',
-                'Pisces (Feb 19 - Mar 20)',
+                'Pisces (Feb 19 - Mar 20)'
               ],
               isSelectedOnly: true,
             ),
@@ -61,20 +64,34 @@ class InitialLifestylePage extends StatelessWidget {
             const Divider(),
 
             const QuestionSection(
-              questionKey: 'exercise',
-              question: 'Do you exercise?',
+              questionKey: 'Sports',
+              question: 'What sport do you like?',
               options: [
-                'Daily',
-                'Frequently',
-                'Occasionally',
-                'Don’t exercise',
+                'Pickleball',
+                'Paddle Tennis',
+                'Esports',
+                'Soccer',
+                'Basketball',
+                'Tennis',
+                'Cricket',
+                'Golf',
+                'Baseball',
+                'Running',
+                'Cycling',
+                'Volleyball',
+                'Yoga',
+                'Gym',
+                'Swimming',
+                'Boxing',
+                'MMA'
               ],
-              isSelectedOnly: true,
+              isSelectedOnly: false,
             ),
+
             const Divider(),
 
             const QuestionSection(
-              questionKey: 'pets',
+              questionKey: 'Pets',
               question: 'Do you have pets?',
               options: [
                 'Dog',
@@ -86,8 +103,9 @@ class InitialLifestylePage extends StatelessWidget {
                 'No pets',
                 'Allergic to animals',
                 'All kinds of pets',
-                'Others',
+                'Others'
               ],
+              isSelectedOnly: false,
             ),
 
             const SizedBox(height: 24),

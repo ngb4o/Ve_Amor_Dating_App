@@ -21,6 +21,9 @@ class UserModel {
   List<String> nopes;
   List<String> matches;
   final Map<String, dynamic>? location;
+  late final String zodiac;
+  List<String> sports;
+  List<String> pets;
 
   // Constructor for UserModel
   UserModel({
@@ -40,6 +43,9 @@ class UserModel {
     required this.nopes,
     required this.matches,
     this.location,
+    required this.zodiac,
+    required this.sports,
+    required this.pets,
   });
 
   // Change data dateOfBirth to age
@@ -80,6 +86,9 @@ class UserModel {
         nopes: [],
         matches: [],
         location: null,
+        zodiac: '',
+        sports: [],
+        pets: [],
       );
 
   // Convert model to JSON structure for storing data in Firebase
@@ -100,6 +109,9 @@ class UserModel {
       'Nopes': nopes,
       'Matches': matches,
       'Location': location,
+      'Zodiac' : zodiac,
+      'Sports' : sports,
+      'Pets' : pets
     };
   }
 
@@ -126,6 +138,9 @@ class UserModel {
         nopes: List<String>.from(data['Nopes'] ?? []),
         matches: List<String>.from(data['Matches'] ?? []),
         location: data['Location'] as Map<String, dynamic>?,
+        zodiac: data['Zodiac'] ?? '',
+        sports: List<String>.from(data['Sports'] ?? []),
+        pets: List<String>.from(data['Pets'] ?? [])
       );
     }
     return UserModel.empty();

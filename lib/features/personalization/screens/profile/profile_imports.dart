@@ -6,8 +6,12 @@ import 'package:ve_amor_app/features/personalization/screens/profile/update_prof
 import 'package:ve_amor_app/features/personalization/screens/profile/widgets/widget_imports.dart';
 
 import '../../../../common/widgets/appbar/appbar.dart';
+import '../../../../common/widgets/bottom_button/bottom_button.dart';
 import '../../../../common/widgets/texts/section_heading.dart';
+import '../../../../utils/constants/colors.dart';
 import '../../../../utils/constants/sizes.dart';
+import '../../controller/update_profile/update_lifestyle_controller.dart';
+import '../../controller/update_profile/update_preferences_controller.dart';
 import '../../controller/user_controller.dart';
 
 part 'profile.dart';

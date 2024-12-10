@@ -5,7 +5,6 @@ import 'package:ve_amor_app/features/personalization/models/user_model.dart';
 import 'package:ve_amor_app/utils/popups/loaders.dart';
 import 'package:ve_amor_app/data/services/amazon/aws_compare_face.dart';
 import 'package:ve_amor_app/utils/popups/full_screen_loader.dart';
-import 'package:ve_amor_app/utils/constants/image_strings.dart';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
@@ -89,6 +88,9 @@ class UserController extends GetxController {
           nopes: user.value.nopes,
           matches: user.value.matches,
           location: user.value.location,
+          zodiac: user.value.zodiac,
+          sports: user.value.sports,
+          pets: user.value.pets
         );
 
         // Save new data to Firestore

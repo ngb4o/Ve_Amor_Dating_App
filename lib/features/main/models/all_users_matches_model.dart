@@ -21,25 +21,32 @@ class AllUsersMatchesModel {
   List<String> nopes;
   List<String> matches;
   final Map<String, dynamic>? location;
+  final String zodiac;
+  List<String> sports;
+  List<String> pets;
 
   // Constructor for UserModel
-  AllUsersMatchesModel(
-      {required this.id,
-      required this.username,
-      required this.email,
-      required this.phoneNumber,
-      required this.profilePictures,
-      required this.dateOfBirth,
-      required this.gender,
-      required this.wantSeeing,
-      required this.lifeStyle,
-      required this.identityVerificationQR,
-      required this.identityVerificationFaceImage,
-      required this.findingRelationship,
-      required this.likes,
-      required this.nopes,
-      required this.matches,
-      this.location});
+  AllUsersMatchesModel({
+    required this.id,
+    required this.username,
+    required this.email,
+    required this.phoneNumber,
+    required this.profilePictures,
+    required this.dateOfBirth,
+    required this.gender,
+    required this.wantSeeing,
+    required this.lifeStyle,
+    required this.identityVerificationQR,
+    required this.identityVerificationFaceImage,
+    required this.findingRelationship,
+    required this.likes,
+    required this.nopes,
+    required this.matches,
+    this.location,
+    required this.zodiac,
+    required this.sports,
+    required this.pets,
+  });
 
   // Change data dateOfBirth to age
   int get age {
@@ -79,6 +86,9 @@ class AllUsersMatchesModel {
         nopes: [],
         matches: [],
         location: null,
+        zodiac: '',
+        sports: [],
+        pets: [],
       );
 
   // Convert model to JSON structure for storing data in Firebase
@@ -99,6 +109,9 @@ class AllUsersMatchesModel {
       'Nopes': nopes,
       'Matches': matches,
       'Location': location,
+      'Zodiac': zodiac,
+      'Sports': sports,
+      'Pets': pets,
     };
   }
 
@@ -120,11 +133,14 @@ class AllUsersMatchesModel {
         identityVerificationQR: data['IdentityVerificationQR'] ?? '',
         identityVerificationFaceImage:
             data['IdentityVerificationFaceImage'] ?? '',
-        findingRelationship: data['FindingRelationship'],
+        findingRelationship: data['FindingRelationship'] ?? '',
         likes: List<String>.from(data['Likes'] ?? []),
         nopes: List<String>.from(data['Nopes'] ?? []),
         matches: List<String>.from(data['Matches'] ?? []),
         location: data['Location'] as Map<String, dynamic>?,
+        zodiac: data['Zodiac'] ?? '',
+        sports: List<String>.from(data['Sports'] ?? []),
+        pets: List<String>.from(data['Pets'] ?? []),
       );
     }
     return AllUsersMatchesModel.empty();
