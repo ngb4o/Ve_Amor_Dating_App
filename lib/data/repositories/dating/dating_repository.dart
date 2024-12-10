@@ -13,7 +13,8 @@ class DatingRepository extends GetxController {
   Future<List<AllUsersModel>> getAllUsers(String currentUserUid) async {
     try {
       // Fetch current user information
-      final currentUserSnapshot = await _db.collection('Users').doc(currentUserUid).get();
+      final currentUserSnapshot =
+          await _db.collection('Users').doc(currentUserUid).get();
       final currentUserData = currentUserSnapshot.data();
 
       if (currentUserData == null) {
@@ -31,10 +32,11 @@ class DatingRepository extends GetxController {
       final swipedUsers = {...likes, ...nopes, ...matches};
 
       // Create query based on user preference
-      Query<Map<String, dynamic>> usersQuery = _db.collection('Users').withConverter(
-            fromFirestore: (snapshot, _) => snapshot.data()!,
-            toFirestore: (data, _) => data,
-          );
+      Query<Map<String, dynamic>> usersQuery =
+          _db.collection('Users').withConverter(
+                fromFirestore: (snapshot, _) => snapshot.data()!,
+                toFirestore: (data, _) => data,
+              );
 
       // Filter by gender preference
       if (wantSeeing != 'Everyone') {
@@ -55,7 +57,8 @@ class DatingRepository extends GetxController {
 
       // Convert to AllUsersModel list
       return filteredDocs
-          .map((doc) => AllUsersModel.fromSnapshot(doc as DocumentSnapshot<Map<String, dynamic>>))
+          .map((doc) => AllUsersModel.fromSnapshot(
+              doc as DocumentSnapshot<Map<String, dynamic>>))
           .toList();
     } on FirebaseException catch (e) {
       throw TFirebaseAuthException(e.code).message;
@@ -81,7 +84,8 @@ class DatingRepository extends GetxController {
 
       // Check if the liked user also liked back
       final likedUserSnapshot = await likedUserRef.get();
-      final likedUserLikes = List<String>.from(likedUserSnapshot.data()?['Likes'] ?? []);
+      final likedUserLikes =
+          List<String>.from(likedUserSnapshot.data()?['Likes'] ?? []);
 
       if (likedUserLikes.contains(currentUserId)) {
         // Add to matches list if mutual like
@@ -149,7 +153,8 @@ class DatingRepository extends GetxController {
   Future<AllUsersModel?> getLastNopedUser(String currentUserId) async {
     try {
       // Get current user data to access nopes list
-      final currentUserDoc = await _db.collection('Users').doc(currentUserId).get();
+      final currentUserDoc =
+          await _db.collection('Users').doc(currentUserId).get();
       final nopes = List<String>.from(currentUserDoc.data()?['Nopes'] ?? []);
 
       if (nopes.isEmpty) return null;
@@ -169,6 +174,19 @@ class DatingRepository extends GetxController {
       throw TPlatformException(e.code).message;
     } catch (e) {
       throw 'Something went wrong. Please try again!';
+    }
+  }
+
+  // Add this method
+  Future<AllUsersModel?> getUserById(String userId) async {
+    try {
+      final doc = await _db.collection("Users").doc(userId).get();
+      if (doc.exists) {
+        return AllUsersModel.fromSnapshot(doc);
+      }
+      return null;
+    } catch (e) {
+      throw 'Error getting user: $e';
     }
   }
 }

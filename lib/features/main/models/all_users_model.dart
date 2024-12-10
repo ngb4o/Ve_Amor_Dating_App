@@ -2,6 +2,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 import 'package:ve_amor_app/data/services/location/location_service.dart';
+import 'dart:math' show cos, sqrt, asin;
 
 class AllUsersModel {
   // Keep those values final which you do not want to update
@@ -144,5 +145,34 @@ class AllUsersModel {
       );
     }
     return AllUsersModel.empty();
+  }
+
+  // Calculate distance between two points
+  double calculateDistance(Map<String, dynamic>? userLocation) {
+    if (location == null || userLocation == null) return 0;
+
+    var lat1 = location!['latitude'] as double;
+    var lon1 = location!['longitude'] as double;
+    var lat2 = userLocation['latitude'] as double;
+    var lon2 = userLocation['longitude'] as double;
+
+    var p = 0.017453292519943295; // Math.PI / 180
+    var c = cos;
+    var a = 0.5 -
+        c((lat2 - lat1) * p) / 2 +
+        c(lat1 * p) * c(lat2 * p) * (1 - c((lon2 - lon1) * p)) / 2;
+
+    // Return distance in kilometers
+    return 12742 * asin(sqrt(a)); // 2 * R; R = 6371 km
+  }
+
+  // Get formatted distance string
+  String getFormattedDistance(Map<String, dynamic>? userLocation) {
+    double distance = calculateDistance(userLocation);
+    if (distance == 0) return 'Unknown distance';
+    if (distance < 1) {
+      return '${(distance * 1000).round()} m';
+    }
+    return '${distance.round()} km';
   }
 }

@@ -15,13 +15,20 @@ class HomeController extends GetxController {
   final _dating = Get.put(DatingRepository());
 
   // Filter properties
-  final RxDouble maxDistance = 51.0.obs;
-  final RxBool showDistantProfiles = true.obs;
-  final RxString genderPreference = 'Women'.obs;
-  final Rx<RangeValues> ageRange = const RangeValues(18, 31).obs;
+  final RxDouble maxDistance = 50.0.obs;
+  final RxString selectedZodiac = ''.obs;
+  final RxList<String> selectedSports = <String>[].obs;
+  final RxList<String> selectedPets = <String>[].obs;
+  final RxString selectedLookingFor = ''.obs;
+  final RxString genderPreference = ''.obs;
+  final Rx<RangeValues> ageRange = const RangeValues(18, 100).obs;
+
+  final Rxn<Map<String, dynamic>> currentUserLocation =
+      Rxn<Map<String, dynamic>>();
 
   @override
   void onInit() {
+    getCurrentUserLocation();
     fetchAllUsers();
     super.onInit();
   }
@@ -30,21 +37,72 @@ class HomeController extends GetxController {
   Future<void> fetchAllUsers() async {
     isLoading.value = true;
     try {
-      final users = await _dating.getAllUsers(
-        _auth.currentUser!.uid,
-        // maxDistance: maxDistance.value,
-        // showDistantProfiles: showDistantProfiles.value,
-        // genderPreference: genderPreference.value,
-        // minAge: ageRange.value.start.toInt(),
-        // maxAge: ageRange.value.end.toInt(),
-      );
-      allUsers.assignAll(users);
-      print('--------------------------${users.length}');
+      final users = await _dating.getAllUsers(_auth.currentUser!.uid);
+
+      // Apply filters
+      final filteredUsers = users.where((user) {
+        // Distance filter
+        if (maxDistance.value > 0) {
+          double distance = user.calculateDistance(currentUserLocation.value);
+          if (distance > maxDistance.value) return false;
+        }
+
+        // Age filter
+        if (user.age < ageRange.value.start || user.age > ageRange.value.end) {
+          return false;
+        }
+
+        // Gender filter
+        if (genderPreference.value.isNotEmpty &&
+            user.gender != genderPreference.value) {
+          return false;
+        }
+
+        // Zodiac filter
+        if (selectedZodiac.value.isNotEmpty &&
+            user.zodiac != selectedZodiac.value) {
+          return false;
+        }
+
+        // Sports filter
+        if (selectedSports.isNotEmpty &&
+            !selectedSports.any((sport) => user.sports.contains(sport))) {
+          return false;
+        }
+
+        // Pets filter
+        if (selectedPets.isNotEmpty &&
+            !selectedPets.any((pet) => user.pets.contains(pet))) {
+          return false;
+        }
+
+        // Looking for filter
+        if (selectedLookingFor.value.isNotEmpty &&
+            user.findingRelationship != selectedLookingFor.value) {
+          return false;
+        }
+
+        return true;
+      }).toList();
+
+      allUsers.assignAll(filteredUsers);
     } catch (e) {
       Get.snackbar('Error', 'Failed to fetch users: $e');
     } finally {
       isLoading.value = false;
     }
+  }
+
+  // Reset all filters
+  void resetFilters() {
+    maxDistance.value = 50.0;
+    selectedZodiac.value = '';
+    selectedSports.clear();
+    selectedPets.clear();
+    selectedLookingFor.value = '';
+    genderPreference.value = '';
+    ageRange.value = const RangeValues(18, 100);
+    fetchAllUsers();
   }
 
   // Move to the previous photo
@@ -144,15 +202,46 @@ class HomeController extends GetxController {
     maxDistance.value = value;
   }
 
-  void toggleShowDistantProfiles() {
-    showDistantProfiles.value = !showDistantProfiles.value;
+  void updateAgeRange(RangeValues values) {
+    ageRange.value = values;
+  }
+
+  void toggleZodiac(String zodiac) {
+    selectedZodiac.value = selectedZodiac.value == zodiac ? '' : zodiac;
+  }
+
+  void toggleSport(String sport) {
+    if (selectedSports.contains(sport)) {
+      selectedSports.remove(sport);
+    } else {
+      selectedSports.add(sport);
+    }
+  }
+
+  void togglePet(String pet) {
+    if (selectedPets.contains(pet)) {
+      selectedPets.remove(pet);
+    } else {
+      selectedPets.add(pet);
+    }
+  }
+
+  void setLookingFor(String lookingFor) {
+    selectedLookingFor.value = lookingFor;
   }
 
   void setGenderPreference(String gender) {
     genderPreference.value = gender;
   }
 
-  void updateAgeRange(RangeValues values) {
-    ageRange.value = values;
+  Future<void> getCurrentUserLocation() async {
+    try {
+      final userDoc = await _dating.getUserById(_auth.currentUser!.uid);
+      if (userDoc != null) {
+        currentUserLocation.value = userDoc.location;
+      }
+    } catch (e) {
+      print('Error getting current user location: $e');
+    }
   }
 }

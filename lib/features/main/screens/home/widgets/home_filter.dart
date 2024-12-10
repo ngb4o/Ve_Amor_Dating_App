@@ -14,14 +14,16 @@ class HomeFilterScreen extends StatelessWidget {
         isCenterTitle: true,
         actions: [
           TextButton(
+            onPressed: () => controller.resetFilters(),
+            child: Text('Reset', style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.grey)),
+          ),
+          TextButton(
             onPressed: () {
-              controller.fetchAllUsers(); // Refresh users with new filters
+              controller.fetchAllUsers();
               Get.back();
             },
-            child: Text(
-              'Done',
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(color: TColors.primary),
-            ),
+            child:
+                Text('Done', style: Theme.of(context).textTheme.bodySmall?.copyWith(color: TColors.primary)),
           ),
         ],
       ),
@@ -34,10 +36,7 @@ class HomeFilterScreen extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  'Maximum distance',
-                  style: Theme.of(context).textTheme.bodyLarge,
-                ),
+                Text('Maximum distance', style: Theme.of(context).textTheme.bodyLarge),
                 Obx(() => Text('${controller.maxDistance.value.toInt()} km')),
               ],
             ),
@@ -51,38 +50,13 @@ class HomeFilterScreen extends StatelessWidget {
               ),
             ),
 
-            const SizedBox(height: TSizes.xs),
-            const Divider(),
-            const SizedBox(height: TSizes.xs),
-
-            // Gender Preference
-            TSettingsMenuTile(
-              title: 'Interested in',
-              subtitle: 'Tap to chose gender',
-              icon: Iconsax.favorite_chart,
-              onTap: () {},
-              trailing: Text(
-                'Women',
-                style: Theme.of(context).textTheme.bodyMedium,
-              ),
-            ),
-
-            const SizedBox(height: TSizes.xs),
-            const Divider(),
-            const SizedBox(height: TSizes.xs),
-
             // Age Range
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  'Age',
-                  style: Theme.of(context).textTheme.bodyLarge,
-                ),
-                Obx(
-                  () => Text(
-                      '${controller.ageRange.value.start.toInt()}-${controller.ageRange.value.end.toInt()}'),
-                ),
+                Text('Age', style: Theme.of(context).textTheme.bodyLarge),
+                Obx(() => Text(
+                    '${controller.ageRange.value.start.toInt()}-${controller.ageRange.value.end.toInt()}')),
               ],
             ),
             Obx(
@@ -95,6 +69,39 @@ class HomeFilterScreen extends StatelessWidget {
               ),
             ),
 
+
+            const SizedBox(height: TSizes.xs),
+            const Divider(),
+            const SizedBox(height: TSizes.xs),
+
+            // Gender Preference
+            TSettingsMenuTile(
+              title: 'Interested in',
+              subtitle: controller.genderPreference.value.isEmpty
+                  ? 'Tap to choose'
+                  : controller.genderPreference.value,
+              icon: Iconsax.heart,
+              onTap: () => Get.bottomSheet(
+                _buildBottomSheet(
+                  context: context,
+                  title: 'Interested in',
+                  child: Obx(
+                    () => Wrap(
+                      spacing: TSizes.xs,
+                      children: LifestyleOptions.interestedInOptions.map((gender) {
+                        return TFilterChip(
+                          label: gender,
+                          selected: controller.genderPreference.value == gender,
+                          onSelected: (_) => controller.setGenderPreference(gender),
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+
+
             const SizedBox(height: TSizes.xs),
             const Divider(),
             const SizedBox(height: TSizes.xs),
@@ -102,67 +109,30 @@ class HomeFilterScreen extends StatelessWidget {
             // Looking for
             TSettingsMenuTile(
               title: 'Looking for',
-              subtitle: 'Tap to choose',
+              subtitle: controller.selectedLookingFor.value.isEmpty
+                  ? 'Tap to choose'
+                  : controller.selectedLookingFor.value,
               icon: Iconsax.search_favorite,
-              trailing: const Icon(Iconsax.arrow_right_34, size: 23),
               onTap: () => Get.bottomSheet(
-                Container(
-                  padding: const EdgeInsets.all(TSizes.defaultSpace),
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).scaffoldBackgroundColor,
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(TSizes.md),
-                      topRight: Radius.circular(TSizes.md),
+                _buildBottomSheet(
+                  context: context,
+                  title: 'Looking for',
+                  child: Obx(
+                    () => Wrap(
+                      spacing: TSizes.xs,
+                      children: LifestyleOptions.lookingForOptions.map((option) {
+                        return TFilterChip(
+                          label: option,
+                          selected: controller.selectedLookingFor.value == option,
+                          onSelected: (_) => controller.setLookingFor(option),
+                        );
+                      }).toList(),
                     ),
                   ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      // Header bar indicator
-                      Container(
-                        width: 40,
-                        height: 4,
-                        margin: const EdgeInsets.only(bottom: TSizes.md),
-                        decoration: BoxDecoration(
-                          color: Colors.grey[300],
-                          borderRadius: BorderRadius.circular(TSizes.xs),
-                        ),
-                      ),
-
-                      // Title
-                      Text(
-                        'Looking for',
-                        style: Theme.of(context).textTheme.titleLarge,
-                      ),
-                      const SizedBox(height: TSizes.spaceBtwItems),
-
-                      // Options with more spacing and padding
-                      const Wrap(
-                        spacing: TSizes.xs,
-                        runSpacing: TSizes.xs,
-                        children: [
-                          TFilterChip(label: 'Lover'),
-                          TFilterChip(label: 'A long-term dating partner'),
-                          TFilterChip(label: 'Anything that might happen'),
-                          TFilterChip(label: 'A casual relationship'),
-                          TFilterChip(label: 'New friends'),
-                          TFilterChip(label: 'I’m not sure yet'),
-                        ],
-                      ),
-                      const SizedBox(height: TSizes.spaceBtwSections),
-
-                      // Done button
-                      TBottomButton(
-                        onPressed: () {},
-                        textButton: 'Done',
-                      ),
-                      const SizedBox(height: TSizes.defaultSpace),
-                    ],
-                  ),
                 ),
-                isScrollControlled: true,
               ),
             ),
+
 
             const SizedBox(height: TSizes.xs),
             const Divider(),
@@ -171,62 +141,60 @@ class HomeFilterScreen extends StatelessWidget {
             // Zodiac
             TSettingsMenuTile(
               title: 'Zodiac',
-              subtitle: 'Tap to chose',
+              subtitle:
+                  controller.selectedZodiac.value.isEmpty ? 'Tap to choose' : controller.selectedZodiac.value,
               icon: Icons.ac_unit,
               onTap: () => Get.bottomSheet(
-                Container(
-                  padding: const EdgeInsets.all(TSizes.defaultSpace),
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).scaffoldBackgroundColor,
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(TSizes.md),
-                      topRight: Radius.circular(TSizes.md),
+                _buildBottomSheet(
+                  context: context,
+                  title: 'Zodiac',
+                  child: Obx(
+                    () => Wrap(
+                      spacing: TSizes.xs,
+                      children: LifestyleOptions.zodiacOptions.map((zodiac) {
+                        return TFilterChip(
+                          label: zodiac,
+                          selected: controller.selectedZodiac.value == zodiac,
+                          onSelected: (_) => controller.toggleZodiac(zodiac),
+                        );
+                      }).toList(),
                     ),
                   ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      // Header bar indicator
-                      Container(
-                        width: 40,
-                        height: 4,
-                        margin: const EdgeInsets.only(bottom: TSizes.md),
-                        decoration: BoxDecoration(
-                          color: Colors.grey[300],
-                          borderRadius: BorderRadius.circular(TSizes.xs),
-                        ),
-                      ),
+                ),
+              ),
+            ),
 
-                      // Title
-                      Text(
-                        'Zodiac',
-                        style: Theme.of(context).textTheme.titleLarge,
-                      ),
-                      const SizedBox(height: TSizes.spaceBtwItems),
 
-                      // Zodiac options
-                      Wrap(
-                        spacing: TSizes.xs,
-                        runSpacing: TSizes.xs,
-                        children: [
-                          for (var zodiac in LifestyleOptions.zodiacOptions) TFilterChip(label: zodiac),
-                        ],
-                      ),
-                      const SizedBox(height: TSizes.spaceBtwSections),
+            const SizedBox(height: TSizes.xs),
+            const Divider(),
+            const SizedBox(height: TSizes.xs),
 
-                      // Done button
-                      TBottomButton(
-                        onPressed: () => Get.back(),
-                        textButton: 'Done',
-                      ),
-                      const SizedBox(height: TSizes.defaultSpace),
-                    ],
+            // Sports
+            TSettingsMenuTile(
+              title: 'Sports',
+              subtitle:
+                  controller.selectedSports.isEmpty ? 'Tap to choose' : controller.selectedSports.join(', '),
+              icon: Icons.sports_cricket,
+              onTap: () => Get.bottomSheet(
+                _buildBottomSheet(
+                  context: context,
+                  title: 'Sports',
+                  child: Obx(
+                    () => Wrap(
+                      spacing: TSizes.xs,
+                      children: LifestyleOptions.sportsOptions.map((sport) {
+                        return TFilterChip(
+                          label: sport,
+                          selected: controller.selectedSports.contains(sport),
+                          onSelected: (_) => controller.toggleSport(sport),
+                        );
+                      }).toList(),
+                    ),
                   ),
                 ),
-                isScrollControlled: true,
               ),
-              trailing: const Icon(Iconsax.arrow_right_34, size: 23),
             ),
+
 
             const SizedBox(height: TSizes.xs),
             const Divider(),
@@ -235,126 +203,81 @@ class HomeFilterScreen extends StatelessWidget {
             // Pets
             TSettingsMenuTile(
               title: 'Pets',
-              subtitle: 'Tap to chose',
+              subtitle:
+                  controller.selectedPets.isEmpty ? 'Tap to choose' : controller.selectedPets.join(', '),
               icon: Iconsax.pet,
               onTap: () => Get.bottomSheet(
-                Container(
-                  padding: const EdgeInsets.all(TSizes.defaultSpace),
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).scaffoldBackgroundColor,
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(TSizes.md),
-                      topRight: Radius.circular(TSizes.md),
+                _buildBottomSheet(
+                  context: context,
+                  title: 'Pets',
+                  child: Obx(
+                    () => Wrap(
+                      spacing: TSizes.xs,
+                      children: LifestyleOptions.petsOptions.map((pet) {
+                        return TFilterChip(
+                          label: pet,
+                          selected: controller.selectedPets.contains(pet),
+                          onSelected: (_) => controller.togglePet(pet),
+                        );
+                      }).toList(),
                     ),
                   ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      // Header bar indicator
-                      Container(
-                        width: 40,
-                        height: 4,
-                        margin: const EdgeInsets.only(bottom: TSizes.md),
-                        decoration: BoxDecoration(
-                          color: Colors.grey[300],
-                          borderRadius: BorderRadius.circular(TSizes.xs),
-                        ),
-                      ),
-
-                      // Title
-                      Text(
-                        'Pets',
-                        style: Theme.of(context).textTheme.titleLarge,
-                      ),
-                      const SizedBox(height: TSizes.spaceBtwItems),
-
-                      // Pet options
-                      Wrap(
-                        spacing: TSizes.xs,
-                        runSpacing: TSizes.xs,
-                        children: [
-                          for (var pet in LifestyleOptions.petsOptions) TFilterChip(label: pet),
-                        ],
-                      ),
-                      const SizedBox(height: TSizes.spaceBtwSections),
-
-                      // Done button
-                      TBottomButton(
-                        onPressed: () => Get.back(),
-                        textButton: 'Done',
-                      ),
-                      const SizedBox(height: TSizes.defaultSpace),
-                    ],
-                  ),
                 ),
-                isScrollControlled: true,
-              ),
-              trailing: const Icon(Iconsax.arrow_right_34, size: 23),
-            ),
-
-            const SizedBox(height: TSizes.xs),
-            const Divider(),
-            const SizedBox(height: TSizes.xs),
-
-            // Pets
-            TSettingsMenuTile(
-              title: 'Sports',
-              subtitle: 'Tap to chose',
-              icon: Icons.sports_cricket_outlined,
-              trailing: const Icon(Iconsax.arrow_right_34, size: 23),
-              onTap: () => Get.bottomSheet(
-                Container(
-                  padding: const EdgeInsets.all(TSizes.defaultSpace),
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).scaffoldBackgroundColor,
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(TSizes.md),
-                      topRight: Radius.circular(TSizes.md),
-                    ),
-                  ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      // Header bar indicator
-                      Container(
-                        width: 40,
-                        height: 4,
-                        margin: const EdgeInsets.only(bottom: TSizes.md),
-                        decoration: BoxDecoration(
-                          color: Colors.grey[300],
-                          borderRadius: BorderRadius.circular(TSizes.xs),
-                        ),
-                      ),
-
-                      // Title
-                      Text(
-                        'Sports',
-                        style: Theme.of(context).textTheme.titleLarge,
-                      ),
-                      const SizedBox(height: TSizes.spaceBtwItems),
-
-                      // Pet options
-                      Wrap(
-                        spacing: TSizes.xs,
-                        runSpacing: TSizes.xs,
-                        children: [
-                          for (var sport in LifestyleOptions.sportsOptions) TFilterChip(label: sport),
-                        ],
-                      ),
-                      const SizedBox(height: TSizes.spaceBtwSections),
-
-                      // Done button
-                      TBottomButton(
-                        onPressed: () => Get.back(),
-                        textButton: 'Done',
-                      ),
-                      const SizedBox(height: TSizes.defaultSpace),
-                    ],
-                  ),
-                ),
-                isScrollControlled: true,
               ),
             ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildBottomSheet({
+    required BuildContext context,
+    required String title,
+    required Widget child,
+  }) {
+    return Container(
+      padding: const EdgeInsets.all(TSizes.defaultSpace),
+      decoration: BoxDecoration(
+        color: Theme.of(context).scaffoldBackgroundColor,
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(TSizes.md),
+          topRight: Radius.circular(TSizes.md),
+        ),
+      ),
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            // Header bar indicator
+            Container(
+              width: 40,
+              height: 4,
+              margin: const EdgeInsets.only(bottom: TSizes.md),
+              decoration: BoxDecoration(
+                color: Colors.grey[300],
+                borderRadius: BorderRadius.circular(TSizes.xs),
+              ),
+            ),
+
+            // Title
+            Text(
+              title,
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
+            const SizedBox(height: TSizes.spaceBtwItems),
+
+            // Content
+            child,
+
+            const SizedBox(height: TSizes.spaceBtwSections),
+
+            // Done button
+            TBottomButton(
+              onPressed: () => Get.back(),
+              textButton: 'Done',
+            ),
+            const SizedBox(height: TSizes.defaultSpace),
           ],
         ),
       ),
