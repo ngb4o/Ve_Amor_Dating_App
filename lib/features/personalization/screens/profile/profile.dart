@@ -134,6 +134,30 @@ class ProfileScreen extends StatelessWidget {
                 ),
               ),
 
+              // Interested in
+              Obx(
+                    () => TProfileMenu(
+                  title: 'Interested in',
+                  value: controller.user.value.wantSeeing,
+                  isUpdate: true,
+                  onTap: () {
+                    Get.to(() => const UpdatePhoneNumber());
+                  },
+                ),
+              ),
+
+              // Looking for
+              Obx(
+                    () => TProfileMenu(
+                  title: ' Looking for',
+                  value: controller.user.value.findingRelationship,
+                  isUpdate: true,
+                  onTap: () {
+                    Get.to(() => const UpdatePhoneNumber());
+                  },
+                ),
+              ),
+
               const Divider(),
               const SizedBox(height: TSizes.spaceBtwItems),
 

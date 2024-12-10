@@ -348,7 +348,7 @@ class HomeFilterScreen extends StatelessWidget {
 
                       // Title
                       Text(
-                        'Pets',
+                        'Sports',
                         style: Theme.of(context).textTheme.titleLarge,
                       ),
                       const SizedBox(height: TSizes.spaceBtwItems),
