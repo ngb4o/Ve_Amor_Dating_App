@@ -23,8 +23,7 @@ class HomeController extends GetxController {
   final RxString genderPreference = ''.obs;
   final Rx<RangeValues> ageRange = const RangeValues(18, 100).obs;
 
-  final Rxn<Map<String, dynamic>> currentUserLocation =
-      Rxn<Map<String, dynamic>>();
+  final Rxn<Map<String, dynamic>> currentUserLocation = Rxn<Map<String, dynamic>>();
 
   @override
   void onInit() {
@@ -53,32 +52,27 @@ class HomeController extends GetxController {
         }
 
         // Gender filter
-        if (genderPreference.value.isNotEmpty &&
-            user.gender != genderPreference.value) {
+        if (genderPreference.value.isNotEmpty && user.gender != genderPreference.value) {
           return false;
         }
 
         // Zodiac filter
-        if (selectedZodiac.value.isNotEmpty &&
-            user.zodiac != selectedZodiac.value) {
+        if (selectedZodiac.value.isNotEmpty && user.zodiac != selectedZodiac.value) {
           return false;
         }
 
         // Sports filter
-        if (selectedSports.isNotEmpty &&
-            !selectedSports.any((sport) => user.sports.contains(sport))) {
+        if (selectedSports.isNotEmpty && !selectedSports.any((sport) => user.sports.contains(sport))) {
           return false;
         }
 
         // Pets filter
-        if (selectedPets.isNotEmpty &&
-            !selectedPets.any((pet) => user.pets.contains(pet))) {
+        if (selectedPets.isNotEmpty && !selectedPets.any((pet) => user.pets.contains(pet))) {
           return false;
         }
 
         // Looking for filter
-        if (selectedLookingFor.value.isNotEmpty &&
-            user.findingRelationship != selectedLookingFor.value) {
+        if (selectedLookingFor.value.isNotEmpty && user.findingRelationship != selectedLookingFor.value) {
           return false;
         }
 

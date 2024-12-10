@@ -150,7 +150,7 @@ class ProfileScreen extends StatelessWidget {
                   value: controller.user.value.wantSeeing,
                   isUpdate: true,
                   onTap: () {
-                    final preferencesController = Get.put(UpdatePreferencesController());
+                    final preferencesController = Get.put(UpdateProfileController());
                     Get.bottomSheet(
                       Container(
                         padding: const EdgeInsets.all(TSizes.defaultSpace),
@@ -223,7 +223,7 @@ class ProfileScreen extends StatelessWidget {
                   value: controller.user.value.findingRelationship,
                   isUpdate: true,
                   onTap: () {
-                    final preferencesController = Get.put(UpdatePreferencesController());
+                    final preferencesController = Get.put(UpdateProfileController());
                     Get.bottomSheet(
                       Container(
                         padding: const EdgeInsets.all(TSizes.defaultSpace),
@@ -297,7 +297,7 @@ class ProfileScreen extends StatelessWidget {
                   value: controller.user.value.sports.join(', '),
                   isUpdate: true,
                   onTap: () {
-                    final lifestyleController = Get.put(UpdateLifestyleController());
+                    final lifestyleController = Get.put(UpdateProfileController());
                     Get.bottomSheet(
                       Container(
                         padding: const EdgeInsets.all(TSizes.defaultSpace),
@@ -372,7 +372,7 @@ class ProfileScreen extends StatelessWidget {
                   value: controller.user.value.pets.join(', '),
                   isUpdate: true,
                   onTap: () {
-                    final lifestyleController = Get.put(UpdateLifestyleController());
+                    final lifestyleController = Get.put(UpdateProfileController());
                     Get.bottomSheet(
                       Container(
                         padding: const EdgeInsets.all(TSizes.defaultSpace),

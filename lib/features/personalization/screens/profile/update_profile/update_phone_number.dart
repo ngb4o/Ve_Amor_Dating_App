@@ -5,38 +5,34 @@ class UpdatePhoneNumber extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(UpdatePhoneNumberController());
+    final controller = Get.put(UpdateProfileController());
     return Scaffold(
-      appBar: const TAppbar(title: Text('Update Phone Number'), showBackArrow: true),
+      appBar: const TAppbar(
+          title: Text('Update Phone Number'), showBackArrow: true),
       body: Padding(
         padding: const EdgeInsets.all(TSizes.defaultSpace),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Heading
             Text(
-              'Enter your phone number to ensure easy communication and verification. This number will be used for authentication and contact purposes.',
+              'Enter your phone number to ensure easy communication and verification.',
               style: Theme.of(context).textTheme.labelMedium,
             ),
             const SizedBox(height: TSizes.spaceBtwSections),
-
-            // Text field and button
             Form(
-              key: controller.updateUserPhoneNumberFormKey,
+              key: controller.updateProfileFormKey,
               child: TextFormField(
                 controller: controller.phoneNumberController,
-                expands: false,
                 validator: (value) => TValidator.validatePhoneNumber(value),
-                decoration: const InputDecoration(labelText: TTexts.phoneNo, prefixIcon: Icon(Iconsax.user)),
+                decoration: const InputDecoration(
+                    labelText: TTexts.phoneNo, prefixIcon: Icon(Iconsax.user)),
               ),
             ),
             const SizedBox(height: TSizes.spaceBtwSections),
-
-            // Save button
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () => controller.updateUserName(),
+                onPressed: () => controller.updatePhoneNumber(),
                 child: const Text('Save'),
               ),
             )
