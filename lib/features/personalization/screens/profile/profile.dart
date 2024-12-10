@@ -150,65 +150,15 @@ class ProfileScreen extends StatelessWidget {
                   value: controller.user.value.wantSeeing,
                   isUpdate: true,
                   onTap: () {
-                    final preferencesController = Get.put(UpdateProfileController());
+                    final profileController = Get.put(UpdateProfileController());
                     Get.bottomSheet(
-                      Container(
-                        padding: const EdgeInsets.all(TSizes.defaultSpace),
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).scaffoldBackgroundColor,
-                          borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(TSizes.md),
-                            topRight: Radius.circular(TSizes.md),
-                          ),
-                        ),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            // Header bar indicator
-                            Container(
-                              width: 40,
-                              height: 4,
-                              margin: const EdgeInsets.only(bottom: TSizes.md),
-                              decoration: BoxDecoration(
-                                color: Colors.grey[300],
-                                borderRadius: BorderRadius.circular(TSizes.xs),
-                              ),
-                            ),
-
-                            // Title
-                            Text(
-                              'Interested in',
-                              style: Theme.of(context).textTheme.titleLarge,
-                            ),
-                            const SizedBox(height: TSizes.spaceBtwItems),
-
-                            // Options
-                            Obx(
-                              () => Wrap(
-                                spacing: TSizes.xs,
-                                runSpacing: TSizes.xs,
-                                children: LifestyleOptions.interestedInOptions
-                                    .map((option) => TFilterChip(
-                                          label: option,
-                                          selected: preferencesController.selectedWantSeeing.value == option,
-                                          onSelected: (_) {
-                                            preferencesController.selectedWantSeeing.value = option;
-                                          },
-                                        ))
-                                    .toList(),
-                              ),
-                            ),
-
-                            const SizedBox(height: TSizes.spaceBtwSections),
-
-                            // Done button
-                            TBottomButton(
-                              onPressed: () => preferencesController.updateWantSeeing(),
-                              textButton: 'Done',
-                            ),
-                            const SizedBox(height: TSizes.defaultSpace),
-                          ],
-                        ),
+                      ProfileBottomSheet(
+                        title: 'Interested in',
+                        options: LifestyleOptions.interestedInOptions,
+                        isMultiSelect: false,
+                        selectedValue: profileController.selectedWantSeeing,
+                        onOptionSelected: (option) => profileController.selectedWantSeeing.value = option,
+                        onSave: () => profileController.updateWantSeeing(),
                       ),
                       isScrollControlled: true,
                     );
@@ -223,66 +173,16 @@ class ProfileScreen extends StatelessWidget {
                   value: controller.user.value.findingRelationship,
                   isUpdate: true,
                   onTap: () {
-                    final preferencesController = Get.put(UpdateProfileController());
+                    final profileController = Get.put(UpdateProfileController());
                     Get.bottomSheet(
-                      Container(
-                        padding: const EdgeInsets.all(TSizes.defaultSpace),
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).scaffoldBackgroundColor,
-                          borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(TSizes.md),
-                            topRight: Radius.circular(TSizes.md),
-                          ),
-                        ),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            // Header bar indicator
-                            Container(
-                              width: 40,
-                              height: 4,
-                              margin: const EdgeInsets.only(bottom: TSizes.md),
-                              decoration: BoxDecoration(
-                                color: Colors.grey[300],
-                                borderRadius: BorderRadius.circular(TSizes.xs),
-                              ),
-                            ),
-
-                            // Title
-                            Text(
-                              'Looking for',
-                              style: Theme.of(context).textTheme.titleLarge,
-                            ),
-                            const SizedBox(height: TSizes.spaceBtwItems),
-
-                            // Options
-                            Obx(
-                              () => Wrap(
-                                spacing: TSizes.xs,
-                                runSpacing: TSizes.xs,
-                                children: LifestyleOptions.lookingForOptions
-                                    .map((option) => TFilterChip(
-                                          label: option,
-                                          selected: preferencesController.selectedFindingRelationship.value ==
-                                              option,
-                                          onSelected: (_) {
-                                            preferencesController.selectedFindingRelationship.value = option;
-                                          },
-                                        ))
-                                    .toList(),
-                              ),
-                            ),
-
-                            const SizedBox(height: TSizes.spaceBtwSections),
-
-                            // Done button
-                            TBottomButton(
-                              onPressed: () => preferencesController.updateFindingRelationship(),
-                              textButton: 'Done',
-                            ),
-                            const SizedBox(height: TSizes.defaultSpace),
-                          ],
-                        ),
+                      ProfileBottomSheet(
+                        title: 'Looking for',
+                        options: LifestyleOptions.lookingForOptions,
+                        isMultiSelect: false,
+                        selectedValue: profileController.selectedFindingRelationship,
+                        onOptionSelected: (option) =>
+                            profileController.selectedFindingRelationship.value = option,
+                        onSave: () => profileController.updateFindingRelationship(),
                       ),
                       isScrollControlled: true,
                     );
@@ -297,67 +197,18 @@ class ProfileScreen extends StatelessWidget {
                   value: controller.user.value.sports.join(', '),
                   isUpdate: true,
                   onTap: () {
-                    final lifestyleController = Get.put(UpdateProfileController());
+                    final profileController = Get.put(UpdateProfileController());
                     Get.bottomSheet(
-                      Container(
-                        padding: const EdgeInsets.all(TSizes.defaultSpace),
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).scaffoldBackgroundColor,
-                          borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(TSizes.md),
-                            topRight: Radius.circular(TSizes.md),
-                          ),
+                      ProfileBottomSheet(
+                        title: 'Sports',
+                        options: LifestyleOptions.sportsOptions,
+                        isMultiSelect: true,
+                        selectedValue: profileController.selectedSports,
+                        onOptionSelected: (sport) => profileController.toggleSelection(
+                          sport,
+                          profileController.selectedSports,
                         ),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            // Header bar indicator
-                            Container(
-                              width: 40,
-                              height: 4,
-                              margin: const EdgeInsets.only(bottom: TSizes.md),
-                              decoration: BoxDecoration(
-                                color: Colors.grey[300],
-                                borderRadius: BorderRadius.circular(TSizes.xs),
-                              ),
-                            ),
-
-                            // Title
-                            Text(
-                              'Sports',
-                              style: Theme.of(context).textTheme.titleLarge,
-                            ),
-                            const SizedBox(height: TSizes.spaceBtwItems),
-
-                            // Sports options
-                            Obx(
-                              () => Wrap(
-                                spacing: TSizes.xs,
-                                runSpacing: TSizes.xs,
-                                children: LifestyleOptions.sportsOptions
-                                    .map((sport) => TFilterChip(
-                                          label: sport,
-                                          selected: lifestyleController.selectedSports.contains(sport),
-                                          onSelected: (_) {
-                                            lifestyleController.toggleSelection(
-                                              sport,
-                                              lifestyleController.selectedSports,
-                                            );
-                                          },
-                                        ))
-                                    .toList(),
-                              ),
-                            ),
-
-                            const SizedBox(height: TSizes.spaceBtwSections),
-
-                            // Done button
-                            TBottomButton(
-                              onPressed: () => lifestyleController.updateSports(),
-                              textButton: 'Done',
-                            ),
-                          ],
-                        ),
+                        onSave: () => profileController.updateSports(),
                       ),
                       isScrollControlled: true,
                     );
@@ -372,68 +223,18 @@ class ProfileScreen extends StatelessWidget {
                   value: controller.user.value.pets.join(', '),
                   isUpdate: true,
                   onTap: () {
-                    final lifestyleController = Get.put(UpdateProfileController());
+                    final profileController = Get.put(UpdateProfileController());
                     Get.bottomSheet(
-                      Container(
-                        padding: const EdgeInsets.all(TSizes.defaultSpace),
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).scaffoldBackgroundColor,
-                          borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(TSizes.md),
-                            topRight: Radius.circular(TSizes.md),
-                          ),
+                      ProfileBottomSheet(
+                        title: 'Pets',
+                        options: LifestyleOptions.petsOptions,
+                        isMultiSelect: true,
+                        selectedValue: profileController.selectedPets,
+                        onOptionSelected: (pet) => profileController.toggleSelection(
+                          pet,
+                          profileController.selectedPets,
                         ),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            // Header bar indicator
-                            Container(
-                              width: 40,
-                              height: 4,
-                              margin: const EdgeInsets.only(bottom: TSizes.md),
-                              decoration: BoxDecoration(
-                                color: Colors.grey[300],
-                                borderRadius: BorderRadius.circular(TSizes.xs),
-                              ),
-                            ),
-
-                            // Title
-                            Text(
-                              'Pets',
-                              style: Theme.of(context).textTheme.titleLarge,
-                            ),
-                            const SizedBox(height: TSizes.spaceBtwItems),
-
-                            // Pets options
-                            Obx(
-                              () => Wrap(
-                                spacing: TSizes.xs,
-                                runSpacing: TSizes.xs,
-                                children: LifestyleOptions.petsOptions
-                                    .map((pet) => TFilterChip(
-                                          label: pet,
-                                          selected: lifestyleController.selectedPets.contains(pet),
-                                          onSelected: (_) {
-                                            lifestyleController.toggleSelection(
-                                              pet,
-                                              lifestyleController.selectedPets,
-                                            );
-                                          },
-                                        ))
-                                    .toList(),
-                              ),
-                            ),
-
-                            const SizedBox(height: TSizes.spaceBtwSections),
-
-                            // Done button
-                            TBottomButton(
-                              onPressed: () => lifestyleController.updatePets(),
-                              textButton: 'Done',
-                            ),
-                            const SizedBox(height: TSizes.defaultSpace),
-                          ],
-                        ),
+                        onSave: () => profileController.updatePets(),
                       ),
                       isScrollControlled: true,
                     );

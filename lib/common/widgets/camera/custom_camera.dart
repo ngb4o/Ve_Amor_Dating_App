@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mlkit_face_detection/google_mlkit_face_detection.dart';
 import 'package:ve_amor_app/common/widgets/camera/camera_service.dart';
-import 'package:ve_amor_app/common/widgets/camera/face_detector_service.dart';
+import 'package:ve_amor_app/data/services/face_detector/face_detector_service.dart';
 
 class CustomCameraScreen extends StatefulWidget {
   const CustomCameraScreen({super.key});
