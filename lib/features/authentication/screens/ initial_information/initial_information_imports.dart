@@ -20,6 +20,7 @@ import '../../../../common/widgets/camera/custom_camera.dart';
 import '../../../../common/widgets/question_section/question_section.dart';
 import '../../../../generated/assets.dart';
 import '../../../../utils/constants/image_strings.dart';
+import '../../../../utils/constants/lifestyle_options.dart';
 import '../../../../utils/popups/full_screen_loader.dart';
 import '../../../../utils/popups/loaders.dart';
 import 'add_photo/initial_profile_photo.dart';

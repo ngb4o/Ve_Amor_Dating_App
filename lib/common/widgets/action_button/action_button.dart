@@ -42,7 +42,7 @@ class TActionButton extends StatelessWidget {
       ),
       child: Material(
         color: coloTransparent ? Colors.transparent :(dark ? TColors.backgroundActionButtonDarkColor: TColors.white),
-        elevation: hasElevation ? 4 : 0,
+        elevation: hasElevation ? 1 : 0,
         borderRadius: hasBorderRadius ? BorderRadius.circular(100) : null,
         child: InkWell(
           onTap: onTap,

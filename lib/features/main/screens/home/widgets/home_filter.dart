@@ -205,22 +205,11 @@ class HomeFilterScreen extends StatelessWidget {
                       const SizedBox(height: TSizes.spaceBtwItems),
 
                       // Zodiac options
-                      const Wrap(
+                      Wrap(
                         spacing: TSizes.xs,
                         runSpacing: TSizes.xs,
                         children: [
-                          TFilterChip(label: 'Aries (Mar 21 - Apr 19)'),
-                          TFilterChip(label: 'Taurus (Apr 20 - May 20)'),
-                          TFilterChip(label: 'Gemini (May 21 - Jun 20)'),
-                          TFilterChip(label: 'Cancer (Jun 21 - Jul 22)'),
-                          TFilterChip(label: 'Leo (Jul 23 - Aug 22)'),
-                          TFilterChip(label: 'Virgo (Aug 23 - Sep 22)'),
-                          TFilterChip(label: 'Libra (Sep 23 - Oct 22)'),
-                          TFilterChip(label: 'Scorpio (Oct 23 - Nov 21)'),
-                          TFilterChip(label: 'Sagittarius (Nov 22 - Dec 21)'),
-                          TFilterChip(label: 'Capricorn (Dec 22 - Jan 19)'),
-                          TFilterChip(label: 'Aquarius (Jan 20 - Feb 18)'),
-                          TFilterChip(label: 'Pisces (Feb 19 - Mar 20)'),
+                          for (var zodiac in LifestyleOptions.zodiacOptions) TFilterChip(label: zodiac),
                         ],
                       ),
                       const SizedBox(height: TSizes.spaceBtwSections),
@@ -280,20 +269,11 @@ class HomeFilterScreen extends StatelessWidget {
                       const SizedBox(height: TSizes.spaceBtwItems),
 
                       // Pet options
-                      const Wrap(
+                      Wrap(
                         spacing: TSizes.xs,
                         runSpacing: TSizes.xs,
                         children: [
-                          TFilterChip(label: 'Dog'),
-                          TFilterChip(label: 'Cat'),
-                          TFilterChip(label: 'Fish'),
-                          TFilterChip(label: 'Rabbit'),
-                          TFilterChip(label: 'Hamster'),
-                          TFilterChip(label: 'Turtle'),
-                          TFilterChip(label: 'No pets'),
-                          TFilterChip(label: 'Allergic to animals'),
-                          TFilterChip(label: 'All kinds of pets'),
-                          TFilterChip(label: 'Others'),
+                          for (var pet in LifestyleOptions.petsOptions) TFilterChip(label: pet),
                         ],
                       ),
                       const SizedBox(height: TSizes.spaceBtwSections),
@@ -354,27 +334,11 @@ class HomeFilterScreen extends StatelessWidget {
                       const SizedBox(height: TSizes.spaceBtwItems),
 
                       // Pet options
-                      const Wrap(
+                      Wrap(
                         spacing: TSizes.xs,
                         runSpacing: TSizes.xs,
                         children: [
-                          TFilterChip(label: 'Pickleball'),
-                          TFilterChip(label: 'Paddle Tennis'),
-                          TFilterChip(label: 'Esports'),
-                          TFilterChip(label: 'Soccer'),
-                          TFilterChip(label: 'Basketball'),
-                          TFilterChip(label: 'Tennis'),
-                          TFilterChip(label: 'Cricket'),
-                          TFilterChip(label: 'Golf'),
-                          TFilterChip(label: 'Baseball'),
-                          TFilterChip(label: 'Running'),
-                          TFilterChip(label: 'Cycling'),
-                          TFilterChip(label: 'Volleyball'),
-                          TFilterChip(label: 'Yoga'),
-                          TFilterChip(label: 'Gym'),
-                          TFilterChip(label: 'Swimming'),
-                          TFilterChip(label: 'Boxing'),
-                          TFilterChip(label: 'MMA'),
+                          for (var sport in LifestyleOptions.sportsOptions) TFilterChip(label: sport),
                         ],
                       ),
                       const SizedBox(height: TSizes.spaceBtwSections),

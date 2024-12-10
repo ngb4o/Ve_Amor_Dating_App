@@ -17,7 +17,7 @@ class HomeController extends GetxController {
   // Filter properties
   final RxDouble maxDistance = 51.0.obs;
   final RxBool showDistantProfiles = true.obs;
-  final RxString genderPreference = 'Nữ'.obs;
+  final RxString genderPreference = 'Women'.obs;
   final Rx<RangeValues> ageRange = const RangeValues(18, 31).obs;
 
   @override

@@ -9,6 +9,7 @@ class SubscriptionCard extends StatelessWidget {
   });
 
   Map<String, dynamic> getSubscriptionDetails(BuildContext context) {
+
     final isDarkMode = THelperFunctions.isDarkMode(context);
 
     switch (subscriptionType) {
@@ -70,6 +71,7 @@ class SubscriptionCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final details = getSubscriptionDetails(context);
 
+
     return Padding(
       padding: const EdgeInsets.only(bottom: 10, left: 15),
       child: Container(
@@ -84,7 +86,7 @@ class SubscriptionCard extends StatelessWidget {
           ),
           boxShadow: [
             BoxShadow(
-              color: Colors.grey.withOpacity(0.5),
+              color: context.isDarkMode ? Colors.transparent : Colors.grey.withOpacity(0.5),
               spreadRadius: 2,
               blurRadius: 5,
               offset: const Offset(0, 2),

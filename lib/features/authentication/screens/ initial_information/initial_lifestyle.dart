@@ -42,69 +42,27 @@ class InitialLifestylePage extends StatelessWidget {
             const Divider(),
 
             const QuestionSection(
-              questionKey: 'Zodiac',
+              questionKey: LifestyleOptions.zodiacField,
               question: 'What is your zodiac sign?',
-              options: [
-                'Aries (Mar 21 - Apr 19)',
-                'Taurus (Apr 20 - May 20)',
-                'Gemini (May 21 - Jun 20)',
-                'Cancer (Jun 21 - Jul 22)',
-                'Leo (Jul 23 - Aug 22)',
-                'Virgo (Aug 23 - Sep 22)',
-                'Libra (Sep 23 - Oct 22)',
-                'Scorpio (Oct 23 - Nov 21)',
-                'Sagittarius (Nov 22 - Dec 21)',
-                'Capricorn (Dec 22 - Jan 19)',
-                'Aquarius (Jan 20 - Feb 18)',
-                'Pisces (Feb 19 - Mar 20)'
-              ],
+              options: LifestyleOptions.zodiacOptions,
               isSelectedOnly: true,
             ),
 
             const Divider(),
 
             const QuestionSection(
-              questionKey: 'Sports',
+              questionKey: LifestyleOptions.sportsField,
               question: 'What sport do you like?',
-              options: [
-                'Pickleball',
-                'Paddle Tennis',
-                'Esports',
-                'Soccer',
-                'Basketball',
-                'Tennis',
-                'Cricket',
-                'Golf',
-                'Baseball',
-                'Running',
-                'Cycling',
-                'Volleyball',
-                'Yoga',
-                'Gym',
-                'Swimming',
-                'Boxing',
-                'MMA'
-              ],
+              options: LifestyleOptions.sportsOptions,
               isSelectedOnly: false,
             ),
 
             const Divider(),
 
             const QuestionSection(
-              questionKey: 'Pets',
+              questionKey: LifestyleOptions.petsField,
               question: 'Do you have pets?',
-              options: [
-                'Dog',
-                'Cat',
-                'Fish',
-                'Rabbit',
-                'Hamster',
-                'Turtle',
-                'No pets',
-                'Allergic to animals',
-                'All kinds of pets',
-                'Others'
-              ],
+              options: LifestyleOptions.petsOptions,
               isSelectedOnly: false,
             ),
 

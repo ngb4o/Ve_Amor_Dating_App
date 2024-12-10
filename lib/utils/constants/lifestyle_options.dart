@@ -50,8 +50,27 @@ class LifestyleOptions {
     'Others'
   ];
 
+  // Interested in options
+  static const List<String> interestedInOptions = [
+    'Men',
+    'Women',
+    'Everyone'
+  ];
+
+  // Looking for options
+  static const List<String> lookingForOptions = [
+    'Lover',
+    'A long-term dating partner',
+    'Anything that might happen',
+    'A casual relationship',
+    'New friends',
+    'I\'m not sure yet'
+  ];
+
   // Field names for Firebase
   static const String zodiacField = 'Zodiac';
   static const String sportsField = 'Sports';
   static const String petsField = 'Pets';
+  static const String wantSeeingField = 'WantSeeing';
+  static const String findingRelationshipField = 'FindingRelationship';
 }

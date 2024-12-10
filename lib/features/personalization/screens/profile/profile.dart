@@ -7,6 +7,7 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = UserController.instance;
     final controllerRemoveAccount = Get.put(RemoveAccountController());
+    final dark = THelperFunctions.isDarkMode(context);
 
     // Delete account warning
     void deleteAccountWarningPopup() {
@@ -126,89 +127,7 @@ class ProfileScreen extends StatelessWidget {
                 () => TProfileMenu(
                   title: 'Zodiac',
                   value: controller.user.value.zodiac,
-                  onTap: () {
-                    final lifestyleController = Get.put(UpdateLifestyleController());
-                    Get.bottomSheet(
-                      Container(
-                        padding: const EdgeInsets.all(TSizes.defaultSpace),
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).scaffoldBackgroundColor,
-                          borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(TSizes.md),
-                            topRight: Radius.circular(TSizes.md),
-                          ),
-                        ),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            // Header bar indicator
-                            Container(
-                              width: 40,
-                              height: 4,
-                              margin: const EdgeInsets.only(bottom: TSizes.md),
-                              decoration: BoxDecoration(
-                                color: Colors.grey[300],
-                                borderRadius: BorderRadius.circular(TSizes.xs),
-                              ),
-                            ),
-
-                            // Title
-                            Text(
-                              'Zodiac',
-                              style: Theme.of(context).textTheme.titleLarge,
-                            ),
-                            const SizedBox(height: TSizes.spaceBtwItems),
-
-                            // Zodiac options
-                            Obx(() => Wrap(
-                                  spacing: TSizes.xs,
-                                  runSpacing: TSizes.xs,
-                                  children: [
-                                    'Aries (Mar 21 - Apr 19)',
-                                    'Taurus (Apr 20 - May 20)',
-                                    'Gemini (May 21 - Jun 20)',
-                                    'Cancer (Jun 21 - Jul 22)',
-                                    'Leo (Jul 23 - Aug 22)',
-                                    'Virgo (Aug 23 - Sep 22)',
-                                    'Libra (Sep 23 - Oct 22)',
-                                    'Scorpio (Oct 23 - Nov 21)',
-                                    'Sagittarius (Nov 22 - Dec 21)',
-                                    'Capricorn (Dec 22 - Jan 19)',
-                                    'Aquarius (Jan 20 - Feb 18)',
-                                    'Pisces (Feb 19 - Mar 20)',
-                                  ]
-                                      .map((zodiac) => FilterChip(
-                                            label: Text(zodiac),
-                                            selected: lifestyleController.selectedZodiac.value == zodiac,
-                                            onSelected: (_) {
-                                              lifestyleController.selectedZodiac.value = zodiac;
-                                            },
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.circular(30),
-                                            ),
-                                            selectedColor: TColors.primary,
-                                            labelStyle: TextStyle(
-                                              color: lifestyleController.selectedZodiac.value == zodiac
-                                                  ? TColors.white
-                                                  : TColors.black,
-                                            ),
-                                          ))
-                                      .toList(),
-                                )),
-                            const SizedBox(height: TSizes.spaceBtwSections),
-
-                            // Done button
-                            TBottomButton(
-                              onPressed: () => lifestyleController.updateZodiac(),
-                              textButton: 'Done',
-                            ),
-                            const SizedBox(height: TSizes.defaultSpace),
-                          ],
-                        ),
-                      ),
-                      isScrollControlled: true,
-                    );
-                  },
+                  onTap: () {},
                 ),
               ),
 
@@ -268,26 +187,13 @@ class ProfileScreen extends StatelessWidget {
                               () => Wrap(
                                 spacing: TSizes.xs,
                                 runSpacing: TSizes.xs,
-                                children: [
-                                  'Men',
-                                  'Women',
-                                  'Everyone',
-                                ]
-                                    .map((option) => FilterChip(
-                                          label: Text(option),
+                                children: LifestyleOptions.interestedInOptions
+                                    .map((option) => TFilterChip(
+                                          label: option,
                                           selected: preferencesController.selectedWantSeeing.value == option,
                                           onSelected: (_) {
                                             preferencesController.selectedWantSeeing.value = option;
                                           },
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(30),
-                                          ),
-                                          selectedColor: TColors.primary,
-                                          labelStyle: TextStyle(
-                                            color: preferencesController.selectedWantSeeing.value == option
-                                                ? TColors.white
-                                                : TColors.black,
-                                          ),
                                         ))
                                     .toList(),
                               ),
@@ -354,31 +260,14 @@ class ProfileScreen extends StatelessWidget {
                               () => Wrap(
                                 spacing: TSizes.xs,
                                 runSpacing: TSizes.xs,
-                                children: [
-                                  'Lover',
-                                  'A long-term dating partner',
-                                  'Anything that might happen',
-                                  'A casual relationship',
-                                  'New friends',
-                                  'I\'m not sure yet',
-                                ]
-                                    .map((option) => FilterChip(
-                                          label: Text(option),
+                                children: LifestyleOptions.lookingForOptions
+                                    .map((option) => TFilterChip(
+                                          label: option,
                                           selected: preferencesController.selectedFindingRelationship.value ==
                                               option,
                                           onSelected: (_) {
                                             preferencesController.selectedFindingRelationship.value = option;
                                           },
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(30),
-                                          ),
-                                          selectedColor: TColors.primary,
-                                          labelStyle: TextStyle(
-                                            color: preferencesController.selectedFindingRelationship.value ==
-                                                    option
-                                                ? TColors.white
-                                                : TColors.black,
-                                          ),
                                         ))
                                     .toList(),
                               ),
@@ -445,27 +334,9 @@ class ProfileScreen extends StatelessWidget {
                               () => Wrap(
                                 spacing: TSizes.xs,
                                 runSpacing: TSizes.xs,
-                                children: [
-                                  'Pickleball',
-                                  'Paddle Tennis',
-                                  'Esports',
-                                  'Soccer',
-                                  'Basketball',
-                                  'Tennis',
-                                  'Cricket',
-                                  'Golf',
-                                  'Baseball',
-                                  'Running',
-                                  'Cycling',
-                                  'Volleyball',
-                                  'Yoga',
-                                  'Gym',
-                                  'Swimming',
-                                  'Boxing',
-                                  'MMA'
-                                ]
-                                    .map((sport) => FilterChip(
-                                          label: Text(sport),
+                                children: LifestyleOptions.sportsOptions
+                                    .map((sport) => TFilterChip(
+                                          label: sport,
                                           selected: lifestyleController.selectedSports.contains(sport),
                                           onSelected: (_) {
                                             lifestyleController.toggleSelection(
@@ -473,15 +344,6 @@ class ProfileScreen extends StatelessWidget {
                                               lifestyleController.selectedSports,
                                             );
                                           },
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(30),
-                                          ),
-                                          selectedColor: TColors.primary,
-                                          labelStyle: TextStyle(
-                                            color: lifestyleController.selectedSports.contains(sport)
-                                                ? TColors.white
-                                                : TColors.black,
-                                          ),
                                         ))
                                     .toList(),
                               ),
@@ -547,20 +409,9 @@ class ProfileScreen extends StatelessWidget {
                               () => Wrap(
                                 spacing: TSizes.xs,
                                 runSpacing: TSizes.xs,
-                                children: [
-                                  'Dog',
-                                  'Cat',
-                                  'Fish',
-                                  'Rabbit',
-                                  'Hamster',
-                                  'Turtle',
-                                  'No pets',
-                                  'Allergic to animals',
-                                  'All kinds of pets',
-                                  'Others'
-                                ]
-                                    .map((pet) => FilterChip(
-                                          label: Text(pet),
+                                children: LifestyleOptions.petsOptions
+                                    .map((pet) => TFilterChip(
+                                          label: pet,
                                           selected: lifestyleController.selectedPets.contains(pet),
                                           onSelected: (_) {
                                             lifestyleController.toggleSelection(
@@ -568,15 +419,6 @@ class ProfileScreen extends StatelessWidget {
                                               lifestyleController.selectedPets,
                                             );
                                           },
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(30),
-                                          ),
-                                          selectedColor: TColors.primary,
-                                          labelStyle: TextStyle(
-                                            color: lifestyleController.selectedPets.contains(pet)
-                                                ? TColors.white
-                                                : TColors.black,
-                                          ),
                                         ))
                                     .toList(),
                               ),

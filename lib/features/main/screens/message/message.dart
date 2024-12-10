@@ -128,17 +128,6 @@ class MessageScreen extends StatelessWidget {
                               },
                             ),
 
-                            // Chatbot button
-                            GestureDetector(
-                              onTap: () => Get.to(() => ChatBotScreen()),
-                              child: TMessageCard(
-                                imagePath: TImages.lightAppLogo,
-                                name: 'AI Chatbot',
-                                message: 'Ask me anything!',
-                                isNetworkImage: false,
-                              ),
-                            ),
-
                             // Fixed message card
                             const TMessageCard(
                               imagePath: TImages.lightAppLogo,
