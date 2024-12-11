@@ -75,36 +75,36 @@ class HomeFilterScreen extends StatelessWidget {
             const Divider(),
             const SizedBox(height: TSizes.xs),
 
-            // Gender Preference
-            TSettingsMenuTile(
-              title: 'Interested in',
-              subtitle: controller.genderPreference.value.isEmpty
-                  ? 'Tap to choose'
-                  : controller.genderPreference.value,
-              icon: Iconsax.heart,
-              onTap: () => Get.bottomSheet(
-                _buildBottomSheet(
-                  context: context,
-                  title: 'Interested in',
-                  child: Obx(
-                    () => Wrap(
-                      spacing: TSizes.xs,
-                      children: LifestyleOptions.interestedInOptions.map((gender) {
-                        return TFilterChip(
-                          label: gender,
-                          selected: controller.genderPreference.value == gender,
-                          onSelected: (_) => controller.setGenderPreference(gender),
-                        );
-                      }).toList(),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-
-            const SizedBox(height: TSizes.xs),
-            const Divider(),
-            const SizedBox(height: TSizes.xs),
+            // // Gender Preference
+            // TSettingsMenuTile(
+            //   title: 'Interested in',
+            //   subtitle: controller.genderPreference.value.isEmpty
+            //       ? 'Tap to choose'
+            //       : controller.genderPreference.value,
+            //   icon: Iconsax.heart,
+            //   onTap: () => Get.bottomSheet(
+            //     _buildBottomSheet(
+            //       context: context,
+            //       title: 'Interested in',
+            //       child: Obx(
+            //         () => Wrap(
+            //           spacing: TSizes.xs,
+            //           children: LifestyleOptions.interestedInOptions.map((gender) {
+            //             return TFilterChip(
+            //               label: gender,
+            //               selected: controller.genderPreference.value == gender,
+            //               onSelected: (_) => controller.setGenderPreference(gender),
+            //             );
+            //           }).toList(),
+            //         ),
+            //       ),
+            //     ),
+            //   ),
+            // ),
+            //
+            // const SizedBox(height: TSizes.xs),
+            // const Divider(),
+            // const SizedBox(height: TSizes.xs),
 
             // Looking for
             TSettingsMenuTile(

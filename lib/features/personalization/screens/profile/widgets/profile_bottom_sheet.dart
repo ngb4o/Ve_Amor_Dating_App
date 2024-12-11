@@ -57,7 +57,7 @@ class ProfileBottomSheet extends StatelessWidget {
 
             // Options
             Obx(() => Wrap(
-                  spacing: TSizes.xs,
+                  spacing: TSizes.sm,
                   runSpacing: TSizes.xs,
                   children: options.map((option) {
                     bool isSelected = isMultiSelect
