@@ -192,7 +192,7 @@ class _PaymentPageState extends State<PaymentPage> {
                     padding: EdgeInsets.all(10),
                     width: double.infinity, // Kéo dài khung ra 2 bên
                     decoration: BoxDecoration(
-                      color: selectedPlanIndex == 3 ? Colors.pink : Colors.transparent,
+                      color: selectedPlanIndex == 3 ? Colors.pinkAccent : Colors.transparent,
                       border: Border.all(color: Colors.grey),
                       borderRadius: BorderRadius.circular(8),
                     ),
@@ -239,7 +239,7 @@ class _PaymentPageState extends State<PaymentPage> {
                     child: Container(
                       padding: EdgeInsets.all(10),
                       decoration: BoxDecoration(
-                        color: selectedPaymentMethodIndex == 1 ? Colors.pink : Colors.transparent,
+                        color: selectedPaymentMethodIndex == 1 ? Colors.pinkAccent : Colors.transparent,
                         border: Border.all(color: Colors.grey),
                         borderRadius: BorderRadius.circular(8),
                       ),
@@ -273,7 +273,7 @@ class _PaymentPageState extends State<PaymentPage> {
                     child: Container(
                       padding: EdgeInsets.all(10),
                       decoration: BoxDecoration(
-                        color: selectedPaymentMethodIndex == 2 ? Colors.pink : Colors.transparent,
+                        color: selectedPaymentMethodIndex == 2 ? Colors.pinkAccent : Colors.transparent,
                         border: Border.all(color: Colors.grey),
                         borderRadius: BorderRadius.circular(8),
                       ),
@@ -335,16 +335,16 @@ class _PaymentPageState extends State<PaymentPage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('Continue', style: TextStyle(fontSize: 18)),
+                  Text(' Continue', style: TextStyle(fontSize: 18)),
                   Text(
-                    '₫${totalPrice.toStringAsFixed(2)} total',
+                    '₫${totalPrice.toStringAsFixed(2)} total ',
                     style: TextStyle(fontSize: 18),
                   ),
                 ],
               ),
               style: ElevatedButton.styleFrom(
                 padding: EdgeInsets.symmetric(vertical: 16),
-                backgroundColor: Colors.blueAccent,
+                backgroundColor: Colors.lightBlueAccent,
                 minimumSize: Size(double.infinity, 0), // Stretch button to full width
               ),
             ),

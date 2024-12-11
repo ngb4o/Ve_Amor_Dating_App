@@ -278,7 +278,7 @@ class _UpgradeCardDetailScreenState extends State<UpgradeCardDetailScreen> {
               child: Row(
                 children: [
                   feature['locked']
-                      ? const Icon(Icons.lock_outline, color: Colors.grey)
+                      ? const Icon(Icons.lock_outline, color: Colors.black45)
                       : const Icon(Icons.check, color: Colors.green),
                   const SizedBox(width: 8),
                   Text(feature['name']),
