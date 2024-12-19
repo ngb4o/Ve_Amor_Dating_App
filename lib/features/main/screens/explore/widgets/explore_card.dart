@@ -5,6 +5,7 @@ class TExploreCard extends StatelessWidget {
   final IconData icon;
   final String text;
   final String findingRelationship;
+  final bool paddingCard;
 
   const TExploreCard({
     super.key,
@@ -12,6 +13,7 @@ class TExploreCard extends StatelessWidget {
     required this.icon,
     required this.text,
     required this.findingRelationship,
+    this.paddingCard = false,
   });
 
   @override
@@ -35,6 +37,7 @@ class TExploreCard extends StatelessWidget {
         });
       },
       child: Container(
+        padding: paddingCard ? const EdgeInsets.symmetric(vertical: TSizes.spaceBtwSections) : null,
         decoration: BoxDecoration(color: color, borderRadius: BorderRadius.circular(12)),
         child: Center(
           child: Column(

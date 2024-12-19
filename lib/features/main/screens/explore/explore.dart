@@ -7,6 +7,12 @@ class ExploreScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final List<Map<String, dynamic>> relationshipTypes = [
       {
+        'color': TColors.primary,
+        'icon': Icons.favorite,
+        'text': 'Lover',
+        'findingRelationship': 'Lover'
+      },
+      {
         'color': Colors.pink[300]!,
         'icon': Icons.favorite_border,
         'text': 'Long-term dating',
@@ -54,52 +60,12 @@ class ExploreScreen extends StatelessWidget {
                   const SizedBox(height: TSizes.sm),
 
                   // Card Lover
-                  GestureDetector(
-                    onTap: () {
-                      final homeController = Get.find<HomeController>();
-                      homeController.resetFilters(); // Reset all filters
-                      homeController.fetchAllUsers();
-                      Get.to(
-                        () => const HomeScreen(
-                            showBackArrow: true, centerTitle: true),
-                        popGesture: true,
-                        transition: Transition.rightToLeft,
-                      )?.then((_) {
-                        // Reset filters when returning
-                        homeController.resetFilters();
-                        homeController.fetchAllUsers();
-                      });
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(vertical: TSizes.xl),
-                      decoration: BoxDecoration(
-                        color: TColors.primary,
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: const Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(Iconsax.heart5,
-                                color: TColors.white, size: 60),
-                            Align(
-                              alignment: Alignment.bottomLeft,
-                              child: Padding(
-                                padding: EdgeInsets.only(left: TSizes.lg),
-                                child: Text(
-                                  'Lover',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
+                  const TExploreCard(
+                    color: TColors.primary,
+                    icon: Iconsax.heart5,
+                    text: 'Lover',
+                    findingRelationship: 'Lover',
+                    paddingCard: true,
                   ),
                   const SizedBox(height: TSizes.spaceBtwItems),
 
