@@ -47,14 +47,15 @@ class InitialLocationPage extends StatelessWidget {
 
             // Display location info
             Obx(() => controller.currentLocation.value != null
-                ? Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                ? Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+
                     children: [
                       Text(
                         'Your Current Location:',
                         style: Theme.of(context).textTheme.headlineSmall,
                       ),
-                      const SizedBox(height: TSizes.spaceBtwItems / 2),
+                      const SizedBox(width: TSizes.spaceBtwItems / 2),
                       Text(
                         controller.currentLocation.value?.address ??
                             'Address not found',

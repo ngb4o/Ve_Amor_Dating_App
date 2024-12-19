@@ -7,6 +7,42 @@ class InitialBirthdayPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final dark = THelperFunctions.isDarkMode(context);
     final controller = InitialInformationController.instance;
+
+    // Create a TextEditingController
+    final dateOfBirthController = TextEditingController();
+
+    // Format the input as the user types
+    dateOfBirthController.addListener(() {
+      String text = dateOfBirthController.text;
+      // Remove all non-digit characters
+      text = text.replaceAll(RegExp(r'\D'), '');
+
+      // Format the text
+      String formattedText = '';
+      if (text.length >= 2) {
+        formattedText += text.substring(0, 2); // Day
+        formattedText += '/'; // Add slash after day
+        if (text.length > 2) {
+          formattedText += text.substring(2, 4); // Month
+          formattedText += '/'; // Add slash after month
+          if (text.length > 4) {
+            formattedText += text.substring(4); // Year
+          }
+        }
+      } else {
+        formattedText = text; // If less than 2 digits, just show the input
+      }
+
+      // Update the controller's text
+      dateOfBirthController.value = TextEditingValue(
+        text: formattedText,
+        selection: TextSelection.collapsed(offset: formattedText.length),
+      );
+
+      // Update the controller's dateOfBirth value
+      controller.dateOfBirth.text = formattedText; // Update the controller's dateOfBirth
+    });
+
     return Scaffold(
       appBar: const TAppbar(showBackArrow: true),
       body: Padding(
@@ -21,17 +57,17 @@ class InitialBirthdayPage extends StatelessWidget {
             ),
             const SizedBox(height: TSizes.spaceBtwSections),
             // TextField
-
-              TextField(
-                controller: controller.dateOfBirth,
-                decoration: InputDecoration(
-                  prefixIcon: const Icon(Iconsax.cake),
-                  hintText: 'D D / M M / Y Y Y Y',
-                  hintStyle: TextStyle(
-                      color: dark ? TColors.grey.withOpacity(0.5) : TColors.black.withOpacity(0.5),
-                      fontWeight: FontWeight.w600),
+            TextField(
+              controller: dateOfBirthController,
+              decoration: InputDecoration(
+                prefixIcon: const Icon(Iconsax.cake),
+                hintText: 'D D / M M / Y Y Y Y',
+                hintStyle: TextStyle(
+                  color: dark ? TColors.grey.withOpacity(0.5) : TColors.black.withOpacity(0.5),
+                  fontWeight: FontWeight.w600,
                 ),
               ),
+            ),
             const SizedBox(height: TSizes.spaceBtwInputFields),
 
             // Sub Title
