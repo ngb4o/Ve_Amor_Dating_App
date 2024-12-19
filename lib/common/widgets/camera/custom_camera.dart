@@ -248,9 +248,9 @@ class _CustomCameraScreenState extends State<CustomCameraScreen>
     final double faceHeight = boundingBox.height;
     final bool isFaceSizeValid = faceWidth >=
             (ovalWidth *
-                0.55) && // Khuôn mặt phải chiếm ít nhất 50% chiều rộng khung
+                0.3) && // Khuôn mặt phải chiếm ít nhất 50% chiều rộng khung
         faceWidth <= (ovalWidth * 0.9) && // Không được quá 90% chiều rộng khung
-        faceHeight >= (ovalHeight * 0.55) && // Chiều cao tương tự
+        faceHeight >= (ovalHeight * 0.3) && // Chiều cao tương tự
         faceHeight <= (ovalHeight * 0.9);
 
     if (mounted) {

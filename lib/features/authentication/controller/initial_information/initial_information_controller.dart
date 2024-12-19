@@ -360,7 +360,7 @@ class InitialInformationController extends GetxController {
         TFullScreenLoader.stopLoading();
 
         if (e.toString().contains('already been registered')) {
-          TLoaders.warningSnackBar(
+          TLoaders.errorSnackBar(
             title: 'Face Already Registered',
             message: e.toString(),
           );
