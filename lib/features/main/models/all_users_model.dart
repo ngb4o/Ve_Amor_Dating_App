@@ -151,19 +151,24 @@ class AllUsersModel {
   double calculateDistance(Map<String, dynamic>? userLocation) {
     if (location == null || userLocation == null) return 0;
 
-    var lat1 = location!['latitude'] as double;
-    var lon1 = location!['longitude'] as double;
-    var lat2 = userLocation['latitude'] as double;
-    var lon2 = userLocation['longitude'] as double;
+    try {
+      // Convert location values to double
+      var lat1 = double.parse(location!['latitude'].toString());
+      var lon1 = double.parse(location!['longitude'].toString());
+      var lat2 = double.parse(userLocation['latitude'].toString());
+      var lon2 = double.parse(userLocation['longitude'].toString());
 
-    var p = 0.017453292519943295; // Math.PI / 180
-    var c = cos;
-    var a = 0.5 -
-        c((lat2 - lat1) * p) / 2 +
-        c(lat1 * p) * c(lat2 * p) * (1 - c((lon2 - lon1) * p)) / 2;
+      var p = 0.017453292519943295;
+      var c = cos;
+      var a = 0.5 -
+          c((lat2 - lat1) * p) / 2 +
+          c(lat1 * p) * c(lat2 * p) * (1 - c((lon2 - lon1) * p)) / 2;
 
-    // Return distance in kilometers
-    return 12742 * asin(sqrt(a)); // 2 * R; R = 6371 km
+      return 12742 * asin(sqrt(a));
+    } catch (e) {
+      print('Error calculating distance: $e');
+      return 0;
+    }
   }
 
   // Get formatted distance string

@@ -9,6 +9,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:ve_amor_app/common/widgets/appbar/appbar.dart';
 import 'package:ve_amor_app/common/widgets/bottom_button/bottom_button.dart';
 import 'package:ve_amor_app/common/widgets/list_tile/settings_menu_tile.dart';
+import 'package:ve_amor_app/data/repositories/authentication/authentication_repository.dart';
 import 'package:ve_amor_app/data/services/location/location_service.dart';
 import 'package:ve_amor_app/features/authentication/controller/initial_information/initial_information_controller.dart';
 import 'package:ve_amor_app/utils/constants/colors.dart';

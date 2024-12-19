@@ -38,7 +38,7 @@ class _CustomCameraScreenState extends State<CustomCameraScreen> with SingleTick
   void _setupAnimationController() {
     _animationController = AnimationController(
       vsync: this,
-      duration: const Duration(seconds: 2),
+      duration: const Duration(seconds: 3),
     )..addStatusListener((status) {
         if (status == AnimationStatus.completed) {
           _takePhoto();
@@ -166,30 +166,6 @@ class _CustomCameraScreenState extends State<CustomCameraScreen> with SingleTick
               progress: _isCountingDown ? _animationController!.value : null,
             ),
           ),
-          if (_isCountingDown)
-            Center(
-              child: AnimatedBuilder(
-                animation: _animationController!,
-                builder: (context, child) {
-                  final remainingSeconds = (2 * (1 - _animationController!.value)).ceil();
-                  return Text(
-                    '$remainingSeconds',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 72,
-                      fontWeight: FontWeight.bold,
-                      shadows: [
-                        Shadow(
-                          blurRadius: 20,
-                          color: Colors.black.withOpacity(0.5),
-                          offset: const Offset(0, 0),
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              ),
-            ),
           Positioned(
             top: 100,
             left: 0,
@@ -203,6 +179,13 @@ class _CustomCameraScreenState extends State<CustomCameraScreen> with SingleTick
                     color: _isFaceInPosition ? Colors.green : Colors.white,
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
+                    shadows: [
+                      Shadow(
+                        blurRadius: 20,
+                        color: Colors.black.withOpacity(0.5),
+                        offset: const Offset(0, 0),
+                      ),
+                    ],
                   ),
                 ),
                 const SizedBox(height: 10),
@@ -315,7 +298,7 @@ class FaceBorderPainter extends CustomPainter {
 
     final centerX = size.width / 2;
     final centerY = size.height / 2;
-    final ovalWidth = size.width * 0.8;
+    final ovalWidth = size.width * 0.75;
     final ovalHeight = ovalWidth * 1.3;
 
     final oval = Rect.fromCenter(
@@ -343,9 +326,9 @@ class FaceBorderPainter extends CustomPainter {
           Colors.green,
           Colors.green,
           Colors.green,
-          Colors.green,
+          Colors.green
         ],
-        stops: [0.0, 0.25, 0.5, 0.75, 1.0],
+        stops: const [0.0, 0.25, 0.5, 0.75, 1.0],
         startAngle: -1.5708,
         // Bắt đầu từ vị trí 12h (-90 độ)
         endAngle: 4.71239,
@@ -366,14 +349,6 @@ class FaceBorderPainter extends CustomPainter {
         progress! * 2 * 3.14159, // Vẽ theo tiến độ
       );
       canvas.drawPath(progressPath, progressPaint);
-
-      // Thêm hiệu ứng glow xanh
-      final glowPaint = Paint()
-        ..style = PaintingStyle.stroke
-        ..strokeWidth = 2.0
-        ..maskFilter = const MaskFilter.blur(BlurStyle.outer, 3)
-        ..color = TColors.primary.withOpacity(0.5);
-      canvas.drawPath(progressPath, glowPaint);
     } else {
       // Vẽ viền bình thường khi không trong trạng thái đếm ngược
       paint.color = isInPosition ? TColors.primary : Colors.white;
@@ -386,7 +361,7 @@ class FaceBorderPainter extends CustomPainter {
         ..color = Colors.green // Đổi màu chấm thành xanh khi khuôn mặt đúng vị trí
         ..style = PaintingStyle.fill;
 
-      final dotRadius = 4.0;
+      final dotRadius = 6.0;
       final corners = [
         Offset(centerX - ovalWidth / 2, centerY - ovalHeight / 2), // Top left
         Offset(centerX + ovalWidth / 2, centerY - ovalHeight / 2), // Top right

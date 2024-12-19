@@ -8,7 +8,16 @@ class InitialNamePage extends StatelessWidget {
     final controller = Get.put(InitialInformationController());
     final dark = THelperFunctions.isDarkMode(context);
     return Scaffold(
-      appBar: const TAppbar(showBackArrow: false),
+      appBar: TAppbar(
+        showBackArrow: false,
+        actions: [
+          IconButton(
+              onPressed: () {
+                AuthenticationRepository.instance.logout();
+              },
+              icon: const Icon(Icons.clear, color: TColors.primary, size: 30)),
+        ],
+      ),
       body: Padding(
         padding: const EdgeInsets.all(TSizes.defaultSpace),
         child: Column(

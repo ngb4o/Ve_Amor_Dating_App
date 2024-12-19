@@ -6,6 +6,8 @@ import 'package:ve_amor_app/features/main/models/all_users_model.dart';
 import 'package:ve_amor_app/utils/popups/loaders.dart';
 import 'package:ve_amor_app/common/widgets/matches_screen/match_notification_screen.dart';
 
+import '../../../../data/repositories/authentication/authentication_repository.dart';
+
 class HomeController extends GetxController {
   static HomeController get instance => Get.find();
 
@@ -24,7 +26,8 @@ class HomeController extends GetxController {
   final RxString genderPreference = ''.obs;
   final Rx<RangeValues> ageRange = const RangeValues(18, 100).obs;
 
-  final Rxn<Map<String, dynamic>> currentUserLocation = Rxn<Map<String, dynamic>>();
+  final Rxn<Map<String, dynamic>> currentUserLocation =
+      Rxn<Map<String, dynamic>>();
 
   @override
   void onInit() {
@@ -35,57 +38,75 @@ class HomeController extends GetxController {
 
   // Fetch all users from Firestore
   Future<void> fetchAllUsers() async {
-    isLoading.value = true;
     try {
+      isLoading.value = true;
+
+      // Fetch current user location first
+      currentUserLocation.value = await _getCurrentUserLocation();
+
+      // Fetch all users
       final users = await _dating.getAllUsers(_auth.currentUser!.uid);
 
-      // Apply filters
+      // Filter users based on preferences
       final filteredUsers = users.where((user) {
-        // Distance filter
-        if (maxDistance.value > 0) {
-          double distance = user.calculateDistance(currentUserLocation.value);
-          if (distance > maxDistance.value) return false;
-        }
-
-        // Age filter
-        if (user.age < ageRange.value.start || user.age > ageRange.value.end) {
-          return false;
-        }
-
-        // Gender filter
-        if (genderPreference.value.isNotEmpty && user.gender != genderPreference.value) {
-          return false;
-        }
-
-        // Zodiac filter
-        if (selectedZodiac.value.isNotEmpty && user.zodiac != selectedZodiac.value) {
-          return false;
-        }
-
-        // Sports filter
-        if (selectedSports.isNotEmpty && !selectedSports.any((sport) => user.sports.contains(sport))) {
-          return false;
-        }
-
-        // Pets filter
-        if (selectedPets.isNotEmpty && !selectedPets.any((pet) => user.pets.contains(pet))) {
-          return false;
-        }
-
-        // Looking for filter
-        if (selectedLookingFor.value.isNotEmpty && user.findingRelationship != selectedLookingFor.value) {
-          return false;
-        }
-
-        return true;
+        // Apply your existing filters here
+        return _applyFilters(user);
       }).toList();
 
-      allUsers.assignAll(filteredUsers);
+      // Sort users by distance
+      filteredUsers.sort((a, b) {
+        final distanceA = a.calculateDistance(currentUserLocation.value);
+        final distanceB = b.calculateDistance(currentUserLocation.value);
+        return distanceA.compareTo(distanceB);
+      });
+
+      allUsers.value = filteredUsers;
     } catch (e) {
-      Get.snackbar('Error', 'Failed to fetch users: $e');
+      print('Error fetching users: $e');
     } finally {
       isLoading.value = false;
     }
+  }
+
+  bool _applyFilters(AllUsersModel user) {
+    // Skip current user
+    if (user.id == AuthenticationRepository.instance.authUser?.uid) {
+      return false;
+    }
+
+    // Apply distance filter
+    final distance = user.calculateDistance(currentUserLocation.value);
+    if (distance > maxDistance.value) {
+      return false;
+    }
+
+    // Apply age filter
+    if (user.age < ageRange.value.start || user.age > ageRange.value.end) {
+      return false;
+    }
+
+    // Apply other filters...
+    if (selectedLookingFor.value.isNotEmpty &&
+        user.findingRelationship != selectedLookingFor.value) {
+      return false;
+    }
+
+    if (selectedZodiac.value.isNotEmpty &&
+        user.zodiac != selectedZodiac.value) {
+      return false;
+    }
+
+    if (selectedSports.isNotEmpty &&
+        !user.sports.any((sport) => selectedSports.contains(sport))) {
+      return false;
+    }
+
+    if (selectedPets.isNotEmpty &&
+        !user.pets.any((pet) => selectedPets.contains(pet))) {
+      return false;
+    }
+
+    return true;
   }
 
   // Reset all filters
@@ -251,6 +272,16 @@ class HomeController extends GetxController {
       }
     } catch (e) {
       print('Error getting current user location: $e');
+    }
+  }
+
+  Future<Map<String, dynamic>?> _getCurrentUserLocation() async {
+    try {
+      final currentUser = await _dating.getUserById(_auth.currentUser!.uid);
+      return currentUser?.location;
+    } catch (e) {
+      print('Error getting current user location: $e');
+      return null;
     }
   }
 }

@@ -1,0 +1,5 @@
+{
+  "scripts": {
+    "build": "flutter clean && flutter pub get && flutter build apk --target lib/main_prod.dart --target-platform=android-arm64 --analyze-size"
+  }
+} 
