@@ -107,26 +107,28 @@ class HomeFilterScreen extends StatelessWidget {
             // const SizedBox(height: TSizes.xs),
 
             // Looking for
-            TSettingsMenuTile(
-              title: 'Looking for',
-              subtitle: controller.selectedLookingFor.value.isEmpty
-                  ? 'Tap to choose'
-                  : controller.selectedLookingFor.value,
-              icon: Iconsax.search_favorite,
-              onTap: () => Get.bottomSheet(
-                _buildBottomSheet(
-                  context: context,
-                  title: 'Looking for',
-                  child: Obx(
-                    () => Wrap(
-                      spacing: TSizes.xs,
-                      children: LifestyleOptions.lookingForOptions.map((option) {
-                        return TFilterChip(
-                          label: option,
-                          selected: controller.selectedLookingFor.value == option,
-                          onSelected: (_) => controller.setLookingFor(option),
-                        );
-                      }).toList(),
+            Obx(
+              () =>  TSettingsMenuTile(
+                title: 'Looking for',
+                subtitle: controller.selectedLookingFor.value.isEmpty
+                    ? 'Tap to choose'
+                    : controller.selectedLookingFor.value,
+                icon: Iconsax.search_favorite,
+                onTap: () => Get.bottomSheet(
+                  _buildBottomSheet(
+                    context: context,
+                    title: 'Looking for',
+                    child: Obx(
+                      () => Wrap(
+                        spacing: TSizes.xs,
+                        children: LifestyleOptions.lookingForOptions.map((option) {
+                          return TFilterChip(
+                            label: option,
+                            selected: controller.selectedLookingFor.value == option,
+                            onSelected: (_) => controller.setLookingFor(option),
+                          );
+                        }).toList(),
+                      ),
                     ),
                   ),
                 ),
@@ -138,25 +140,27 @@ class HomeFilterScreen extends StatelessWidget {
             const SizedBox(height: TSizes.xs),
 
             // Zodiac
-            TSettingsMenuTile(
-              title: 'Zodiac',
-              subtitle:
-                  controller.selectedZodiac.value.isEmpty ? 'Tap to choose' : controller.selectedZodiac.value,
-              icon: Icons.ac_unit,
-              onTap: () => Get.bottomSheet(
-                _buildBottomSheet(
-                  context: context,
-                  title: 'Zodiac',
-                  child: Obx(
-                    () => Wrap(
-                      spacing: TSizes.xs,
-                      children: LifestyleOptions.zodiacOptions.map((zodiac) {
-                        return TFilterChip(
-                          label: zodiac,
-                          selected: controller.selectedZodiac.value == zodiac,
-                          onSelected: (_) => controller.toggleZodiac(zodiac),
-                        );
-                      }).toList(),
+            Obx(
+              () =>  TSettingsMenuTile(
+                title: 'Zodiac',
+                subtitle:
+                    controller.selectedZodiac.value.isEmpty ? 'Tap to choose' : controller.selectedZodiac.value,
+                icon: Icons.ac_unit,
+                onTap: () => Get.bottomSheet(
+                  _buildBottomSheet(
+                    context: context,
+                    title: 'Zodiac',
+                    child: Obx(
+                      () => Wrap(
+                        spacing: TSizes.xs,
+                        children: LifestyleOptions.zodiacOptions.map((zodiac) {
+                          return TFilterChip(
+                            label: zodiac,
+                            selected: controller.selectedZodiac.value == zodiac,
+                            onSelected: (_) => controller.toggleZodiac(zodiac),
+                          );
+                        }).toList(),
+                      ),
                     ),
                   ),
                 ),
@@ -168,25 +172,27 @@ class HomeFilterScreen extends StatelessWidget {
             const SizedBox(height: TSizes.xs),
 
             // Sports
-            TSettingsMenuTile(
-              title: 'Sports',
-              subtitle:
-                  controller.selectedSports.isEmpty ? 'Tap to choose' : controller.selectedSports.join(', '),
-              icon: Icons.sports_cricket,
-              onTap: () => Get.bottomSheet(
-                _buildBottomSheet(
-                  context: context,
-                  title: 'Sports',
-                  child: Obx(
-                    () => Wrap(
-                      spacing: TSizes.xs,
-                      children: LifestyleOptions.sportsOptions.map((sport) {
-                        return TFilterChip(
-                          label: sport,
-                          selected: controller.selectedSports.contains(sport),
-                          onSelected: (_) => controller.toggleSport(sport),
-                        );
-                      }).toList(),
+            Obx(
+              () =>  TSettingsMenuTile(
+                title: 'Sports',
+                subtitle:
+                    controller.selectedSports.isEmpty ? 'Tap to choose' : controller.selectedSports.join(', '),
+                icon: Icons.sports_cricket,
+                onTap: () => Get.bottomSheet(
+                  _buildBottomSheet(
+                    context: context,
+                    title: 'Sports',
+                    child: Obx(
+                      () => Wrap(
+                        spacing: TSizes.xs,
+                        children: LifestyleOptions.sportsOptions.map((sport) {
+                          return TFilterChip(
+                            label: sport,
+                            selected: controller.selectedSports.contains(sport),
+                            onSelected: (_) => controller.toggleSport(sport),
+                          );
+                        }).toList(),
+                      ),
                     ),
                   ),
                 ),
@@ -198,25 +204,27 @@ class HomeFilterScreen extends StatelessWidget {
             const SizedBox(height: TSizes.xs),
 
             // Pets
-            TSettingsMenuTile(
-              title: 'Pets',
-              subtitle:
-                  controller.selectedPets.isEmpty ? 'Tap to choose' : controller.selectedPets.join(', '),
-              icon: Iconsax.pet,
-              onTap: () => Get.bottomSheet(
-                _buildBottomSheet(
-                  context: context,
-                  title: 'Pets',
-                  child: Obx(
-                    () => Wrap(
-                      spacing: TSizes.xs,
-                      children: LifestyleOptions.petsOptions.map((pet) {
-                        return TFilterChip(
-                          label: pet,
-                          selected: controller.selectedPets.contains(pet),
-                          onSelected: (_) => controller.togglePet(pet),
-                        );
-                      }).toList(),
+            Obx(
+              () =>  TSettingsMenuTile(
+                title: 'Pets',
+                subtitle:
+                    controller.selectedPets.isEmpty ? 'Tap to choose' : controller.selectedPets.join(', '),
+                icon: Iconsax.pet,
+                onTap: () => Get.bottomSheet(
+                  _buildBottomSheet(
+                    context: context,
+                    title: 'Pets',
+                    child: Obx(
+                      () => Wrap(
+                        spacing: TSizes.xs,
+                        children: LifestyleOptions.petsOptions.map((pet) {
+                          return TFilterChip(
+                            label: pet,
+                            selected: controller.selectedPets.contains(pet),
+                            onSelected: (_) => controller.togglePet(pet),
+                          );
+                        }).toList(),
+                      ),
                     ),
                   ),
                 ),

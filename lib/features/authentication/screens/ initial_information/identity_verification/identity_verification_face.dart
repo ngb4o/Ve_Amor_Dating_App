@@ -1,4 +1,4 @@
-part of 'initial_information_imports.dart';
+part of '../initial_information_imports.dart';
 
 class InitialIdentityVerificationFace extends StatelessWidget {
   const InitialIdentityVerificationFace({super.key});

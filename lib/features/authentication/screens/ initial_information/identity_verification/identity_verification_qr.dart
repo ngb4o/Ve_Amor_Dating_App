@@ -1,4 +1,4 @@
-part of 'initial_information_imports.dart';
+part of '../initial_information_imports.dart';
 
 class InitialIdentityVerificationQRCode extends StatelessWidget {
   InitialIdentityVerificationQRCode({super.key});

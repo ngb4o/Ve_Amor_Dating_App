@@ -39,9 +39,9 @@ part 'initial_lifestyle.dart';
 
 part 'initial_finding_relationship.dart';
 
-part 'identity_verification_qr.dart';
+part 'identity_verification/identity_verification_qr.dart';
 
-part 'identity_verification_face.dart';
+part 'identity_verification/identity_verification_face.dart';
 
 part 'initial_location.dart';
 
