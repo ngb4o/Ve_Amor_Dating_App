@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_mlkit_face_detection/google_mlkit_face_detection.dart';
 import 'package:ve_amor_app/common/widgets/camera/camera_service.dart';
 import 'package:ve_amor_app/data/services/face_detector/face_detector_service.dart';
+import 'package:ve_amor_app/utils/constants/colors.dart';
 
 class CustomCameraScreen extends StatefulWidget {
   const CustomCameraScreen({super.key});
@@ -12,8 +13,7 @@ class CustomCameraScreen extends StatefulWidget {
   State<CustomCameraScreen> createState() => _CustomCameraScreenState();
 }
 
-class _CustomCameraScreenState extends State<CustomCameraScreen>
-    with SingleTickerProviderStateMixin {
+class _CustomCameraScreenState extends State<CustomCameraScreen> with SingleTickerProviderStateMixin {
   final CameraService _cameraService = CameraService();
   final FaceDetectorService _faceDetectorService = FaceDetectorService();
 
@@ -38,7 +38,7 @@ class _CustomCameraScreenState extends State<CustomCameraScreen>
   void _setupAnimationController() {
     _animationController = AnimationController(
       vsync: this,
-      duration: const Duration(seconds: 3),
+      duration: const Duration(seconds: 2),
     )..addStatusListener((status) {
         if (status == AnimationStatus.completed) {
           _takePhoto();
@@ -67,8 +67,7 @@ class _CustomCameraScreenState extends State<CustomCameraScreen>
       }
       final bytes = allBytes.done().buffer.asUint8List();
 
-      final Size imageSize =
-          Size(image.width.toDouble(), image.height.toDouble());
+      final Size imageSize = Size(image.width.toDouble(), image.height.toDouble());
 
       final inputImageData = InputImageMetadata(
         size: imageSize,
@@ -97,8 +96,7 @@ class _CustomCameraScreenState extends State<CustomCameraScreen>
 
           // Kiểm tra chuyển động
           if (_lastFacePosition != null) {
-            final double movement =
-                (currentPosition - _lastFacePosition!).distance;
+            final double movement = (currentPosition - _lastFacePosition!).distance;
 
             if (movement > FaceDetectorService.movementThreshold) {
               // Phát hiện chuyển động mạnh
@@ -108,8 +106,7 @@ class _CustomCameraScreenState extends State<CustomCameraScreen>
               }
             } else if (_lastStableTime != null) {
               // Kiểm tra thời gian ổn định
-              if (DateTime.now().difference(_lastStableTime!) >
-                  FaceDetectorService.stabilityDuration) {
+              if (DateTime.now().difference(_lastStableTime!) > FaceDetectorService.stabilityDuration) {
                 // Tiếp tục xử lý nhận diện bình thường
                 _processStableFace(boundingBox, imageSize);
               }
@@ -169,6 +166,30 @@ class _CustomCameraScreenState extends State<CustomCameraScreen>
               progress: _isCountingDown ? _animationController!.value : null,
             ),
           ),
+          if (_isCountingDown)
+            Center(
+              child: AnimatedBuilder(
+                animation: _animationController!,
+                builder: (context, child) {
+                  final remainingSeconds = (2 * (1 - _animationController!.value)).ceil();
+                  return Text(
+                    '$remainingSeconds',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 72,
+                      fontWeight: FontWeight.bold,
+                      shadows: [
+                        Shadow(
+                          blurRadius: 20,
+                          color: Colors.black.withOpacity(0.5),
+                          offset: const Offset(0, 0),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
+            ),
           Positioned(
             top: 100,
             left: 0,
@@ -176,9 +197,7 @@ class _CustomCameraScreenState extends State<CustomCameraScreen>
             child: Column(
               children: [
                 Text(
-                  _isFaceInPosition
-                      ? 'Keep your face steady in the frame'
-                      : 'Move your face to the center',
+                  _isFaceInPosition ? 'Keep your face steady in the frame' : 'Move your face to the center',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: _isFaceInPosition ? Colors.green : Colors.white,
@@ -246,12 +265,11 @@ class _CustomCameraScreenState extends State<CustomCameraScreen>
     // Thêm kiểm tra kích thước khuôn mặt
     final double faceWidth = boundingBox.width;
     final double faceHeight = boundingBox.height;
-    final bool isFaceSizeValid = faceWidth >=
-            (ovalWidth *
-                0.3) && // Khuôn mặt phải chiếm ít nhất 50% chiều rộng khung
-        faceWidth <= (ovalWidth * 0.9) && // Không được quá 90% chiều rộng khung
-        faceHeight >= (ovalHeight * 0.3) && // Chiều cao tương tự
-        faceHeight <= (ovalHeight * 0.9);
+    final bool isFaceSizeValid =
+        faceWidth >= (ovalWidth * 0.4) && // Khuôn mặt phải chiếm ít nhất 30% chiều rộng khung
+            faceWidth <= (ovalWidth * 0.9) && // Không được quá 90% chiều rộng khung
+            faceHeight >= (ovalHeight * 0.4) && // Chiều cao tương tự
+            faceHeight <= (ovalHeight * 0.9);
 
     if (mounted) {
       bool newIsFaceInPosition = isFaceInOval && isFaceSizeValid;
@@ -293,29 +311,7 @@ class FaceBorderPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 6.0;
-
-    if (isInPosition && progress != null) {
-      // Vẽ viền xanh theo tiến độ, bắt đầu từ 12h
-      paint.shader = SweepGradient(
-        colors: [Colors.green, Colors.green, Colors.white, Colors.white],
-        stops: [0.0, progress!, progress!, 1.0],
-        startAngle: -1.5708,
-        // Bắt đầu từ vị trí 12h (-90 độ)
-        endAngle: 4.71239,
-        // Kết thúc tại vị trí 12h (270 độ)
-        transform: GradientRotation(-1.5708), // Xoay gradient để bắt đầu từ 12h
-      ).createShader(Rect.fromCircle(
-        center: Offset(size.width / 2, size.height / 2),
-        radius: size.width / 2,
-      ));
-    } else {
-      paint.color = isInPosition ? Colors.green : Colors.white;
-    }
-
-    final backgroundPaint = Paint()
-      ..color = Colors.black
-      ..style = PaintingStyle.fill;
+      ..strokeWidth = 4.0;
 
     final centerX = size.width / 2;
     final centerY = size.height / 2;
@@ -328,29 +324,83 @@ class FaceBorderPainter extends CustomPainter {
       height: ovalHeight,
     );
 
-    // Vẽ overlay đen
+    // Vẽ overlay đen với độ mờ thấp hơn
+    final backgroundPaint = Paint()
+      ..color = Colors.black.withOpacity(0.7)
+      ..style = PaintingStyle.fill;
+
     final path = Path()
       ..addRect(Rect.fromLTWH(0, 0, size.width, size.height))
       ..addOval(oval);
     path.fillType = PathFillType.evenOdd;
     canvas.drawPath(path, backgroundPaint);
 
-    // Vẽ viền oval với hiệu ứng phát sáng khi đang loading
     if (isInPosition && progress != null) {
+      // Vẽ hiệu ứng gradient xanh
+      final gradient = SweepGradient(
+        colors: [
+          Colors.green, // Màu xanh chính
+          Colors.green,
+          Colors.green,
+          Colors.green,
+          Colors.green,
+        ],
+        stops: [0.0, 0.25, 0.5, 0.75, 1.0],
+        startAngle: -1.5708,
+        // Bắt đầu từ vị trí 12h (-90 độ)
+        endAngle: 4.71239,
+        // Kết thúc tại vị trí 12h (270 độ)
+        transform: GradientRotation(progress! * 2 * 3.14159), // Xoay gradient
+      ).createShader(oval);
+
+      final progressPaint = Paint()
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 4.0
+        ..shader = gradient;
+
+      // Vẽ đường viền progress
+      final progressPath = Path();
+      progressPath.addArc(
+        oval,
+        -1.5708, // Bắt đầu từ đỉnh
+        progress! * 2 * 3.14159, // Vẽ theo tiến độ
+      );
+      canvas.drawPath(progressPath, progressPaint);
+
+      // Thêm hiệu ứng glow xanh
       final glowPaint = Paint()
         ..style = PaintingStyle.stroke
         ..strokeWidth = 2.0
-        ..maskFilter = const MaskFilter.blur(BlurStyle.outer, 2);
-      glowPaint.shader = paint.shader;
-      canvas.drawOval(oval, glowPaint);
+        ..maskFilter = const MaskFilter.blur(BlurStyle.outer, 3)
+        ..color = TColors.primary.withOpacity(0.5);
+      canvas.drawPath(progressPath, glowPaint);
+    } else {
+      // Vẽ viền bình thường khi không trong trạng thái đếm ngược
+      paint.color = isInPosition ? TColors.primary : Colors.white;
+      canvas.drawOval(oval, paint);
     }
 
-    // Vẽ viền chính
-    canvas.drawOval(oval, paint);
+    // Thêm các chấm định vị ở 4 góc oval
+    if (isInPosition) {
+      final dotPaint = Paint()
+        ..color = Colors.green // Đổi màu chấm thành xanh khi khuôn mặt đúng vị trí
+        ..style = PaintingStyle.fill;
+
+      final dotRadius = 4.0;
+      final corners = [
+        Offset(centerX - ovalWidth / 2, centerY - ovalHeight / 2), // Top left
+        Offset(centerX + ovalWidth / 2, centerY - ovalHeight / 2), // Top right
+        Offset(centerX - ovalWidth / 2, centerY + ovalHeight / 2), // Bottom left
+        Offset(centerX + ovalWidth / 2, centerY + ovalHeight / 2), // Bottom right
+      ];
+
+      for (final corner in corners) {
+        canvas.drawCircle(corner, dotRadius, dotPaint);
+      }
+    }
   }
 
   @override
   bool shouldRepaint(FaceBorderPainter oldDelegate) =>
-      oldDelegate.isInPosition != isInPosition ||
-      oldDelegate.progress != progress;
+      oldDelegate.isInPosition != isInPosition || oldDelegate.progress != progress;
 }
