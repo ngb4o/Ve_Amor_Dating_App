@@ -334,29 +334,49 @@ class InitialInformationController extends GetxController {
 
       // Show loading dialog
       TFullScreenLoader.openLoadingDialog(
-        'Uploading your photo...',
+        'Verifying and uploading your photo...',
         Assets.animationsCloudUploadingAnimation,
       );
 
-      // Upload ảnh và lấy URL sử dụng uploadProfileImage
-      String uploadedUrl = await userRepository.uploadFaceImage(imagePath);
+      try {
+        // Upload ảnh và lấy URL sử dụng uploadProfileImage
+        String uploadedUrl = await userRepository.uploadFaceImage(imagePath);
 
-      faceImage.value = imagePath;
-      userTempData['IdentityVerificationFaceImage'] = uploadedUrl;
+        faceImage.value = imagePath;
+        userTempData['IdentityVerificationFaceImage'] = uploadedUrl;
 
-      // Remove loader
-      TFullScreenLoader.stopLoading();
+        // Remove loader
+        TFullScreenLoader.stopLoading();
 
-      TLoaders.successSnackBar(
-        title: 'Face Uploaded Success',
-        message: 'The photo has been saved for account verification.',
-      );
+        TLoaders.successSnackBar(
+          title: 'Face Verification Success',
+          message: 'The photo has been saved for account verification.',
+        );
+
+        // Chỉ navigate sang trang tiếp theo khi không có lỗi
+        Get.to(() => const InitialRecentPicturePage());
+      } catch (e) {
+        // Remove loader
+        TFullScreenLoader.stopLoading();
+
+        if (e.toString().contains('already been registered')) {
+          TLoaders.warningSnackBar(
+            title: 'Face Already Registered',
+            message: e.toString(),
+          );
+          await Future.delayed(const Duration(seconds: 2));
+          Get.back();
+        } else {
+          TLoaders.errorSnackBar(
+            title: 'Upload Failed',
+            message: e.toString(),
+          );
+        }
+      }
     } catch (e) {
-      // Remove loader
       TFullScreenLoader.stopLoading();
-
       TLoaders.errorSnackBar(
-        title: 'Upload Failed',
+        title: 'Error',
         message: e.toString(),
       );
     }

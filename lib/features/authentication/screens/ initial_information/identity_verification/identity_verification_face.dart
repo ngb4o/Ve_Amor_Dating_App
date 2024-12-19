@@ -35,7 +35,6 @@ class InitialIdentityVerificationFace extends StatelessWidget {
 
                   if (imagePath != null) {
                     await controller.saveFaceImage(imagePath);
-                    Get.to(() => const InitialRecentPicturePage());
                   }
                 },
                 child: Container(
