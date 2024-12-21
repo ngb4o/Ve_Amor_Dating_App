@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:ve_amor_app/common/widgets/appbar/appbar.dart';
 import 'package:ve_amor_app/utils/constants/colors.dart';
+import 'package:ve_amor_app/utils/constants/sizes.dart';
 import 'package:ve_amor_app/utils/helpers/helper_functions.dart';
 import 'package:get/get.dart';
 

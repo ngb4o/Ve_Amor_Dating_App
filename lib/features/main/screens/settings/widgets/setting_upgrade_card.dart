@@ -9,7 +9,6 @@ class SubscriptionCard extends StatelessWidget {
   });
 
   Map<String, dynamic> getSubscriptionDetails(BuildContext context) {
-
     final isDarkMode = THelperFunctions.isDarkMode(context);
 
     switch (subscriptionType) {
@@ -26,9 +25,9 @@ class SubscriptionCard extends StatelessWidget {
           'textFeatureColor': Colors.white,
           'buttonGradientStartColor': TColors.primary,
           'buttonGradientEndColor': Colors.pink.shade400,
-          'textFeature1' : 'Unlimited Likes',
-          'textFeature2' : 'Unlimited Rewinds',
-          'textFeature3' : 'Passport',
+          'textFeature1': 'Unlimited Likes',
+          'textFeature2': 'Unlimited Rewinds',
+          'textFeature3': 'Passport',
         };
       case 'Platinum':
         return {
@@ -43,9 +42,9 @@ class SubscriptionCard extends StatelessWidget {
           'textFeatureColor': Colors.white,
           'buttonGradientStartColor': Colors.black,
           'buttonGradientEndColor': Colors.black.withOpacity(0.5),
-          'textFeature1' : 'Priority Likes',
-          'textFeature2' : 'Message Before Matching',
-          'textFeature3' : 'See Who Likes You',
+          'textFeature1': 'Priority Likes',
+          'textFeature2': 'Message Before Matching',
+          'textFeature3': 'See Who Likes You',
         };
       case 'Gold':
       default:
@@ -60,9 +59,9 @@ class SubscriptionCard extends StatelessWidget {
           'textColor': Colors.black,
           'buttonGradientStartColor': Colors.amber.shade600,
           'buttonGradientEndColor': Colors.amber.shade400,
-          'textFeature1' : 'See Who Likes You',
-          'textFeature2' : 'Top Picks',
-          'textFeature3' : 'Free Super Likes',
+          'textFeature1': 'See Who Likes You',
+          'textFeature2': 'Top Picks',
+          'textFeature3': 'Free Super Likes',
         };
     }
   }
@@ -70,7 +69,6 @@ class SubscriptionCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final details = getSubscriptionDetails(context);
-
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 10, left: 15),
@@ -80,13 +78,18 @@ class SubscriptionCard extends StatelessWidget {
           border: Border.all(color: details['borderColor']),
           borderRadius: BorderRadius.circular(15),
           gradient: LinearGradient(
-            colors: [details['gradientStartColor'], details['gradientEndColor']],
+            colors: [
+              details['gradientStartColor'],
+              details['gradientEndColor']
+            ],
             begin: Alignment.topCenter,
             end: Alignment.center,
           ),
           boxShadow: [
             BoxShadow(
-              color: context.isDarkMode ? Colors.transparent : Colors.grey.withOpacity(0.5),
+              color: context.isDarkMode
+                  ? Colors.transparent
+                  : Colors.grey.withOpacity(0.5),
               spreadRadius: 2,
               blurRadius: 5,
               offset: const Offset(0, 2),
@@ -96,6 +99,7 @@ class SubscriptionCard extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
@@ -118,24 +122,29 @@ class SubscriptionCard extends StatelessWidget {
                       ),
                       const SizedBox(width: 5),
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 6, vertical: 2),
                         decoration: BoxDecoration(
                           color: details['featureColor'],
                           borderRadius: BorderRadius.circular(5),
                         ),
                         child: Text(
                           details['badgeText'],
-                          style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                            fontWeight: FontWeight.bold,
-                            fontStyle: FontStyle.italic,
-                            color: details['textFeatureColor'],
-                          ),
+                          style: Theme.of(context)
+                              .textTheme
+                              .labelLarge!
+                              .copyWith(
+                                fontWeight: FontWeight.bold,
+                                fontStyle: FontStyle.italic,
+                                color: details['textFeatureColor'],
+                              ),
                         ),
                       ),
                     ],
                   ),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 25, vertical: 10),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(50),
                       gradient: LinearGradient(
@@ -150,9 +159,9 @@ class SubscriptionCard extends StatelessWidget {
                     child: Text(
                       'Upgrade',
                       style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                        fontWeight: FontWeight.bold,
-                        color: details['textFeatureColor'],
-                      ),
+                            fontWeight: FontWeight.bold,
+                            color: details['textFeatureColor'],
+                          ),
                     ),
                   )
                 ],
@@ -167,34 +176,13 @@ class SubscriptionCard extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(details['textFeature1'], style: TextStyle(color: details['textColor'])),
-                  Icon(Icons.check, color: details['textColor']),
-                ],
-              ),
-              const SizedBox(height: 5),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(details['textFeature2'], style: TextStyle(color: details['textColor'])),
-                  Icon(Icons.check, color: details['textColor']),
-                ],
-              ),
-              const SizedBox(height: 5),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(details['textFeature3'], style: TextStyle(color: details['textColor'])),
-                  Icon(Icons.check, color: details['textColor']),
-                ],
-              ),
-              const Spacer(),
+              ...buildFeatureRows(details),
+              const SizedBox(height: 10),
               Center(
                 child: GestureDetector(
                   onTap: () {
-                    Get.to(() => UpgradeCardDetailScreen(subscriptionType: subscriptionType));
+                    Get.to(() => UpgradeCardDetailScreen(
+                        subscriptionType: subscriptionType));
                   },
                   child: Text(
                     'See all features',
@@ -209,6 +197,26 @@ class SubscriptionCard extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  List<Widget> buildFeatureRows(Map<String, dynamic> details) {
+    return [
+      buildFeatureRow(details['textFeature1'], details),
+      const SizedBox(height: 5),
+      buildFeatureRow(details['textFeature2'], details),
+      const SizedBox(height: 5),
+      buildFeatureRow(details['textFeature3'], details),
+    ];
+  }
+
+  Widget buildFeatureRow(String text, Map<String, dynamic> details) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(text, style: TextStyle(color: details['textColor'])),
+        Icon(Icons.check, color: details['textColor']),
+      ],
     );
   }
 }

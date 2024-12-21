@@ -9,8 +9,7 @@ class UpgradeCardDetailScreen extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _UpgradeCardDetailScreenState createState() =>
-      _UpgradeCardDetailScreenState();
+  _UpgradeCardDetailScreenState createState() => _UpgradeCardDetailScreenState();
 }
 
 class _UpgradeCardDetailScreenState extends State<UpgradeCardDetailScreen> {
@@ -35,13 +34,13 @@ class _UpgradeCardDetailScreenState extends State<UpgradeCardDetailScreen> {
             'Upgrade Your Likes': [
               {'name': 'Unlimited Likes', 'locked': false},
               {'name': 'See Who Likes You', 'locked': true}, // Biểu tượng khóa cho Plus
-              {'name': 'Priority Likes', 'locked': true},    // Biểu tượng khóa cho Plus
+              {'name': 'Priority Likes', 'locked': true}, // Biểu tượng khóa cho Plus
             ],
             'Enhance Your Experience': [
               {'name': 'Unlimited Rewinds', 'locked': false},
-              {'name': '1 Free Boost per Month', 'locked': true},  // Biểu tượng khóa cho Plus
+              {'name': '1 Free Boost per Month', 'locked': true}, // Biểu tượng khóa cho Plus
               {'name': '3 Free Super Likes per Week', 'locked': true}, // Biểu tượng khóa cho Plus
-              {'name': '3 First Impressions/Week', 'locked': true},    // Biểu tượng khóa cho Plus
+              {'name': '3 First Impressions/Week', 'locked': true}, // Biểu tượng khóa cho Plus
             ],
             'Premium Discovery': [
               {'name': 'Unlimited Passport Mode', 'locked': false},
@@ -54,8 +53,8 @@ class _UpgradeCardDetailScreenState extends State<UpgradeCardDetailScreen> {
               {'name': 'Hide Ads', 'locked': false},
             ],
           },
-          'color': Colors.pink,
-          'gradientColors': [Colors.pink.shade400, Colors.white],
+          'color': TColors.primary,
+          'gradientColors': [TColors.primary.withOpacity(0.8), Colors.white],
           'price': '39.000'
         };
       case 'Platinum':
@@ -66,7 +65,7 @@ class _UpgradeCardDetailScreenState extends State<UpgradeCardDetailScreen> {
             'Upgrade Your Likes': [
               {'name': 'Unlimited Likes', 'locked': false},
               {'name': 'See Who Likes You', 'locked': false}, // Tất cả đều có cho Platinum
-              {'name': 'Priority Likes', 'locked': false},    // Tất cả đều có cho Platinum
+              {'name': 'Priority Likes', 'locked': false}, // Tất cả đều có cho Platinum
             ],
             'Enhance Your Experience': [
               {'name': 'Unlimited Rewinds', 'locked': false},
@@ -98,7 +97,7 @@ class _UpgradeCardDetailScreenState extends State<UpgradeCardDetailScreen> {
             'Upgrade Your Likes': [
               {'name': 'Unlimited Likes', 'locked': false},
               {'name': 'See Who Likes You', 'locked': false}, // Tất cả đều có cho Gold
-              {'name': 'Priority Likes', 'locked': true},    // Biểu tượng khóa cho Gold
+              {'name': 'Priority Likes', 'locked': true}, // Biểu tượng khóa cho Gold
             ],
             'Enhance Your Experience': [
               {'name': 'Unlimited Rewinds', 'locked': false},
@@ -108,7 +107,7 @@ class _UpgradeCardDetailScreenState extends State<UpgradeCardDetailScreen> {
             ],
             'Premium Discovery': [
               {'name': 'Unlimited Passport Mode', 'locked': false},
-              {'name': 'Top Picks', 'locked': true}, // Biểu tượng khóa cho Gold
+              {'name': 'Top Picks', 'locked': true}, // Biểu tượng khóa cho Gol
             ],
             'Take Control': [
               {'name': 'Control Your Profile', 'locked': false},
@@ -127,13 +126,8 @@ class _UpgradeCardDetailScreenState extends State<UpgradeCardDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: details['color'],
-        title: Text(
-          details['title'],
-          style: const TextStyle(color: Colors.white),
-        ),
-        flexibleSpace: Container(
+      body: SingleChildScrollView(
+        child: Container(
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: details['gradientColors'],
@@ -141,119 +135,112 @@ class _UpgradeCardDetailScreenState extends State<UpgradeCardDetailScreen> {
               end: Alignment.bottomCenter,
             ),
           ),
-        ),
-      ),
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: details['gradientColors'],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ),
-        ),
-        child: Column(
-          children: [
-            Expanded(
-              child: PageView(
-                controller: _pageController,
-                onPageChanged: (index) {
-                  setState(() {
-                    _currentPage = index;
-                    // Cập nhật lại thông tin chi tiết gói khi cuộn trang
-                    details = getSubscriptionDetails(
-                        index == 0 ? 'Plus' : index == 1 ? 'Gold' : 'Platinum');
-                  });
-                },
-                children: [
-                  _buildSubscriptionCard('Plus Subscription', Colors.purple),
-                  _buildSubscriptionCard('Gold Subscription', Colors.blueAccent),
-                  _buildSubscriptionCard('Platinum Subscription', Colors.black45),
-                ],
+          child: Column(
+            children: [
+              const TAppbar(
+                showBackArrow: true,
+                colorBackArrow: Colors.white,
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 20.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: List.generate(3, (index) {
-                  return Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 5.0),
-                    width: _currentPage == index ? 12.0 : 8.0,
-                    height: _currentPage == index ? 12.0 : 8.0,
-                    decoration: BoxDecoration(
-                      color: _currentPage == index ? Colors.black : Colors.grey,
-                      shape: BoxShape.circle,
-                    ),
-                  );
-                }),
+              SizedBox(
+                height: 250,
+                child: PageView(
+                  controller: _pageController,
+                  onPageChanged: (index) {
+                    setState(() {
+                      _currentPage = index;
+                      // Cập nhật lại thông tin chi tiết gói khi cuộn trang
+                      details = getSubscriptionDetails(index == 0
+                          ? 'Plus'
+                          : index == 1
+                              ? 'Gold'
+                              : 'Platinum');
+                    });
+                  },
+                  children: [
+                    _buildSubscriptionCard('Plus Subscription', Colors.black),
+                    _buildSubscriptionCard('Gold Subscription', Colors.blueAccent),
+                    _buildSubscriptionCard('Platinum Subscription', Colors.black45),
+                  ],
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _buildFeatureSection('Upgrade Your Likes', details['features']['Upgrade Your Likes']),
-                  _buildFeatureSection('Enhance Your Experience', details['features']['Enhance Your Experience']),
-                  _buildFeatureSection('Premium Discovery', details['features']['Premium Discovery']),
-                  _buildFeatureSection('Take Control', details['features']['Take Control']),
-                  const SizedBox(height: 20),
-                  Center(
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: details['color'],
-                        padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 15),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.horizontal(left: Radius.circular(20), right: Radius.circular(20)),
-                        ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 20.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: List.generate(3, (index) {
+                    return Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                      width: _currentPage == index ? 12.0 : 8.0,
+                      height: _currentPage == index ? 12.0 : 8.0,
+                      decoration: BoxDecoration(
+                        color: _currentPage == index ? Colors.black : Colors.grey,
+                        shape: BoxShape.circle,
                       ),
-                      onPressed: () {
-                        // Chuyển đến trang thanh toán và truyền thông tin gói đăng ký và giá
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => PaymentPage(
-                              subscriptionType: details['title'],
-                              price: details['price'], // Sửa lại tên khóa đúng
+                    );
+                  }),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(
+                    bottom: TSizes.defaultSpace, left: TSizes.defaultSpace, right: TSizes.defaultSpace),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _buildFeatureSection('Upgrade Your Likes', details['features']['Upgrade Your Likes']),
+                    _buildFeatureSection(
+                        'Enhance Your Experience', details['features']['Enhance Your Experience']),
+                    _buildFeatureSection('Premium Discovery', details['features']['Premium Discovery']),
+                    _buildFeatureSection('Take Control', details['features']['Take Control']),
+                    const SizedBox(height: 20),
+                    Center(
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: details['color'],
+                          padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 15),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: const BorderRadius.horizontal(
+                              left: Radius.circular(20),
+                              right: Radius.circular(20),
+                            ),
+                            side: BorderSide(
+                              color: details['color'],
+                              width: 2.0,
                             ),
                           ),
-                        );
-                      },
-                      child: Text(
-                        'Starting at ₫${details['price']}',
-                        style: const TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => PaymentPage(
+                                subscriptionType: details['title'],
+                                price: details['price'],
+                              ),
+                            ),
+                          );
+                        },
+                        child: Text(
+                          'Starting at ₫${details['price']}',
+                          style: const TextStyle(fontWeight: FontWeight.bold),
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
   }
 
   Widget _buildSubscriptionCard(String title, Color color) {
-    return Center(
-      child: Container(
-        height: 200,
-        width: 350,
-        decoration: BoxDecoration(
-          color: color.withOpacity(0.2),
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: color, width: 2),
-        ),
-        child: Center(
-          child: Text(
-            title,
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-              color: color,
-            ),
-          ),
-        ),
+    String subscriptionType = title.split(' ')[0]; // Extract 'Plus', 'Gold', or 'Platinum'
+    return Padding(
+      padding: const EdgeInsets.only(right: 15),
+      child: SubscriptionCard(
+        subscriptionType: subscriptionType,
       ),
     );
   }
@@ -271,7 +258,7 @@ class _UpgradeCardDetailScreenState extends State<UpgradeCardDetailScreen> {
               fontWeight: FontWeight.bold,
             ),
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: TSizes.spaceBtwItems),
           ...features.map((feature) {
             return Padding(
               padding: const EdgeInsets.only(bottom: 6.0),

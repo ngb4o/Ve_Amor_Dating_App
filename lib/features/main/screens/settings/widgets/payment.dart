@@ -83,7 +83,7 @@ class _PaymentPageState extends State<PaymentPage> {
             SizedBox(height: 10),
             Obx(
                   () => TProfileMenu(
-                title: 'Phone Number',
+                title: 'Phone',
                 value: controller.user.value.phoneNumber.isEmpty
                     ? 'No phone number'
                     : controller.user.value.phoneNumber,
