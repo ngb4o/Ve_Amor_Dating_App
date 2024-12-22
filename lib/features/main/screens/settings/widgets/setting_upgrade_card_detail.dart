@@ -152,8 +152,7 @@ class _UpgradeCardDetailScreenState extends State<UpgradeCardDetailScreen> {
                     setState(() {
                       _currentPage = index;
                       // Cập nhật lại thông tin chi tiết gói khi cuộn trang
-                      details = getSubscriptionDetails(
-                          index == 0
+                      details = getSubscriptionDetails(index == 0
                           ? 'Plus'
                           : index == 1
                               ? 'Gold'
@@ -161,9 +160,9 @@ class _UpgradeCardDetailScreenState extends State<UpgradeCardDetailScreen> {
                     });
                   },
                   children: [
-                    _buildSubscriptionCard('Plus', Colors.blueAccent),
-                    _buildSubscriptionCard('Gold', Colors.blueAccent),
-                    _buildSubscriptionCard('Platinum', Colors.black45),
+                    _buildSubscriptionCard('Plus', Colors.blueAccent, _currentPage),
+                    _buildSubscriptionCard('Gold', Colors.blueAccent, _currentPage),
+                    _buildSubscriptionCard('Platinum', Colors.black45, _currentPage),
                   ],
                 ),
               ),
@@ -243,10 +242,35 @@ class _UpgradeCardDetailScreenState extends State<UpgradeCardDetailScreen> {
     );
   }
 
-  Widget _buildSubscriptionCard(String subscriptionType, Color color) {
-    return Padding(
-      padding: const EdgeInsets.only(right: 15),
-      child: SubscriptionCard(subscriptionType: subscriptionType),
+  Widget _buildSubscriptionCard(String subscriptionType, Color color, int index) {
+    // Determine the subscription type based on the index
+    switch (index) {
+      case 0:
+        subscriptionType = 'Plus';
+        break;
+      case 1:
+        subscriptionType = 'Gold';
+        break;
+      case 2:
+        subscriptionType = 'Platinum';
+        break;
+      default:
+        subscriptionType = 'Gold'; // Default case
+    }
+
+    return GestureDetector(
+      onTap: () {
+        Get.to(
+          () => UpgradeCardDetailScreen(
+            subscriptionType: subscriptionType, // Pass the determined subscriptionType
+            index: index,
+          ),
+        );
+      },
+      child: Padding(
+        padding: const EdgeInsets.only(right: 15),
+        child: SubscriptionCard(subscriptionType: subscriptionType),
+      ),
     );
   }
 

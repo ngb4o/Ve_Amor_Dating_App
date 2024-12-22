@@ -29,7 +29,24 @@ class SubscriptionCard extends StatelessWidget {
           'textFeature2': 'Unlimited Rewinds',
           'textFeature3': 'Passport',
         };
+      case 'Gold':
+        return {
+          'color': Colors.amber,
+          'iconColor': Colors.amber.shade800,
+          'badgeText': 'GOLD',
+          'gradientStartColor': Colors.amber.shade200,
+          'gradientEndColor': Colors.white,
+          'borderColor': Colors.amber[500],
+          'featureColor': Colors.amber.shade500,
+          'textColor': Colors.black,
+          'buttonGradientStartColor': Colors.amber.shade600,
+          'buttonGradientEndColor': Colors.amber.shade400,
+          'textFeature1': 'See Who Likes You',
+          'textFeature2': 'Top Picks',
+          'textFeature3': 'Free Super Likes',
+        };
       case 'Platinum':
+      default:
         return {
           'color': Colors.grey,
           'iconColor': TColors.black,
@@ -45,23 +62,6 @@ class SubscriptionCard extends StatelessWidget {
           'textFeature1': 'Priority Likes',
           'textFeature2': 'Message Before Matching',
           'textFeature3': 'See Who Likes You',
-        };
-      case 'Gold':
-      default:
-        return {
-          'color': Colors.amber,
-          'iconColor': Colors.amber.shade800,
-          'badgeText': 'GOLD',
-          'gradientStartColor': Colors.amber.shade200,
-          'gradientEndColor': Colors.white,
-          'borderColor': Colors.amber[500],
-          'featureColor': Colors.amber.shade500,
-          'textColor': Colors.black,
-          'buttonGradientStartColor': Colors.amber.shade600,
-          'buttonGradientEndColor': Colors.amber.shade400,
-          'textFeature1': 'See Who Likes You',
-          'textFeature2': 'Top Picks',
-          'textFeature3': 'Free Super Likes',
         };
     }
   }

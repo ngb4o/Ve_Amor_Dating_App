@@ -181,9 +181,9 @@ class SettingsScreen extends StatelessWidget {
                     if (index == 0) {
                       subscriptionType = 'Plus';
                     } else if (index == 1) {
-                      subscriptionType = 'Platinum';
-                    } else {
                       subscriptionType = 'Gold';
+                    } else {
+                      subscriptionType = 'Platinum';
                     }
 
                     return GestureDetector(
