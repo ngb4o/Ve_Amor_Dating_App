@@ -2,10 +2,12 @@ part of 'widget_imports.dart';
 
 class UpgradeCardDetailScreen extends StatefulWidget {
   final String subscriptionType;
+  final int index;
 
   const UpgradeCardDetailScreen({
     Key? key,
     required this.subscriptionType,
+    required this.index,
   }) : super(key: key);
 
   @override
@@ -20,6 +22,7 @@ class _UpgradeCardDetailScreenState extends State<UpgradeCardDetailScreen> {
   @override
   void initState() {
     super.initState();
+    _currentPage = widget.index;
     details = getSubscriptionDetails(widget.subscriptionType);
   }
 
@@ -149,7 +152,8 @@ class _UpgradeCardDetailScreenState extends State<UpgradeCardDetailScreen> {
                     setState(() {
                       _currentPage = index;
                       // Cập nhật lại thông tin chi tiết gói khi cuộn trang
-                      details = getSubscriptionDetails(index == 0
+                      details = getSubscriptionDetails(
+                          index == 0
                           ? 'Plus'
                           : index == 1
                               ? 'Gold'
@@ -157,9 +161,9 @@ class _UpgradeCardDetailScreenState extends State<UpgradeCardDetailScreen> {
                     });
                   },
                   children: [
-                    _buildSubscriptionCard('Plus Subscription', Colors.black),
-                    _buildSubscriptionCard('Gold Subscription', Colors.blueAccent),
-                    _buildSubscriptionCard('Platinum Subscription', Colors.black45),
+                    _buildSubscriptionCard('Plus', Colors.blueAccent),
+                    _buildSubscriptionCard('Gold', Colors.blueAccent),
+                    _buildSubscriptionCard('Platinum', Colors.black45),
                   ],
                 ),
               ),
@@ -182,14 +186,18 @@ class _UpgradeCardDetailScreenState extends State<UpgradeCardDetailScreen> {
               ),
               Padding(
                 padding: const EdgeInsets.only(
-                    bottom: TSizes.defaultSpace, left: TSizes.defaultSpace, right: TSizes.defaultSpace),
+                    bottom: TSizes.defaultSpace,
+                    left: TSizes.defaultSpace,
+                    right: TSizes.defaultSpace),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    _buildFeatureSection('Upgrade Your Likes', details['features']['Upgrade Your Likes']),
+                    _buildFeatureSection(
+                        'Upgrade Your Likes', details['features']['Upgrade Your Likes']),
                     _buildFeatureSection(
                         'Enhance Your Experience', details['features']['Enhance Your Experience']),
-                    _buildFeatureSection('Premium Discovery', details['features']['Premium Discovery']),
+                    _buildFeatureSection(
+                        'Premium Discovery', details['features']['Premium Discovery']),
                     _buildFeatureSection('Take Control', details['features']['Take Control']),
                     const SizedBox(height: 20),
                     Center(
@@ -235,13 +243,10 @@ class _UpgradeCardDetailScreenState extends State<UpgradeCardDetailScreen> {
     );
   }
 
-  Widget _buildSubscriptionCard(String title, Color color) {
-    String subscriptionType = title.split(' ')[0]; // Extract 'Plus', 'Gold', or 'Platinum'
+  Widget _buildSubscriptionCard(String subscriptionType, Color color) {
     return Padding(
       padding: const EdgeInsets.only(right: 15),
-      child: SubscriptionCard(
-        subscriptionType: subscriptionType,
-      ),
+      child: SubscriptionCard(subscriptionType: subscriptionType),
     );
   }
 
