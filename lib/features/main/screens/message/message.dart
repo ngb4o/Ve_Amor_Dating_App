@@ -7,8 +7,13 @@ class MessageScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = Get.put(MessageController());
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
+      body: RefreshIndicator(
+        onRefresh: () async {
+          await controller.fetchAllUsersMatches();
+        },
+        color: TColors.white,
+        backgroundColor: TColors.primary,
+        child: ListView(
           children: [
             // Appbar
             const THomeAppBar(iconSecurityActionAppbar: true),
@@ -29,7 +34,7 @@ class MessageScreen extends StatelessWidget {
 
                   // Card for displaying new matches
                   Obx(
-                        () {
+                    () {
                       if (controller.isLoading.value) {
                         return TShimmerEffect(
                           width: THelperFunctions.screenWidth(),
@@ -56,7 +61,7 @@ class MessageScreen extends StatelessWidget {
                                     final user = controller.allUsersMatches[index];
                                     return GestureDetector(
                                       onTap: () => Get.to(
-                                            () => ChatPage(
+                                        () => ChatPage(
                                           imagePath: user.profilePictures[0],
                                           name: user.username,
                                           receiverID: user.id,
@@ -91,7 +96,7 @@ class MessageScreen extends StatelessWidget {
 
                   // List of Messages
                   Obx(
-                        () {
+                    () {
                       if (controller.isLoading.value) {
                         return TShimmerEffect(
                           width: THelperFunctions.screenWidth(),
@@ -99,8 +104,9 @@ class MessageScreen extends StatelessWidget {
                         );
                       } else if (controller.allUsersMatches.isEmpty) {
                         return const TEmpty(
-                            titleText: TTexts.titleChatEmpty,
-                            subTitleText: TTexts.subTitleChatEmpty);
+                          titleText: TTexts.titleChatEmpty,
+                          subTitleText: TTexts.subTitleChatEmpty,
+                        );
                       } else {
                         return Column(
                           children: [
@@ -113,7 +119,7 @@ class MessageScreen extends StatelessWidget {
                                 final user = controller.allUsersMatches[index];
                                 return GestureDetector(
                                   onTap: () => Get.to(
-                                        () => ChatPage(
+                                    () => ChatPage(
                                       imagePath: user.profilePictures[0],
                                       name: user.username,
                                       receiverID: user.id,
@@ -122,7 +128,7 @@ class MessageScreen extends StatelessWidget {
                                   child: TMessageCard(
                                     imagePath: user.profilePictures[0],
                                     name: user.username,
-                                    message: 'Hello',  // Placeholder message
+                                    message: 'Hello', // Placeholder message
                                   ),
                                 );
                               },
