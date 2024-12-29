@@ -18,6 +18,7 @@ import '../../../../../common/widgets/action_button/action_button.dart';
 import '../../../../../common/widgets/bottom_button/bottom_button.dart';
 import '../../../../../common/widgets/question_section/filter_chip.dart';
 import '../../../../../utils/constants/lifestyle_options.dart';
+import '../../settings/widgets/widget_imports.dart';
 
 part 'home_detail_information.dart';
 part 'home_image_navigation_dots.dart';

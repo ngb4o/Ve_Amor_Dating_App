@@ -26,8 +26,7 @@ class HomeController extends GetxController {
   final RxString genderPreference = ''.obs;
   final Rx<RangeValues> ageRange = const RangeValues(18, 100).obs;
 
-  final Rxn<Map<String, dynamic>> currentUserLocation =
-      Rxn<Map<String, dynamic>>();
+  final Rxn<Map<String, dynamic>> currentUserLocation = Rxn<Map<String, dynamic>>();
 
   @override
   void onInit() {
@@ -91,18 +90,15 @@ class HomeController extends GetxController {
       return false;
     }
 
-    if (selectedZodiac.value.isNotEmpty &&
-        user.zodiac != selectedZodiac.value) {
+    if (selectedZodiac.value.isNotEmpty && user.zodiac != selectedZodiac.value) {
       return false;
     }
 
-    if (selectedSports.isNotEmpty &&
-        !user.sports.any((sport) => selectedSports.contains(sport))) {
+    if (selectedSports.isNotEmpty && !user.sports.any((sport) => selectedSports.contains(sport))) {
       return false;
     }
 
-    if (selectedPets.isNotEmpty &&
-        !user.pets.any((pet) => selectedPets.contains(pet))) {
+    if (selectedPets.isNotEmpty && !user.pets.any((pet) => selectedPets.contains(pet))) {
       return false;
     }
 

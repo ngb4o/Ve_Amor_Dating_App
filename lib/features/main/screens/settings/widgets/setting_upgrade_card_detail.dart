@@ -3,12 +3,11 @@ part of 'widget_imports.dart';
 class UpgradeCardDetailScreen extends StatefulWidget {
   final String subscriptionType;
   final int index;
+  final bool onlyOne;
 
-  const UpgradeCardDetailScreen({
-    Key? key,
-    required this.subscriptionType,
-    required this.index,
-  }) : super(key: key);
+  const UpgradeCardDetailScreen(
+      {Key? key, required this.subscriptionType, required this.index, this.onlyOne = false})
+      : super(key: key);
 
   @override
   _UpgradeCardDetailScreenState createState() => _UpgradeCardDetailScreenState();
@@ -159,29 +158,35 @@ class _UpgradeCardDetailScreenState extends State<UpgradeCardDetailScreen> {
                               : 'Platinum');
                     });
                   },
-                  children: [
-                    _buildSubscriptionCard('Plus', Colors.blueAccent, _currentPage),
-                    _buildSubscriptionCard('Gold', Colors.blueAccent, _currentPage),
-                    _buildSubscriptionCard('Platinum', Colors.black45, _currentPage),
-                  ],
+                  children: widget.onlyOne
+                      ? [
+                          _buildSubscriptionCard('Plus', Colors.blueAccent, _currentPage),
+                        ]
+                      : [
+                          _buildSubscriptionCard('Plus', Colors.blueAccent, _currentPage),
+                          _buildSubscriptionCard('Gold', Colors.blueAccent, _currentPage),
+                          _buildSubscriptionCard('Platinum', Colors.black45, _currentPage),
+                        ],
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.only(bottom: 20.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: List.generate(3, (index) {
-                    return Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 5.0),
-                      width: _currentPage == index ? 12.0 : 8.0,
-                      height: _currentPage == index ? 12.0 : 8.0,
-                      decoration: BoxDecoration(
-                        color: _currentPage == index ? Colors.black : Colors.grey,
-                        shape: BoxShape.circle,
+                child: widget.onlyOne
+                    ? const SizedBox.shrink()
+                    : Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: List.generate(3, (index) {
+                          return Container(
+                            margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                            width: _currentPage == index ? 12.0 : 8.0,
+                            height: _currentPage == index ? 12.0 : 8.0,
+                            decoration: BoxDecoration(
+                              color: _currentPage == index ? Colors.black : Colors.grey,
+                              shape: BoxShape.circle,
+                            ),
+                          );
+                        }),
                       ),
-                    );
-                  }),
-                ),
               ),
               Padding(
                 padding: const EdgeInsets.only(

@@ -39,7 +39,15 @@ class TActionButtonRow extends StatelessWidget {
           assetPath: 'assets/icons/home/star.png',
           color: Colors.blue,
           size: 50,
-          onTap: () => matchEngine.currentItem!.superLike(),
+          onTap: () {
+            Get.to(
+              () => const UpgradeCardDetailScreen(
+                subscriptionType: "Plus",
+                index: 0,
+                onlyOne: true,
+              ),
+            );
+          },
           hasBorder: false,
           hasElevation: true,
           hasBorderRadius: true,
@@ -59,7 +67,15 @@ class TActionButtonRow extends StatelessWidget {
           assetPath: 'assets/icons/home/light.png',
           color: Colors.purple,
           size: 50,
-          onTap: () {},
+          onTap: () {
+            Get.to(
+              () => const UpgradeCardDetailScreen(
+                subscriptionType: "Platinum",
+                index: 2,
+                onlyOne: true,
+              ),
+            );
+          },
           hasBorder: false,
           hasElevation: true,
           hasBorderRadius: true,

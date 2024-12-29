@@ -35,11 +35,7 @@ class THomeAppBar extends StatelessWidget {
       title: Row(
         mainAxisAlignment: centerAppbar ? MainAxisAlignment.center : MainAxisAlignment.start,
         children: [
-          Image.asset(
-            width: 50,
-            height: 70,
-            TImages.veAmorLogo
-          ),
+          Image.asset(width: 60, height: 75, TImages.veAmorLogo),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

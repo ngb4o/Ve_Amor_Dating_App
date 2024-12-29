@@ -51,7 +51,16 @@ class MessageScreen extends StatelessWidget {
                           height: 160,
                           child: Row(
                             children: [
-                              const NewMatchLikesCard(),
+                              GestureDetector(
+                                onTap: () => Get.to(
+                                  () => const UpgradeCardDetailScreen(
+                                    subscriptionType: "Plus",
+                                    index: 0,
+                                    onlyOne: true,
+                                  ),
+                                ),
+                                child: const NewMatchLikesCard(),
+                              ),
                               Expanded(
                                 child: ListView.builder(
                                   scrollDirection: Axis.horizontal,
@@ -128,19 +137,28 @@ class MessageScreen extends StatelessWidget {
                                   child: TMessageCard(
                                     imagePath: user.profilePictures[0],
                                     name: user.username,
-                                    message: 'Hello', // Placeholder message
+                                    message: 'Tap to start message', // Placeholder message
                                   ),
                                 );
                               },
                             ),
 
                             // Fixed message card
-                            const TMessageCard(
-                              imagePath: TImages.lightAppLogo,
-                              name: 'Team VeAmor',
-                              message: 'Upgrade now to start matching',
-                              isVerify: true,
-                              isNetworkImage: false,
+                            GestureDetector(
+                              onTap: () => Get.to(
+                                () => const UpgradeCardDetailScreen(
+                                  subscriptionType: "Platinum",
+                                  index: 2,
+                                  onlyOne: true,
+                                ),
+                              ),
+                              child: const TMessageCard(
+                                imagePath: TImages.lightAppLogo,
+                                name: 'Team VeAmor',
+                                message: 'Upgrade now to start matching',
+                                isVerify: true,
+                                isNetworkImage: false,
+                              ),
                             ),
                           ],
                         );
