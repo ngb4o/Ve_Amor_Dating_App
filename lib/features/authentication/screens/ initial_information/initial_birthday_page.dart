@@ -8,41 +8,6 @@ class InitialBirthdayPage extends StatelessWidget {
     final dark = THelperFunctions.isDarkMode(context);
     final controller = InitialInformationController.instance;
 
-    // Create a TextEditingController
-    final dateOfBirthController = TextEditingController();
-
-    // Format the input as the user types
-    dateOfBirthController.addListener(() {
-      String text = dateOfBirthController.text;
-      // Remove all non-digit characters
-      text = text.replaceAll(RegExp(r'\D'), '');
-
-      // Format the text
-      String formattedText = '';
-      if (text.length >= 2) {
-        formattedText += text.substring(0, 2); // Day
-        formattedText += '/'; // Add slash after day
-        if (text.length > 2) {
-          formattedText += text.substring(2, 4); // Month
-          formattedText += '/'; // Add slash after month
-          if (text.length > 4) {
-            formattedText += text.substring(4); // Year
-          }
-        }
-      } else {
-        formattedText = text; // If less than 2 digits, just show the input
-      }
-
-      // Update the controller's text
-      dateOfBirthController.value = TextEditingValue(
-        text: formattedText,
-        selection: TextSelection.collapsed(offset: formattedText.length),
-      );
-
-      // Update the controller's dateOfBirth value
-      controller.dateOfBirth.text = formattedText; // Update the controller's dateOfBirth
-    });
-
     return Scaffold(
       appBar: const TAppbar(showBackArrow: true),
       body: Padding(
@@ -58,7 +23,25 @@ class InitialBirthdayPage extends StatelessWidget {
             const SizedBox(height: TSizes.spaceBtwSections),
             // TextField
             TextField(
-              controller: dateOfBirthController,
+              controller: controller.dateOfBirth,
+              keyboardType: TextInputType.number,
+              inputFormatters: [
+                FilteringTextInputFormatter.digitsOnly, // Chỉ cho phép nhập số
+                TextInputFormatter.withFunction((oldValue, newValue) {
+                  final text = newValue.text.replaceAll('/', ''); // Loại bỏ dấu `/` cũ
+                  final buffer = StringBuffer();
+
+                  for (int i = 0; i < text.length; i++) {
+                    if (i == 2 || i == 4) buffer.write('/'); // Thêm dấu `/` sau ngày và tháng
+                    buffer.write(text[i]);
+                  }
+
+                  return TextEditingValue(
+                    text: buffer.toString(),
+                    selection: TextSelection.collapsed(offset: buffer.length),
+                  );
+                }),
+              ],
               decoration: InputDecoration(
                 prefixIcon: const Icon(Iconsax.cake),
                 hintText: 'D D / M M / Y Y Y Y',
@@ -68,6 +51,7 @@ class InitialBirthdayPage extends StatelessWidget {
                 ),
               ),
             ),
+
             const SizedBox(height: TSizes.spaceBtwInputFields),
 
             // Sub Title

@@ -14,7 +14,7 @@ class TLoginHeader extends StatelessWidget {
       children: [
         // Image
         const Image(
-          height: 150,
+          height: 170,
           image: AssetImage(TImages.veAmorLogo),
         ),
 
