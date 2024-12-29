@@ -167,38 +167,46 @@ class UserRepository extends GetxController {
       // First check for duplicate faces
       final allFaceImages = await getAllVerificationFaceImages();
 
+      // Create a list of futures for comparison
+      List<Future<void>> comparisonFutures = [];
+
       for (String existingFaceUrl in allFaceImages) {
-        try {
-          // Download the existing face image to a temporary file
-          final tempDir = await Directory.systemTemp.createTemp();
-          final tempFile = File('${tempDir.path}/temp_face.jpg');
+        comparisonFutures.add(
+          Future(() async {
+            // Print thông báo bắt đầu so sánh
+            print('Starting comparison with: $existingFaceUrl');
 
-          // Download image from Firebase
-          final ref = FirebaseStorage.instance.refFromURL(existingFaceUrl);
-          await ref.writeToFile(tempFile);
+            // Download the existing face image to a temporary file
+            final tempDir = await Directory.systemTemp.createTemp();
+            final tempFile = File('${tempDir.path}/temp_face.jpg');
 
-          // Compare faces
-          final comparisonResult = await AWSService.compareFaceWithImage(
-            filePath,
-            tempFile.path,
-          );
+            // Download image from Firebase
+            final ref = FirebaseStorage.instance.refFromURL(existingFaceUrl);
+            await ref.writeToFile(tempFile);
 
-          // Clean up temp files
-          await tempFile.delete();
-          await tempDir.delete();
+            // Compare faces
+            final comparisonResult = await AWSService.compareFaceWithImage(
+              filePath,
+              tempFile.path,
+            );
 
-          // If match found with similarity >= 95%, throw error immediately
-          if (comparisonResult['isMatch'] == true) {
-            throw 'DUPLICATE_FACE';
-          }
-        } catch (e) {
-          if (e == 'DUPLICATE_FACE') {
-            rethrow; // Re-throw DUPLICATE_FACE error to be caught by outer try-catch
-          }
-          // If error is not DUPLICATE_FACE, continue checking other images
-          continue;
-        }
+            // Clean up temp files
+            await tempFile.delete();
+            await tempDir.delete();
+
+            // Print kết quả so sánh
+            print('Comparison result with $existingFaceUrl: $comparisonResult');
+
+            // If match found with similarity >= 95%, throw error immediately
+            if (comparisonResult['isMatch'] == true) {
+              throw 'DUPLICATE_FACE';
+            }
+          }),
+        );
       }
+
+      // Wait for all comparisons to complete
+      await Future.wait(comparisonFutures);
 
       // Only proceed if no matches were found
       String fileName = filePath.split('/').last;
