@@ -5,6 +5,7 @@ import 'package:ve_amor_app/common/widgets/appbar/appbar.dart';
 import 'package:ve_amor_app/common/widgets/appbar/notification_menu_icon.dart';
 import 'package:ve_amor_app/features/main/screens/home/widgets/widget_imports.dart';
 import 'package:ve_amor_app/utils/constants/colors.dart';
+import 'package:ve_amor_app/utils/constants/image_strings.dart';
 import 'package:ve_amor_app/utils/constants/text_strings.dart';
 import 'package:ve_amor_app/utils/helpers/helper_functions.dart';
 
@@ -37,9 +38,7 @@ class THomeAppBar extends StatelessWidget {
           Image.asset(
             width: 50,
             height: 70,
-            dark
-                ? 'assets/logos/t-store-splash-logo-white.png'
-                : 'assets/logos/t-store-splash-logo-black.png',
+            TImages.veAmorLogo
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,

@@ -13,11 +13,9 @@ class TLoginHeader extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         // Image
-        Image(
+        const Image(
           height: 150,
-          image: AssetImage(
-            dark ? TImages.lightAppLogo : TImages.darkAppLogo,
-          ),
+          image: AssetImage(TImages.veAmorLogo),
         ),
 
         // Title
